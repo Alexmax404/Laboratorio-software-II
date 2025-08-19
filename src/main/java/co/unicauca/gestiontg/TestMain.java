@@ -27,6 +27,6 @@ public class TestMain {
 
         u.setContrasenia("123456");
         boolean loginFail = repo.iniciarSesion(u);
-        System.out.println("¿Loginnn correcto?: " + loginFail);
+        System.out.println("¿Login correcto?: " + loginFail);
     }
 }
