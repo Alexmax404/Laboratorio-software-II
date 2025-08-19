@@ -1,10 +1,17 @@
 package co.unicauca.gestiontg;
 import co.unicauca.gestiontg.access.UsuarioRepositorio;
 import co.unicauca.gestiontg.domain.*;
-
+import co.unicauca.gestintg.ui.*;
 public class TestMain {
     
     public static void main(String[] args) {
+        logInFrame login = new logInFrame();
+        
+        // Centrar en pantalla
+        login.setLocationRelativeTo(null);
+
+        // Mostrar ventana
+        login.setVisible(true);
         UsuarioRepositorio repo = new UsuarioRepositorio();
 
         // Crear usuario
@@ -25,7 +32,7 @@ public class TestMain {
 
         // Intentar iniciar sesión con la contraseña incorrecta
 
-        u.setContrasenia("123456");
+        u.setContrasenia("12345");
         boolean loginFail = repo.iniciarSesion(u);
         System.out.println("¿Login correcto?: " + loginFail);
     }
