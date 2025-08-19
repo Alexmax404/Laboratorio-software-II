@@ -3,6 +3,7 @@ import co.unicauca.gestiontg.access.UsuarioRepositorio;
 import co.unicauca.gestiontg.domain.*;
 
 public class TestMain {
+    
     public static void main(String[] args) {
         UsuarioRepositorio repo = new UsuarioRepositorio();
 
@@ -14,7 +15,7 @@ public class TestMain {
                                 "12345"); //contrasenia original 12345
 
         // Registrar usuario
-//        boolean registrado = repo.registrarUsuario(u);
+//        boolean registrado = repo.registrarUsuario(u)  ;
 //        System.out.println("¿Usuario registrado?: " + registrado);
 
 //      Intentar iniciar sesión con la contrasenia correcta
@@ -26,6 +27,6 @@ public class TestMain {
 
         u.setContrasenia("123456");
         boolean loginFail = repo.iniciarSesion(u);
-        System.out.println("¿Login correcto?: " + loginFail);
+        System.out.println("¿Loginnn correcto?: " + loginFail);
     }
 }
