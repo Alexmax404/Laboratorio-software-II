@@ -1,0 +1,82 @@
+
+package co.unicauca.gestiontg.domain;
+
+public class Usuario {
+    private String nombres;
+    private String apellidos;
+    private int celular;
+    private EnumPrograma programa;
+    private EnumRol rol;
+    private String correo;
+    private String contrasenia;
+
+
+    
+    public Usuario(String nombres, String apellidos, int celular, EnumPrograma programa, EnumRol rol, String correo, String contrasenia) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.celular = celular;
+        this.programa = programa;
+        this.rol = rol;
+        this.correo = correo;
+        this.contrasenia = contrasenia;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public int getCelular() {
+        return celular;
+    }
+
+    public void setCelular(int celular) {
+        this.celular = celular;
+    }
+
+    public EnumPrograma getPrograma() {
+        return programa;
+    }
+
+    public void setPrograma(EnumPrograma programa) {
+        this.programa = programa;
+    }
+
+    public EnumRol getRol() {
+        return rol;
+    }
+
+    public void setRol(EnumRol rol) {
+        this.rol = rol;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+    
+    
+}

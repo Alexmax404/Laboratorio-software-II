@@ -1,0 +1,8 @@
+co\unicauca\gestiontg\TestMain.class
+co\unicauca\gestiontg\access\UsuarioRepositorio.class
+co\unicauca\gestiontg\access\IUsuarioRepositorio.class
+co\unicauca\gestiontg\domain\Usuario.class
+co\unicauca\gestiontg\domain\EnumRol.class
+co\unicauca\gestiontg\domain\EnumPrograma.class
+co\unicauca\gestiontg\service\Servicio.class
+co\unicauca\gestiontg\UsuarioMain.class
