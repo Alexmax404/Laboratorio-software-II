@@ -30,7 +30,7 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, nuevoUsuario.getNombres());
             pstmt.setString(2, nuevoUsuario.getApellidos());
-            pstmt.setInt(3, nuevoUsuario.getCelular());
+            pstmt.setString(3, nuevoUsuario.getCelular());
             pstmt.setString(4, nuevoUsuario.getPrograma().toString());
             pstmt.setString(5, nuevoUsuario.getRol().toString());
             pstmt.setString(6, nuevoUsuario.getCorreo());
@@ -71,13 +71,12 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         String sql = "CREATE TABLE IF NOT EXISTS Usuario (\n"
                 + "	nombres text NOT NULL,\n"
                 + "	apellidos text NOT NULL,\n"
-                + "	celular int,\n"
+                + "	celular text,\n"
                 + "	programa text NOT NULL CHECK (programa IN ('IngenieriaDeSistemas', 'IngenieriaElectronicaYTelecomunicaciones', 'AutomaticaIndustrial', 'TecnologiaIndustrial')),\n"
                 + "	rol text NOT NULL CHECK (rol IN ('Docente', 'Estudiante')),\n"
                 + "	correo text PRIMARY KEY,\n"
                 + "	contrasenia text NOT NULL \n"                 
                 + ");";
-
         try {
             this.connect();
             Statement stmt = conn.createStatement();
@@ -143,7 +142,7 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
                     return new Usuario(
                             rs.getString("nombres"),
                             rs.getString("apellidos"),
-                            rs.getInt("celular"),
+                            rs.getString("celular"),
                             EnumPrograma.valueOf(rs.getString("programa")),
                             EnumRol.valueOf(rs.getString("rol")),
                             rs.getString("email"),

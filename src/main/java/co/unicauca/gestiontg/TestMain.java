@@ -23,15 +23,15 @@ public class TestMain {
         String contraseña = login.getPwtfContraseña().getText();
         
         // Crear usuario
-        Usuario u = new Usuario("Juan", "Pérez", 12345678, 
+        Usuario u = new Usuario("Juan", "Pérez", "12345678", 
                                 EnumPrograma.IngenieriaDeSistemas, 
                                 EnumRol.Estudiante, 
                                 "juan.perez@unicauca.edu.co", 
                                 "12345"); //contrasenia original 12345
 
-        // Registrar usuario
-//        boolean registrado = repo.registrarUsuario(u)  ;
-//        System.out.println("¿Usuario registrado?: " + registrado);
+         //Registrar usuario
+        boolean registrado = repo.registrarUsuario(u)  ;
+        System.out.println("¿Usuario registrado?: " + registrado);
 
 //      Intentar iniciar sesión con la contrasenia correcta
 

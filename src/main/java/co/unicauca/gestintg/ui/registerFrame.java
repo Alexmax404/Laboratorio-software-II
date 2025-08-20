@@ -1,13 +1,22 @@
 
 package co.unicauca.gestintg.ui;
 import co.unicauca.gestintg.ui.resources.*;
+import co.unicauca.gestiontg.access.GestionUsuario;
+import co.unicauca.gestiontg.access.IUsuarioRepositorio;
+import co.unicauca.gestiontg.domain.*;
+import co.unicauca.gestiontg.service.Servicio;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class registerFrame extends javax.swing.JFrame {
 
+    private Usuario user = null;
+    private Servicio service;
     public registerFrame() {
         initComponents();
+        IUsuarioRepositorio repositorio = GestionUsuario.getInstancia().getRepositorio("SQLite");       
+        service = new Servicio(repositorio);
     }
 
    
@@ -192,13 +201,15 @@ public class registerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
-
+        if (espaciosVacios() == false){
+            datos();
+            if(validarCorreo() && validarContrasenia())
+                registrarUsuario();
+        }
     }//GEN-LAST:event_btnLogInActionPerformed
 
     private void cbProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProgramaActionPerformed
-        if (espaciosVacios() == false){
-            
-        }
+        
     }//GEN-LAST:event_cbProgramaActionPerformed
 
     private void chkEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEstudianteActionPerformed
@@ -282,6 +293,11 @@ public class registerFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Espacio vacio. Ingrese la contraseña");
             return true;
         }
+        if(txtTelefono.getText().trim().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Espacio vacio. Ingrese un numero de telefono");
+            return true;
+        }
         if (cbPrograma.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Espacio vacio. Seleccione el programa al cual pertenece");
             return true;
@@ -299,7 +315,56 @@ public class registerFrame extends javax.swing.JFrame {
         String apellidos = txtApellidos.getText();
         String correo= txtCorreoElectronico.getText();
         String contrasenia = new String(pswContrasenia.getPassword());
-        String telefono = txtTelefono.getText();
+        String telefono =  txtTelefono.getText();
         
+        EnumPrograma programa = null;
+        switch(cbPrograma.getSelectedItem().toString()){
+            case "Ingeniería de Sistemas":
+                programa = EnumPrograma.IngenieriaDeSistemas;                
+                break;
+            case "Ingeniería electrónica y de telecomunicaciones":
+                programa = EnumPrograma.IngenieriaElectronicaYTelecomunicaciones;
+                break;                
+            case "Automática industrial":
+                programa = EnumPrograma.AutomaticaIndustrial;
+                break;
+            case "Tecnología en telemática":
+                programa = EnumPrograma.TecnologiaIndustrial;
+                break;
+        }
+        
+        EnumRol rol;
+        if(chkDocente.isSelected()){
+            rol = EnumRol.Docente;
+        }else{
+            rol = EnumRol.Estudiante;
+        }
+        
+        user = new Usuario(nombres, apellidos, telefono, programa, rol, correo, contrasenia);
+    }
+    
+    private boolean validarCorreo(){
+        if (service.validarCorreoInstitucional(user.getCorreo()).equals("OK"))
+            return true;
+        return false;
+    }
+    
+    private boolean validarContrasenia(){
+        if (service.validarContrasenia(user.getContrasenia()).equals("OK"))
+            return true;
+        return false;
+    }
+    
+    private void registrarUsuario(){
+        try{        
+            if(service.registrarUsuario(user)){
+                JOptionPane.showMessageDialog(null, "Cuenta registrada con exito");
+            }
+            else{                
+                JOptionPane.showMessageDialog(null, "Cuenta existente");
+            }
+        }catch(SQLException ex){            
+            JOptionPane.showInputDialog(null, "Error, no se puedo crear la cuenta");
+        }
     }
 }
