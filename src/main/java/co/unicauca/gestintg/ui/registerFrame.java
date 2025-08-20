@@ -205,6 +205,15 @@ public class registerFrame extends javax.swing.JFrame {
             datos();
             if(validarCorreo() && validarContrasenia())
                 registrarUsuario();
+            else if(!validarCorreo()){
+                JOptionPane.showMessageDialog(null, service.validarCorreoInstitucional(user.getCorreo()));
+                return;
+            }
+            else if (!validarContrasenia()){
+                JOptionPane.showMessageDialog(null, service.validarContrasenia(user.getContrasenia()));
+                return;
+            }
+                
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 
@@ -273,6 +282,7 @@ public class registerFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombres;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+    
     private boolean espaciosVacios(){
     
         String contrasenia = new String(pswContrasenia.getPassword());
@@ -319,16 +329,16 @@ public class registerFrame extends javax.swing.JFrame {
         
         EnumPrograma programa = null;
         switch(cbPrograma.getSelectedItem().toString()){
-            case "Ingeniería de Sistemas":
+            case "Ingenieria De Sistemas":
                 programa = EnumPrograma.IngenieriaDeSistemas;                
                 break;
-            case "Ingeniería electrónica y de telecomunicaciones":
+            case "Ingenieria Electronica Y Telecomunicaciones":
                 programa = EnumPrograma.IngenieriaElectronicaYTelecomunicaciones;
                 break;                
-            case "Automática industrial":
+            case "Automatica Industrial":
                 programa = EnumPrograma.AutomaticaIndustrial;
                 break;
-            case "Tecnología en telemática":
+            case "Tecnologia Industrial":
                 programa = EnumPrograma.TecnologiaIndustrial;
                 break;
         }
@@ -361,7 +371,7 @@ public class registerFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Cuenta registrada con exito");
             }
             else{                
-                JOptionPane.showMessageDialog(null, "Cuenta existente");
+                JOptionPane.showMessageDialog(null, "Correo ya en uso");
             }
         }catch(SQLException ex){            
             JOptionPane.showInputDialog(null, "Error, no se puedo crear la cuenta");

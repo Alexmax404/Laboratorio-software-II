@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface IUsuarioRepositorio {
-    boolean registrarUsuario(Usuario nuevoUsuario);
+    boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException;
     boolean iniciarSesion(String correo, String contrasenia);
-    boolean buscarEmail(Connection conn, String email) throws SQLException;
-    Usuario obtenerUsuarioPorEmail(String email);   
+    boolean buscarCorreo(Connection conn, String correo) throws SQLException;
+    Usuario obtenerUsuarioPorCorreo(String correo);   
+    String obtenerRolUsuario(String email);
 }

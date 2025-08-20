@@ -1,14 +1,9 @@
-
 package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.domain.Usuario;
 import java.sql.SQLException;
 
-/**
- *
- * @author Nicolas
- */
 public class Servicio {
     private IUsuarioRepositorio repositorio;
 
@@ -17,12 +12,11 @@ public class Servicio {
     }
     
     public String validarCorreoInstitucional(String correo) {
-//        if (correo == null || correo.trim().isEmpty()) {
-//            return "El correo no puede estar vacío.";
-//        }
+        // Verifica que termine con el dominio institucional
         if (!correo.endsWith("@unicauca.edu.co")) {
-            return "El correo debe ser institucional (@unicauca.edu.co)";
+            return "El correo debe pertenecer al dominio @unicauca.edu.co.";
         }
+
         return "OK";
     }
     
@@ -45,8 +39,9 @@ public class Servicio {
         }
         return "OK";
     }
+    
     public boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException{
-        
+    
         if(nuevoUsuario == null || nuevoUsuario.getNombres() == null){
             return false;
         }       
@@ -58,4 +53,13 @@ public class Servicio {
         }
         return false;
     }
+    public Usuario obtenerUsuarioPorCorreo(String correo){
+        Usuario usuario = repositorio.obtenerUsuarioPorCorreo(correo);
+        return usuario;        
+    }
+    public String obtenerRolUsuario(String correo) {
+        return repositorio.obtenerRolUsuario(correo);
+    }
+
+    
 }
