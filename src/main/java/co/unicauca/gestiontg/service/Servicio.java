@@ -22,20 +22,20 @@ public class Servicio {
     
     public String validarContrasenia(String contrasenia) {
         if (contrasenia == null || contrasenia.isBlank()) {
-            return "La contrasenia no puede estar vacía";
+            return "La contraseña no puede estar vacía";
         }
         if (contrasenia.length() < 6) {
-            return "La contrasenia debe tener al menos 6 caracteres";
+            return "La contraseña debe tener al menos 6 caracteres";
         }
         
         if (!contrasenia.matches(".*[A-Z].*")) {
-            return "La contrasenia debe contener al menos una letra mayuscula";
+            return "La contraseña debe contener al menos una letra mayuscula";
         }
         if (!contrasenia.matches(".*\\d.*")) {
-            return "La contrasenia debe contener al menos un numero";
+            return "La contraseña debe contener al menos un numero";
         }
         if (!contrasenia.matches(".*[!@#$%^&*().,_-].*")) {
-            return "La contrasenia debe contener al menos un caracter especial";
+            return "La contraseña debe contener al menos un caracter especial";
         }
         return "OK";
     }

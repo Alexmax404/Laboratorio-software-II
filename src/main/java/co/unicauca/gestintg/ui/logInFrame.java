@@ -146,9 +146,9 @@ public class logInFrame extends javax.swing.JFrame {
        
        if(espaciosVacios()==false){
             if(validar)
-                JOptionPane.showMessageDialog(null, "xd");
+                JOptionPane.showMessageDialog(null, "Si existe");
             else{
-                JOptionPane.showMessageDialog(null, "No");
+                JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
                 txtCorreoElectronico.setText("");
                 pswContrasenia.setText("");
             }
