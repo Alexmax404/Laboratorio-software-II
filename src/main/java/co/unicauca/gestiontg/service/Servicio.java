@@ -15,6 +15,9 @@ public class Servicio {
     }
     
     public String validarCorreoInstitucional(String correo) {
+        if (correo == null || correo.trim().isEmpty()) {
+            return "El correo no puede estar vacío.";
+        }
         
         if (!correo.endsWith("@unicauca.edu.co")) {
             return "El correo debe ser institucional (@unicauca.edu.co)";
@@ -40,5 +43,12 @@ public class Servicio {
             return "La contrasenia debe contener al menos un caracter especial";
         }
         return "OK";
+    }
+    
+    public boolean inicioSesion(String correo, String contrasenia){
+        if(repositorio.iniciarSesion(correo, contrasenia)){
+            return true;
+        }
+        return false;
     }
 }

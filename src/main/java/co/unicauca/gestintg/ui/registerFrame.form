@@ -61,7 +61,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="184" max="32767" attributes="0"/>
+                  <EmptySpace pref="194" max="32767" attributes="0"/>
                   <Component id="pn_logInData" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="171" max="-2" attributes="0"/>
               </Group>
@@ -100,7 +100,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="txtApellidos" pref="268" max="32767" attributes="0"/>
-                                          <Component id="txtContrasenia" max="32767" attributes="0"/>
+                                          <Component id="pswContrasenia" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="jLabel1" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
                                   </Group>
@@ -146,7 +146,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="txtApellidos" min="-2" pref="52" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtContrasenia" min="-2" pref="52" max="-2" attributes="0"/>
+                              <Component id="pswContrasenia" min="-2" pref="52" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -208,7 +208,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_logInActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogInActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;Iniciar Sesi&#xf3;n&quot;) "/>
@@ -230,12 +230,13 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
-                    <StringItem index="0" value="    Ingenieria De Sistemas"/>
-                    <StringItem index="1" value="    Ingenieria Electronica Y Telecomunicaciones"/>
-                    <StringItem index="2" value="    Automatica Industrial"/>
-                    <StringItem index="3" value="    Tecnologia Industrial"/>
+                    <StringItem index="0" value="Ingenieria De Sistemas"/>
+                    <StringItem index="1" value="Ingenieria Electronica Y Telecomunicaciones"/>
+                    <StringItem index="2" value="Automatica Industrial"/>
+                    <StringItem index="3" value="Tecnologia Industrial"/>
                   </StringArray>
                 </Property>
+                <Property name="selectedIndex" type="int" value="-1"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
                     <CompoundBorder/>
@@ -285,7 +286,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkEstudianteActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="txtContrasenia">
+            <Component class="javax.swing.JPasswordField" name="pswContrasenia">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>

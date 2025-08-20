@@ -45,16 +45,16 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         return false;
     }
     @Override
-    public boolean iniciarSesion(Usuario usuario) {
+    public boolean iniciarSesion(String correo, String contrasenia) {
         try{
             String sql = "SELECT contrasenia FROM Usuario WHERE correo = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, usuario.getCorreo());
+            pstmt.setString(1, correo);
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next()){
                 String contraseniaSegura = rs.getString("contrasenia");                
-                return BCrypt.checkpw(usuario.getContrasenia(), contraseniaSegura);
+                return BCrypt.checkpw(contrasenia, contraseniaSegura);
             }
             
         } catch(SQLException ex){
@@ -101,7 +101,61 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public String obtenerRolUsuario(String email) {
+        String sql = "SELECT rol FROM Usuario WHERE email = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./GestionTG.db");
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
 
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("rol"); // Puede ser "Docente" o "Estudiante"
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null; // Si no existe el usuario
+    }
+    
+
+    public boolean buscarEmail(Connection conn, String email) throws SQLException {
+        String sqlValidacion = "SELECT email FROM Usuario WHERE email = ?";
+        try (PreparedStatement statement = conn.prepareStatement(sqlValidacion)) {
+            statement.setString(1, email);
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+     
+      public Usuario obtenerUsuarioPorEmail(String email) {
+        String sql = "SELECT * FROM Usuario WHERE email = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./ProyectoGestionDB.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, email);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Usuario(
+                            rs.getString("nombres"),
+                            rs.getString("apellidos"),
+                            rs.getInt("celular"),
+                            EnumPrograma.valueOf(rs.getString("programa")),
+                            EnumRol.valueOf(rs.getString("rol")),
+                            rs.getString("email"),
+                            null
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null; 
+    }
     public void disconnect() {
         try {
             if (conn != null) {
@@ -113,5 +167,4 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
 
     }
 
-    
 }

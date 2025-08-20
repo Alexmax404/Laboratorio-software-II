@@ -1,14 +1,15 @@
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\resources\RoundedButton.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\resources\RoundedPasswordField.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\domain\Usuario.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\TestMain.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\resources\RoundedPanel.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\UsuarioMain.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\registerFrame.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\access\IUsuarioRepositorio.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\resources\RoundedTextField.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestintg\ui\logInFrame.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\access\UsuarioRepositorio.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\domain\EnumPrograma.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\service\Servicio.java
-C:\Users\glenn\Desktop\Cosas de Glenn 3.0\universidad\Semestre 7\sowftware ii\Proyecto\Laboratorio-software-II\src\main\java\co\unicauca\gestiontg\domain\EnumRol.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\logInFrame.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\registerFrame.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\resources\RoundedButton.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\resources\RoundedPanel.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\resources\RoundedPasswordField.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestintg\ui\resources\RoundedTextField.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\access\GestionUsuario.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\access\IUsuarioRepositorio.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\access\UsuarioRepositorio.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\domain\EnumPrograma.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\domain\EnumRol.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\domain\Usuario.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\service\Servicio.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\TestMain.java
+C:\Users\Nicolas\Documents\NetBeansProjects\GestionTrabajoGrado\src\main\java\co\unicauca\gestiontg\UsuarioMain.java

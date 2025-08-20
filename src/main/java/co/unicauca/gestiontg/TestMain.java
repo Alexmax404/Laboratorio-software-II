@@ -11,10 +11,10 @@ public class TestMain {
         
         
         // Centrar en pantalla
-        register.setLocationRelativeTo(null);
+        login.setLocationRelativeTo(null);
 
         // Mostrar ventana
-        register.setVisible(true);
+        login.setVisible(true);
         UsuarioRepositorio repo = new UsuarioRepositorio();
 
         //prueba de inicio de sesion
@@ -35,13 +35,13 @@ public class TestMain {
 
 //      Intentar iniciar sesión con la contrasenia correcta
 
-        boolean loginOK = repo.iniciarSesion(u);
-        System.out.println("¿Login correcto?: " + loginOK);
-
-        // Intentar iniciar sesión con la contraseña incorrecta
-
-        u.setContrasenia("12345");
-        boolean loginFail = repo.iniciarSesion(u);
-        System.out.println("¿Login correcto?: " + loginFail);
+//        boolean loginOK = repo.iniciarSesion(u);
+//        System.out.println("¿Login correcto?: " + loginOK);
+//
+//        // Intentar iniciar sesión con la contraseña incorrecta
+//
+//        u.setContrasenia("12345");
+//        boolean loginFail = repo.iniciarSesion(u);
+//        System.out.println("¿Login correcto?: " + loginFail);
     }
 }
