@@ -4,31 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * PasswordField con bordes redondeados y borde personalizable.
+ * PasswordField con bordes redondeados, borde personalizable y placeholder.
  */
 public class RoundedPasswordField extends JPasswordField {
 
-    private int cornerRadius;       // radio de las esquinas
-    private Color borderColor;      // color del borde
-    private int borderThickness;    // grosor del borde
+    private int cornerRadius;
+    private Color borderColor;
+    private int borderThickness;
+    private String placeholder;
 
-    /**
-     * Constructor completo: define radio, color y grosor.
-     */
-    public RoundedPasswordField(int cornerRadius, Color borderColor, int borderThickness) {
+    public RoundedPasswordField(int cornerRadius, Color borderColor, int borderThickness, String placeholder) {
         super();
         this.cornerRadius = cornerRadius;
         this.borderColor = borderColor;
         this.borderThickness = borderThickness;
-        setOpaque(false); // necesario para ver los bordes
-        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // padding interno
+        this.placeholder = placeholder;
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
     }
 
-    /**
-     * Constructor con valores por defecto: borde negro y grosor 2.
-     */
+    public RoundedPasswordField(int cornerRadius, Color borderColor, int borderThickness) {
+        this(cornerRadius, borderColor, borderThickness, null);
+    }
+
     public RoundedPasswordField(int cornerRadius) {
-        this(cornerRadius, Color.BLACK, 2);
+        this(cornerRadius, Color.BLACK, 2, null);
     }
 
     @Override
@@ -40,12 +40,18 @@ public class RoundedPasswordField extends JPasswordField {
         int width = getWidth();
         int height = getHeight();
 
-        // Fondo del campo
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
 
-        // Dibujar texto/caret (llama al super)
         super.paintComponent(g);
+
+        // Dibujar placeholder si está vacío
+        if ((getPassword() == null || getPassword().length == 0) && placeholder != null) {
+            g2.setColor(Color.GRAY);
+            g2.setFont(getFont().deriveFont(Font.ITALIC));
+            Insets ins = getInsets();
+            g2.drawString(placeholder, ins.left, height / 2 + g2.getFontMetrics().getAscent() / 2 - 2);
+        }
 
         // Borde
         if (borderThickness > 0) {
@@ -60,30 +66,15 @@ public class RoundedPasswordField extends JPasswordField {
     }
 
     // Getters y setters
-    public int getCornerRadius() {
-        return cornerRadius;
-    }
+    public int getCornerRadius() { return cornerRadius; }
+    public void setCornerRadius(int cornerRadius) { this.cornerRadius = cornerRadius; repaint(); }
 
-    public void setCornerRadius(int cornerRadius) {
-        this.cornerRadius = cornerRadius;
-        repaint();
-    }
+    public Color getBorderColor() { return borderColor; }
+    public void setBorderColor(Color borderColor) { this.borderColor = borderColor; repaint(); }
 
-    public Color getBorderColor() {
-        return borderColor;
-    }
+    public int getBorderThickness() { return borderThickness; }
+    public void setBorderThickness(int borderThickness) { this.borderThickness = borderThickness; repaint(); }
 
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-        repaint();
-    }
-
-    public int getBorderThickness() {
-        return borderThickness;
-    }
-
-    public void setBorderThickness(int borderThickness) {
-        this.borderThickness = borderThickness;
-        repaint();
-    }
+    public String getPlaceholder() { return placeholder; }
+    public void setPlaceholder(String placeholder) { this.placeholder = placeholder; repaint(); }
 }

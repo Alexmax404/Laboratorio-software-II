@@ -4,8 +4,9 @@
  */
 package co.unicauca.gestintg.ui;
 
-import co.unicauca.gestintg.ui.resources.RoundedPanel;
-
+import co.unicauca.gestintg.ui.resources.*;
+import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author glenn
@@ -28,26 +29,27 @@ public class logInFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pn_logIn = new javax.swing.JPanel();
-        pn_logInData = new RoundedPanel(30);
+        pnlogIn = new javax.swing.JPanel();
+        pnlogInData = new RoundedPanel(30);
         jLabel1 = new javax.swing.JLabel();
-        Tf_correoElectronico = new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.GRAY, 1);
+        txtCorreoElectronico = new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.GRAY, 1,"ingrese su nombbre");
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPasswordField1 = new co.unicauca.gestintg.ui.resources.RoundedPasswordField(20, java.awt.Color.GRAY, 1);
-        jButton1 = new RoundedButton("Iniciar Sesión") ;
+        pcwContrasenia = new RoundedPasswordField(20, Color.BLUE, 2);
+        ;
+        btnInicioSesion = new RoundedButton("Iniciar Sesión") ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pn_logIn.setBackground(new java.awt.Color(255, 255, 255));
+        pnlogIn.setBackground(new java.awt.Color(255, 255, 255));
 
-        pn_logInData.setBackground(new java.awt.Color(204, 204, 204));
+        pnlogInData.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Correo Electrónico");
 
-        Tf_correoElectronico.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        txtCorreoElectronico.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel3.setText("Iniciar Sesión");
@@ -56,62 +58,62 @@ public class logInFrame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña");
 
-        jButton1.setText("Iniciar Sesión");
-        jButton1.setBorder(null);
+        btnInicioSesion.setText("Iniciar Sesión");
+        btnInicioSesion.setBorder(null);
 
-        javax.swing.GroupLayout pn_logInDataLayout = new javax.swing.GroupLayout(pn_logInData);
-        pn_logInData.setLayout(pn_logInDataLayout);
-        pn_logInDataLayout.setHorizontalGroup(
-            pn_logInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_logInDataLayout.createSequentialGroup()
-                .addGroup(pn_logInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_logInDataLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlogInDataLayout = new javax.swing.GroupLayout(pnlogInData);
+        pnlogInData.setLayout(pnlogInDataLayout);
+        pnlogInDataLayout.setHorizontalGroup(
+            pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlogInDataLayout.createSequentialGroup()
+                .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlogInDataLayout.createSequentialGroup()
                         .addGap(45, 45, 45)
-                        .addGroup(pn_logInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Tf_correoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_logInDataLayout.createSequentialGroup()
+                            .addGroup(pnlogInDataLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pn_logInDataLayout.createSequentialGroup()
+                            .addComponent(pcwContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlogInDataLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
-        pn_logInDataLayout.setVerticalGroup(
-            pn_logInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_logInDataLayout.createSequentialGroup()
+        pnlogInDataLayout.setVerticalGroup(
+            pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlogInDataLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Tf_correoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pcwContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout pn_logInLayout = new javax.swing.GroupLayout(pn_logIn);
-        pn_logIn.setLayout(pn_logInLayout);
-        pn_logInLayout.setHorizontalGroup(
-            pn_logInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_logInLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlogInLayout = new javax.swing.GroupLayout(pnlogIn);
+        pnlogIn.setLayout(pnlogInLayout);
+        pnlogInLayout.setHorizontalGroup(
+            pnlogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlogInLayout.createSequentialGroup()
                 .addContainerGap(68, Short.MAX_VALUE)
-                .addComponent(pn_logInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlogInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
-        pn_logInLayout.setVerticalGroup(
-            pn_logInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_logInLayout.createSequentialGroup()
+        pnlogInLayout.setVerticalGroup(
+            pnlogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlogInLayout.createSequentialGroup()
                 .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(pn_logInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlogInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
 
@@ -119,11 +121,11 @@ public class logInFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_logIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlogIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_logIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlogIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -165,13 +167,39 @@ public class logInFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Tf_correoElectronico;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnInicioSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPanel pn_logIn;
-    private javax.swing.JPanel pn_logInData;
+    private javax.swing.JPasswordField pcwContrasenia;
+    private javax.swing.JPanel pnlogIn;
+    private javax.swing.JPanel pnlogInData;
+    private javax.swing.JTextField txtCorreoElectronico;
     // End of variables declaration//GEN-END:variables
+    // ✅ Getter y Setter para el botón de login
+    public JButton getBtnLogIn() {
+        return btnInicioSesion;
+    }
+
+    public void setBtnLogIn(JButton btn_logIn) {
+        this.btnInicioSesion = btn_logIn;
+    }
+
+    // ✅ Getter y Setter para el JTextField (correo electrónico)
+    public JTextField getTfCorreoElectronico() {
+        return txtCorreoElectronico;
+    }
+
+    public void setTfCorreoElectronico(JTextField tfCorreoElectronico) {
+        this.txtCorreoElectronico = tfCorreoElectronico;
+    }
+
+    // ✅ Getter y Setter para el JPasswordField (contraseña)
+    public JPasswordField getPwtfContraseña() {
+        return pcwContrasenia;
+    }
+
+    public void setPwtfContraseña(JPasswordField pwtf_contraseña) {
+        this.pcwContrasenia = pwtf_contraseña;
+    }
 }

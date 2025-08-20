@@ -23,17 +23,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pn_logIn" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlogIn" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pn_logIn" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlogIn" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="pn_logIn">
+    <Container class="javax.swing.JPanel" name="pnlogIn">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -45,7 +45,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="68" max="32767" attributes="0"/>
-                  <Component id="pn_logInData" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlogInData" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -54,14 +54,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="26" max="32767" attributes="0"/>
-                  <Component id="pn_logInData" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlogInData" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="pn_logInData">
+        <Container class="javax.swing.JPanel" name="pnlogInData">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -79,14 +79,14 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Tf_correoElectronico" min="-2" pref="202" max="-2" attributes="0"/>
+                                  <Component id="txtCorreoElectronico" min="-2" pref="202" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" pref="530" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Component id="jLabel2" min="-2" pref="146" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jPasswordField1" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
-                                  <Component id="jButton1" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                  <Component id="pcwContrasenia" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
+                                  <Component id="btnInicioSesion" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -106,13 +106,13 @@
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="27" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Tf_correoElectronico" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="txtCorreoElectronico" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="27" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPasswordField1" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="pcwContrasenia" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="btnInicioSesion" min="-2" pref="33" max="-2" attributes="0"/>
                       <EmptySpace pref="17" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -130,7 +130,7 @@
                 <Property name="text" type="java.lang.String" value="Correo Electr&#xf3;nico"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="Tf_correoElectronico">
+            <Component class="javax.swing.JTextField" name="txtCorreoElectronico">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -139,7 +139,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.GRAY, 1);"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.GRAY, 1,&quot;ingrese su nombbre&quot;);"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -161,12 +161,12 @@
                 <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+            <Component class="javax.swing.JPasswordField" name="pcwContrasenia">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new co.unicauca.gestintg.ui.resources.RoundedPasswordField(20, java.awt.Color.GRAY, 1);"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPasswordField(20, Color.BLUE, 2);&#xd;&#xa;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnInicioSesion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Iniciar Sesi&#xf3;n"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

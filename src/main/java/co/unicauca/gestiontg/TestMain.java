@@ -6,14 +6,22 @@ public class TestMain {
     
     public static void main(String[] args) {
         logInFrame login = new logInFrame();
+        registerFrame register = new registerFrame();
+        
+        
         
         // Centrar en pantalla
-        login.setLocationRelativeTo(null);
+        register.setLocationRelativeTo(null);
 
         // Mostrar ventana
-        login.setVisible(true);
+        register.setVisible(true);
         UsuarioRepositorio repo = new UsuarioRepositorio();
 
+        //prueba de inicio de sesion
+        
+        String correo = login.getTfCorreoElectronico().getText();
+        String contraseña = login.getPwtfContraseña().getText();
+        
         // Crear usuario
         Usuario u = new Usuario("Juan", "Pérez", 12345678, 
                                 EnumPrograma.IngenieriaDeSistemas, 

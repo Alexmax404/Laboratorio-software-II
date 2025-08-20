@@ -4,31 +4,40 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * TextField con bordes redondeados y borde personalizable.
+ * TextField con bordes redondeados, borde personalizable y placeholder.
  */
 public class RoundedTextField extends JTextField {
 
     private int cornerRadius;       // radio de las esquinas
     private Color borderColor;      // color del borde
     private int borderThickness;    // grosor del borde
+    private String placeholder;     // texto guía
 
     /**
-     * Constructor completo: define radio, color y grosor.
+     * Constructor completo: define radio, color, grosor y placeholder.
      */
-    public RoundedTextField(int cornerRadius, Color borderColor, int borderThickness) {
+    public RoundedTextField(int cornerRadius, Color borderColor, int borderThickness, String placeholder) {
         super();
         this.cornerRadius = cornerRadius;
         this.borderColor = borderColor;
         this.borderThickness = borderThickness;
+        this.placeholder = placeholder;
         setOpaque(false); // importante para que se vea el redondeado
-        setBorder(BorderFactory.createEmptyBorder(5, 200, 5, 20)); // padding interno
+        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // padding interno
     }
 
     /**
-     * Constructor con valores por defecto: borde negro y grosor 2.
+     * Constructor sin placeholder.
+     */
+    public RoundedTextField(int cornerRadius, Color borderColor, int borderThickness) {
+        this(cornerRadius, borderColor, borderThickness, null);
+    }
+
+    /**
+     * Constructor simple con valores por defecto (borde negro y grosor 2).
      */
     public RoundedTextField(int cornerRadius) {
-        this(cornerRadius, Color.BLACK, 2);
+        this(cornerRadius, Color.BLACK, 2, null);
     }
 
     @Override
@@ -40,12 +49,20 @@ public class RoundedTextField extends JTextField {
         int width = getWidth();
         int height = getHeight();
 
-        // Fondo del campo
+        // Fondo
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
 
-        // Dibujar texto y caret
+        // Dibujar contenido normal (texto y caret)
         super.paintComponent(g);
+
+        // Dibujar placeholder si no hay texto
+        if ((getText() == null || getText().isEmpty()) && placeholder != null) {
+            g2.setColor(Color.GRAY);
+            g2.setFont(getFont().deriveFont(Font.ITALIC));
+            Insets ins = getInsets();
+            g2.drawString(placeholder, ins.left, height / 2 + g2.getFontMetrics().getAscent() / 2 - 2);
+        }
 
         // Borde
         if (borderThickness > 0) {
@@ -84,6 +101,15 @@ public class RoundedTextField extends JTextField {
 
     public void setBorderThickness(int borderThickness) {
         this.borderThickness = borderThickness;
+        repaint();
+    }
+
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
         repaint();
     }
 }

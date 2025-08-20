@@ -1,4 +1,4 @@
-package co.unicauca.gestintg.ui;
+package co.unicauca.gestintg.ui.resources;
 
 import java.awt.*;
 import javax.swing.*;
