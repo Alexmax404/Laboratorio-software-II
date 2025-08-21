@@ -7,14 +7,15 @@ public class TestMain {
     public static void main(String[] args) {
         logInFrame login = new logInFrame();
         registerFrame register = new registerFrame();
+        estudianteFrame logged = new estudianteFrame();
         
         
         
         // Centrar en pantalla
-        register.setLocationRelativeTo(null);
+        logged.setLocationRelativeTo(null);
 
         // Mostrar ventana
-        register.setVisible(true);
+        logged.setVisible(true);
         UsuarioRepositorio repo = new UsuarioRepositorio();
 
         //prueba de inicio de sesion
