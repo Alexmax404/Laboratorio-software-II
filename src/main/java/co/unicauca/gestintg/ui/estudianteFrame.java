@@ -46,7 +46,7 @@ public class estudianteFrame extends javax.swing.JFrame {
         pnInfo = new RoundedPanel(30);
         btnMonografias = new RoundedButton("Monografía") ;
         btnAnteProyecto1 = new RoundedButton("Enviar Anteproyecto") ;
-        btnAnteProyecto = new RoundedButton("Enviar Anteproyecto") ;
+        cerrrarSesion = new RoundedButton("Enviar Anteproyecto") ;
         jPanel3 = new RoundedPanel(70);
         jLabel3 = new javax.swing.JLabel();
 
@@ -235,12 +235,12 @@ public class estudianteFrame extends javax.swing.JFrame {
                     .addContainerGap(117, Short.MAX_VALUE)))
         );
 
-        btnAnteProyecto.setBackground(new java.awt.Color(255, 255, 255));
-        btnAnteProyecto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnAnteProyecto.setText("cerrar sesión");
-        btnAnteProyecto.addActionListener(new java.awt.event.ActionListener() {
+        cerrrarSesion.setBackground(new java.awt.Color(255, 255, 255));
+        cerrrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cerrrarSesion.setText("cerrar sesión");
+        cerrrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteProyectoActionPerformed(evt);
+                cerrrarSesionActionPerformed(evt);
             }
         });
 
@@ -250,7 +250,7 @@ public class estudianteFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(btnAnteProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addComponent(cerrrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -262,7 +262,7 @@ public class estudianteFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAnteProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cerrrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -332,9 +332,13 @@ public class estudianteFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAnteProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteProyectoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAnteProyectoActionPerformed
+    private void cerrrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrrarSesionActionPerformed
+
+        logInFrame nuevaVentana = new logInFrame();
+        nuevaVentana.setVisible(true);
+        nuevaVentana.setLocationRelativeTo(null); // centrar
+        this.dispose();
+    }//GEN-LAST:event_cerrrarSesionActionPerformed
 
     private void btnAnteProyecto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteProyecto1ActionPerformed
         // TODO add your handling code here:
@@ -376,9 +380,9 @@ public class estudianteFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnteProyecto;
     private javax.swing.JButton btnAnteProyecto1;
     private javax.swing.JButton btnMonografias;
+    private javax.swing.JButton cerrrarSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

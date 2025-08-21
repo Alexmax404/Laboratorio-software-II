@@ -4,7 +4,7 @@ package co.unicauca.gestiontg.domain;
 public class Usuario {
     private String nombres;
     private String apellidos;
-    private int celular;
+    private String celular;
     private EnumPrograma programa;
     private EnumRol rol;
     private String correo;
@@ -12,7 +12,7 @@ public class Usuario {
 
 
     
-    public Usuario(String nombres, String apellidos, int celular, EnumPrograma programa, EnumRol rol, String correo, String contrasenia) {
+    public Usuario(String nombres, String apellidos, String celular, EnumPrograma programa, EnumRol rol, String correo, String contrasenia) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.celular = celular;
@@ -38,11 +38,11 @@ public class Usuario {
         this.apellidos = apellidos;
     }
 
-    public int getCelular() {
+    public String getCelular() {
         return celular;
     }
 
-    public void setCelular(int celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
     }
 

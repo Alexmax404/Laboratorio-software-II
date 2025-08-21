@@ -15,46 +15,50 @@ import org.mindrot.jbcrypt.BCrypt;
 public class UsuarioRepositorio implements IUsuarioRepositorio {
     
     private Connection conn;
-
+    private static final String URL = "jdbc:sqlite:./GestionTG.db";
+    
     public UsuarioRepositorio() {
         initDatabase();
     }
     
     @Override
-    public boolean registrarUsuario(Usuario nuevoUsuario) {
-        String contraseniaSegura = BCrypt.hashpw(nuevoUsuario.getContrasenia(), BCrypt.gensalt());
-        
-        try{
-            //this.connect();
-            String sql = "INSERT INTO Usuario VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, nuevoUsuario.getNombres());
-            pstmt.setString(2, nuevoUsuario.getApellidos());
-            pstmt.setInt(3, nuevoUsuario.getCelular());
-            pstmt.setString(4, nuevoUsuario.getPrograma().toString());
-            pstmt.setString(5, nuevoUsuario.getRol().toString());
-            pstmt.setString(6, nuevoUsuario.getCorreo());
-            pstmt.setString(7, contraseniaSegura);
-            pstmt.executeUpdate();
-            
+    public boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException {
+        String contrasenaHash = BCrypt.hashpw(nuevoUsuario.getContrasenia(), BCrypt.gensalt());
+        String sql = "INSERT INTO Usuario VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            if (buscarCorreo(conn, nuevoUsuario.getCorreo())) {
+                return false;
+            }
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, nuevoUsuario.getNombres());
+                pstmt.setString(2, nuevoUsuario.getApellidos());
+                pstmt.setString(3, nuevoUsuario.getCelular()); // sigue siendo double
+                pstmt.setString(4, nuevoUsuario.getPrograma().toString());
+                pstmt.setString(5, nuevoUsuario.getRol().toString());
+                pstmt.setString(6, nuevoUsuario.getCorreo());
+                pstmt.setString(7, contrasenaHash);
+                pstmt.executeUpdate();
+            }
             System.out.println("Usuario registrado.");
             return true;
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
-        return false;
     }
     @Override
-    public boolean iniciarSesion(Usuario usuario) {
+    public boolean iniciarSesion(String correo, String contrasenia) {
         try{
             String sql = "SELECT contrasenia FROM Usuario WHERE correo = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, usuario.getCorreo());
+            pstmt.setString(1, correo);
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next()){
                 String contraseniaSegura = rs.getString("contrasenia");                
-                return BCrypt.checkpw(usuario.getContrasenia(), contraseniaSegura);
+                return BCrypt.checkpw(contrasenia, contraseniaSegura);
             }
             
         } catch(SQLException ex){
@@ -71,13 +75,12 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         String sql = "CREATE TABLE IF NOT EXISTS Usuario (\n"
                 + "	nombres text NOT NULL,\n"
                 + "	apellidos text NOT NULL,\n"
-                + "	celular int,\n"
+                + "	celular text,\n"
                 + "	programa text NOT NULL CHECK (programa IN ('IngenieriaDeSistemas', 'IngenieriaElectronicaYTelecomunicaciones', 'AutomaticaIndustrial', 'TecnologiaIndustrial')),\n"
                 + "	rol text NOT NULL CHECK (rol IN ('Docente', 'Estudiante')),\n"
                 + "	correo text PRIMARY KEY,\n"
                 + "	contrasenia text NOT NULL \n"                 
                 + ");";
-
         try {
             this.connect();
             Statement stmt = conn.createStatement();
@@ -101,7 +104,61 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public String obtenerRolUsuario(String correo) {
+        String sql = "SELECT rol FROM Usuario WHERE correo = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./GestionTG.db");
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, correo);
 
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("rol"); // Puede ser "Docente" o "Estudiante"
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null; // Si no existe el usuario
+    }
+    
+
+    public boolean buscarCorreo(Connection conn, String correo) throws SQLException {
+        String sqlValidacion = "SELECT correo FROM Usuario WHERE correo = ?";
+        try (PreparedStatement statement = conn.prepareStatement(sqlValidacion)) {
+            statement.setString(1, correo);
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+     
+      public Usuario obtenerUsuarioPorCorreo(String correo) {
+        String sql = "SELECT * FROM Usuario WHERE correo = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./ProyectoGestionDB.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, correo);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Usuario(
+                            rs.getString("nombres"),
+                            rs.getString("apellidos"),
+                            rs.getString("celular"),
+                            EnumPrograma.valueOf(rs.getString("programa")),
+                            EnumRol.valueOf(rs.getString("rol")),
+                            rs.getString("correo"),
+                            null
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null; 
+    }
     public void disconnect() {
         try {
             if (conn != null) {
@@ -113,5 +170,4 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
 
     }
 
-    
 }

@@ -5,19 +5,28 @@
 package co.unicauca.gestintg.ui;
 
 import co.unicauca.gestintg.ui.resources.*;
+import co.unicauca.gestiontg.access.GestionUsuario;
+import co.unicauca.gestiontg.access.IUsuarioRepositorio;
+import co.unicauca.gestiontg.service.Servicio;
 import javax.swing.*;
 import java.awt.*;
+
 /**
  *
  * @author glenn
  */
 public class logInFrame extends javax.swing.JFrame {
 
+    private Servicio service;
+
     /**
-     * Creates new form logInFrame
+     * Creates new form logFrame
      */
     public logInFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        IUsuarioRepositorio repositorio = GestionUsuario.getInstancia().getRepositorio("SQLite");
+        service = new Servicio(repositorio);
     }
 
     /**
@@ -29,107 +38,181 @@ public class logInFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlogIn = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         pnlogInData = new RoundedPanel(30);
         jLabel1 = new javax.swing.JLabel();
-        txtCorreoElectronico = new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.GRAY, 1,"ingrese su nombbre");
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        pcwContrasenia = new RoundedPasswordField(20, Color.BLUE, 2);
-        ;
+        txtCorreoElectronico = new co.unicauca.gestintg.ui.resources.RoundedTextField(20, java.awt.Color.BLACK, 1,"Correo electrónico");
         btnInicioSesion = new RoundedButton("Iniciar Sesión") ;
+        pswContrasenia = new RoundedPasswordField(20, Color.BLACK, 1,"Contraseña");
+        jLabel2 = new javax.swing.JLabel();
+        btnRegistrar = new RoundedButton("Iniciar Sesión") ;
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(970, 540));
+        setSize(new java.awt.Dimension(970, 540));
 
-        pnlogIn.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
         pnlogInData.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Correo Electrónico");
+        jLabel1.setText("Iniciar Sesion");
 
-        txtCorreoElectronico.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
+        btnInicioSesion.setText("Iniciar Sesion");
+        btnInicioSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioSesionActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
-        jLabel3.setText("Iniciar Sesión");
-
-        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Contraseña");
-
-        btnInicioSesion.setText("Iniciar Sesión");
-        btnInicioSesion.setBorder(null);
+        pswContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pswContraseniaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlogInDataLayout = new javax.swing.GroupLayout(pnlogInData);
         pnlogInData.setLayout(pnlogInDataLayout);
         pnlogInDataLayout.setHorizontalGroup(
             pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlogInDataLayout.createSequentialGroup()
-                .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlogInDataLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlogInDataLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pcwContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnInicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlogInDataLayout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pswContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlogInDataLayout.createSequentialGroup()
+                            .addGap(62, 62, 62)
+                            .addComponent(jLabel1))
+                        .addGroup(pnlogInDataLayout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlogInDataLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnInicioSesion)
+                .addGap(102, 102, 102))
         );
         pnlogInDataLayout.setVerticalGroup(
             pnlogInDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlogInDataLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pcwContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnInicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(pswContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(btnInicioSesion)
+                .addGap(26, 26, 26))
         );
 
-        javax.swing.GroupLayout pnlogInLayout = new javax.swing.GroupLayout(pnlogIn);
-        pnlogIn.setLayout(pnlogInLayout);
-        pnlogInLayout.setHorizontalGroup(
-            pnlogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlogInLayout.createSequentialGroup()
-                .addContainerGap(68, Short.MAX_VALUE)
-                .addComponent(pnlogInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Si no tienes una cuenta");
+
+        btnRegistrar.setText("Registrate");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("o");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(327, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(pnlogInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(322, 322, 322))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(458, 458, 458))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(407, 407, 407))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(424, 424, 424))))
         );
-        pnlogInLayout.setVerticalGroup(
-            pnlogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlogInLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(74, 74, 74)
                 .addComponent(pnlogInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRegistrar)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlogIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlogIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioSesionActionPerformed
+        String correo = txtCorreoElectronico.getText();
+        String contrasenia = new String(pswContrasenia.getPassword());
+        String rol = service.obtenerRolUsuario(correo);
+
+        boolean validar = service.inicioSesion(correo, contrasenia);
+
+        if (espaciosVacios() == false) {
+            if (validar) {
+                if (rol.equals("Estudiante")) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido... Dirigiendose al modulo Estudiante");
+                    estudianteFrame nuevaVentana = new estudianteFrame();
+                    nuevaVentana.setVisible(true);
+                    nuevaVentana.setLocationRelativeTo(null); // centrar
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Bienvenido... Dirigiendose al modulo Docente");
+                    docenteFrame nuevaVentana = new docenteFrame();
+                    nuevaVentana.setVisible(true);
+                    nuevaVentana.setLocationRelativeTo(null); // centrar
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
+                txtCorreoElectronico.setText("");
+                pswContrasenia.setText("");
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInicioSesionActionPerformed
+
+    private void pswContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswContraseniaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pswContraseniaActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // Crear la nueva ventana
+        registerFrame nuevaVentana = new registerFrame();
+        nuevaVentana.setVisible(true);
+        nuevaVentana.setLocationRelativeTo(null); // centrar
+
+        // Cerrar la ventana actual (logInFrame)
+        this.dispose();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,6 +240,7 @@ public class logInFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(logInFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -168,12 +252,13 @@ public class logInFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInicioSesion;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField pcwContrasenia;
-    private javax.swing.JPanel pnlogIn;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlogInData;
+    private javax.swing.JPasswordField pswContrasenia;
     private javax.swing.JTextField txtCorreoElectronico;
     // End of variables declaration//GEN-END:variables
     // ✅ Getter y Setter para el botón de login
@@ -196,10 +281,26 @@ public class logInFrame extends javax.swing.JFrame {
 
     // ✅ Getter y Setter para el JPasswordField (contraseña)
     public JPasswordField getPwtfContraseña() {
-        return pcwContrasenia;
+        return pswContrasenia;
     }
 
     public void setPwtfContraseña(JPasswordField pwtf_contraseña) {
-        this.pcwContrasenia = pwtf_contraseña;
+        this.pswContrasenia = pwtf_contraseña;
     }
+
+    private boolean espaciosVacios() {
+
+        String contrasenia = new String(pswContrasenia.getPassword());
+
+        if (txtCorreoElectronico.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Espacio vacio. Ingrese un correo");
+            return true;
+        }
+        if (contrasenia.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Espacio vacio. Ingrese la contraseña");
+            return true;
+        }
+        return false;
+    }
+
 }
