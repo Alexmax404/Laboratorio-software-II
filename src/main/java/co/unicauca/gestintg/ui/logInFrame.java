@@ -57,7 +57,6 @@ public class logInFrame extends javax.swing.JFrame {
         pnlogInData.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Iniciar Sesion");
 
         btnInicioSesion.setText("Iniciar Sesion");
@@ -261,32 +260,7 @@ public class logInFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField pswContrasenia;
     private javax.swing.JTextField txtCorreoElectronico;
     // End of variables declaration//GEN-END:variables
-    // ✅ Getter y Setter para el botón de login
-    public JButton getBtnLogIn() {
-        return btnInicioSesion;
-    }
-
-    public void setBtnLogIn(JButton btn_logIn) {
-        this.btnInicioSesion = btn_logIn;
-    }
-
-    // ✅ Getter y Setter para el JTextField (correo electrónico)
-    public JTextField getTfCorreoElectronico() {
-        return txtCorreoElectronico;
-    }
-
-    public void setTfCorreoElectronico(JTextField tfCorreoElectronico) {
-        this.txtCorreoElectronico = tfCorreoElectronico;
-    }
-
-    // ✅ Getter y Setter para el JPasswordField (contraseña)
-    public JPasswordField getPwtfContraseña() {
-        return pswContrasenia;
-    }
-
-    public void setPwtfContraseña(JPasswordField pwtf_contraseña) {
-        this.pswContrasenia = pwtf_contraseña;
-    }
+  
 
     private boolean espaciosVacios() {
 

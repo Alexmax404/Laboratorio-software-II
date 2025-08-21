@@ -197,10 +197,8 @@ public class estudianteFrame extends javax.swing.JFrame {
 
         pnInfo.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnMonografias.setBackground(new java.awt.Color(255, 255, 255));
         btnMonografias.setText("Iniciar Nuevo trabajo de grado");
 
-        btnAnteProyecto1.setBackground(new java.awt.Color(255, 255, 255));
         btnAnteProyecto1.setText("gestionar Trabajo de grado");
         btnAnteProyecto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,7 +233,6 @@ public class estudianteFrame extends javax.swing.JFrame {
                     .addContainerGap(117, Short.MAX_VALUE)))
         );
 
-        cerrrarSesion.setBackground(new java.awt.Color(255, 255, 255));
         cerrrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cerrrarSesion.setText("cerrar sesión");
         cerrrarSesion.addActionListener(new java.awt.event.ActionListener() {

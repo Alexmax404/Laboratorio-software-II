@@ -1,4 +1,5 @@
 co\unicauca\gestintg\ui\registerFrame$6.class
+co\unicauca\gestiontg\access\GestionUsuario.class
 co\unicauca\gestintg\ui\docenteFrame$1.class
 co\unicauca\gestintg\ui\registerFrame$1.class
 co\unicauca\gestintg\ui\registerFrame$4.class
@@ -11,6 +12,7 @@ co\unicauca\gestintg\ui\registerFrame.class
 co\unicauca\gestiontg\access\UsuarioRepositorio.class
 co\unicauca\gestintg\ui\logInFrame$1.class
 co\unicauca\gestintg\ui\resources\RoundedPasswordField.class
+co\unicauca\gestintg\ui\logInFrame$3.class
 co\unicauca\gestintg\ui\registerFrame$2.class
 co\unicauca\gestintg\ui\estudianteFrame$1.class
 co\unicauca\gestiontg\service\Servicio.class
@@ -28,3 +30,4 @@ co\unicauca\gestintg\ui\docenteFrame.class
 co\unicauca\gestintg\ui\docenteFrame$3.class
 co\unicauca\gestiontg\domain\EnumRol.class
 co\unicauca\gestintg\ui\resources\RoundedButton.class
+co\unicauca\gestintg\ui\logInFrame$2.class

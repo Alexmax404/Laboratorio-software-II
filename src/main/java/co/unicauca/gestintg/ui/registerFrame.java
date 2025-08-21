@@ -425,7 +425,7 @@ public class registerFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Correo ya en uso");
             }
         } catch (SQLException ex) {
-            JOptionPane.showInputDialog(null, "Error, no se puedo crear la cuenta");
+            JOptionPane.showMessageDialog(null, "Error, no se puedo crear la cuenta");
         }
     }
 }

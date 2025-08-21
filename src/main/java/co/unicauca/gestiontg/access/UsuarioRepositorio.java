@@ -2,12 +2,7 @@ package co.unicauca.gestiontg.access;
 
 import co.unicauca.gestiontg.domain.*;
 import co.unicauca.gestiontg.service.Servicio;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
@@ -18,6 +13,7 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
     private static final String URL = "jdbc:sqlite:./GestionTG.db";
     
     public UsuarioRepositorio() {
+        connect();
         initDatabase();
     }
     
@@ -25,8 +21,8 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
     public boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException {
         String contrasenaHash = BCrypt.hashpw(nuevoUsuario.getContrasenia(), BCrypt.gensalt());
         String sql = "INSERT INTO Usuario VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(URL)) {
+        
+        try {
             if (buscarCorreo(conn, nuevoUsuario.getCorreo())) {
                 return false;
             }
@@ -34,7 +30,7 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, nuevoUsuario.getNombres());
                 pstmt.setString(2, nuevoUsuario.getApellidos());
-                pstmt.setString(3, nuevoUsuario.getCelular()); // sigue siendo double
+                pstmt.setString(3, nuevoUsuario.getCelular()); 
                 pstmt.setString(4, nuevoUsuario.getPrograma().toString());
                 pstmt.setString(5, nuevoUsuario.getRol().toString());
                 pstmt.setString(6, nuevoUsuario.getCorreo());
@@ -48,30 +44,28 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             throw ex;
         }
     }
+    
     @Override
     public boolean iniciarSesion(String correo, String contrasenia) {
-        try{
+        try {
             String sql = "SELECT contrasenia FROM Usuario WHERE correo = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, correo);
-            ResultSet rs = pstmt.executeQuery();
-            
-            if(rs.next()){
-                String contraseniaSegura = rs.getString("contrasenia");                
-                return BCrypt.checkpw(contrasenia, contraseniaSegura);
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, correo);
+                ResultSet rs = pstmt.executeQuery();
+                
+                if (rs.next()) {
+                    String contraseniaSegura = rs.getString("contrasenia");                
+                    return BCrypt.checkpw(contrasenia, contraseniaSegura);
+                }
             }
-            
-        } catch(SQLException ex){
+        } catch(SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }            
         
         return false;
     }
-
-    
     
     private void initDatabase() {
-        // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS Usuario (\n"
                 + "	nombres text NOT NULL,\n"
                 + "	apellidos text NOT NULL,\n"
@@ -82,48 +76,41 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
                 + "	contrasenia text NOT NULL \n"                 
                 + ");";
         try {
-            this.connect();
             Statement stmt = conn.createStatement();
             stmt.execute(sql);
-            //this.disconnect();
-
         } catch (SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void connect() {
-        // SQLite connection string
-        String url = "jdbc:sqlite:./GestionTG.db";
-        //String url = "jdbc:sqlite::memory:";
-
         try {
-            conn = DriverManager.getConnection(url);
-
+            if (conn == null || conn.isClosed()) {
+                conn = DriverManager.getConnection(URL);
+                conn.setAutoCommit(true); // opcional, para evitar locks prolongados
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    
+    @Override
     public String obtenerRolUsuario(String correo) {
         String sql = "SELECT rol FROM Usuario WHERE correo = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./GestionTG.db");
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, correo);
-
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("rol"); // Puede ser "Docente" o "Estudiante"
+                    return rs.getString("rol");
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null; // Si no existe el usuario
+        return null;
     }
     
-
+    @Override
     public boolean buscarCorreo(Connection conn, String correo) throws SQLException {
         String sqlValidacion = "SELECT correo FROM Usuario WHERE correo = ?";
         try (PreparedStatement statement = conn.prepareStatement(sqlValidacion)) {
@@ -134,13 +121,11 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         }
     }
      
-      public Usuario obtenerUsuarioPorCorreo(String correo) {
+    @Override
+    public Usuario obtenerUsuarioPorCorreo(String correo) {
         String sql = "SELECT * FROM Usuario WHERE correo = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./ProyectoGestionDB.db");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, correo);
-
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new Usuario(
@@ -159,15 +144,15 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         }
         return null; 
     }
+    
     public void disconnect() {
         try {
-            if (conn != null) {
+            if (conn != null && !conn.isClosed()) {
                 conn.close();
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-
     }
 
 }
