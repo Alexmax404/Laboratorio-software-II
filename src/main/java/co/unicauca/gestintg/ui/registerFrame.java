@@ -38,6 +38,7 @@ public class registerFrame extends javax.swing.JFrame {
         pswContrasenia = new RoundedPasswordField(20, Color.BLACK, 1,"Contraseña");
         chkDocente = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
+        backButton = new RoundedButton("Iniciar Sesión") ;
 
         Tf_correoElectronico.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
 
@@ -185,6 +186,14 @@ public class registerFrame extends javax.swing.JFrame {
 
         txtNombres.getAccessibleContext().setAccessibleDescription("");
 
+        backButton.setText("←");
+        backButton.setBorder(null);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonbtnLogInActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -193,13 +202,19 @@ public class registerFrame extends javax.swing.JFrame {
                 .addContainerGap(194, Short.MAX_VALUE)
                 .addComponent(pn_logInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(171, 171, 171))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(8, 8, 8)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pn_logInData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,6 +268,16 @@ public class registerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoElectronicoActionPerformed
 
+    private void backButtonbtnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonbtnLogInActionPerformed
+
+                logInFrame nuevaVentana = new logInFrame();
+                nuevaVentana.setVisible(true);
+                nuevaVentana.setLocationRelativeTo(null); // centrar
+
+                // Cerrar la ventana actual (logInFrame)
+                this.dispose();
+    }//GEN-LAST:event_backButtonbtnLogInActionPerformed
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -288,6 +313,7 @@ public class registerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Tf_correoElectronico;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton btn_logIn;
     private javax.swing.JComboBox<String> cbPrograma;
     private javax.swing.JCheckBox chkDocente;
@@ -384,22 +410,21 @@ public class registerFrame extends javax.swing.JFrame {
             return true;
         return false;
     }
-    
-    private void registrarUsuario(){
-        try{        
-            if(service.registrarUsuario(user)){
-                JOptionPane.showMessageDialog(null, "Cuenta registrada con exito");
-                        logInFrame nuevaVentana = new logInFrame();
-                        nuevaVentana.setVisible(true);
-                        nuevaVentana.setLocationRelativeTo(null); // centrar
 
-        // Cerrar la ventana actual (logInFrame)
-        this.dispose();
-            }
-            else{                
+    private void registrarUsuario() {
+        try {
+            if (service.registrarUsuario(user)) {
+                JOptionPane.showMessageDialog(null, "Cuenta registrada con exito");
+                logInFrame nuevaVentana = new logInFrame();
+                nuevaVentana.setVisible(true);
+                nuevaVentana.setLocationRelativeTo(null); // centrar
+
+                // Cerrar la ventana actual (logInFrame)
+                this.dispose();
+            } else {
                 JOptionPane.showMessageDialog(null, "Correo ya en uso");
             }
-        }catch(SQLException ex){            
+        } catch (SQLException ex) {
             JOptionPane.showInputDialog(null, "Error, no se puedo crear la cuenta");
         }
     }

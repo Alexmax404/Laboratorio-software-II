@@ -15,6 +15,7 @@ co\unicauca\gestintg\ui\registerFrame$2.class
 co\unicauca\gestintg\ui\estudianteFrame$1.class
 co\unicauca\gestiontg\service\Servicio.class
 co\unicauca\gestintg\ui\docenteFrame$2.class
+co\unicauca\gestintg\ui\registerFrame$7.class
 co\unicauca\gestintg\ui\resources\RoundedTextField.class
 co\unicauca\gestiontg\access\IUsuarioRepositorio.class
 co\unicauca\gestintg\ui\estudianteFrame.class

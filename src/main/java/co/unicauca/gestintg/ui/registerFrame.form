@@ -62,14 +62,21 @@
                   <Component id="pn_logInData" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="171" max="-2" attributes="0"/>
               </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="backButton" min="-2" pref="31" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <Component id="backButton" min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="pn_logInData" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="116" max="32767" attributes="0"/>
+                  <EmptySpace pref="133" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -341,6 +348,20 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="backButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#x2190;"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonbtnLogInActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(&quot;Iniciar Sesi&#xf3;n&quot;) "/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
