@@ -47,6 +47,7 @@ public class Servicio {
         }       
         return repositorio.registrarUsuario(nuevoUsuario); 
     }
+    
     public boolean inicioSesion(String correo, String contrasenia){
         if(repositorio.iniciarSesion(correo, contrasenia)){
             return true;

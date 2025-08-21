@@ -142,11 +142,16 @@ public class logInFrame extends javax.swing.JFrame {
     private void btnInicioSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioSesionActionPerformed
        String correo=txtCorreoElectronico.getText();
        String contrasenia=new String(pswContrasenia.getPassword());
+       String rol = service.obtenerRolUsuario(correo);
+       
        boolean validar= service.inicioSesion(correo, contrasenia);
        
        if(espaciosVacios()==false){
             if(validar)
-                JOptionPane.showMessageDialog(null, "Si existe");
+                if (rol.equals("Estudiante"))
+                    JOptionPane.showMessageDialog(null, "Bienvenido... Dirigiendose al modulo Estudiante");
+                else
+                    JOptionPane.showMessageDialog(null, "Bienvenido... Dirigiendose al modulo Docente");
             else{
                 JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
                 txtCorreoElectronico.setText("");
