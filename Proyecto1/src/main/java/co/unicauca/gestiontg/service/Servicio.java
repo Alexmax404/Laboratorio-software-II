@@ -2,11 +2,14 @@ package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.infra.Subject;
 import java.sql.SQLException;
 
-public class Servicio {
+public class Servicio extends Subject{
+    
     private IUsuarioRepositorio repositorio;
-
+    private Usuario ultimoUsuario; //el último usuario registrado
+    
     public Servicio(IUsuarioRepositorio repositorio) {
         this.repositorio = repositorio;
     }
@@ -21,31 +24,40 @@ public class Servicio {
     }
     
     public String validarContrasenia(String contrasenia) {
+        String mensaje="";
+        
         if (contrasenia == null || contrasenia.isBlank()) {
-            return "La contraseña no puede estar vacía";
+            mensaje += "La contraseña no puede estar vacía\n";
         }
         if (contrasenia.length() < 6) {
-            return "La contraseña debe tener al menos 6 caracteres";
+            mensaje += "La contraseña debe tener al menos 6 caracteres\n";
         }
-        
         if (!contrasenia.matches(".*[A-Z].*")) {
-            return "La contraseña debe contener al menos una letra mayuscula";
+            mensaje += "La contraseña debe contener al menos una letra mayuscula\n";
         }
         if (!contrasenia.matches(".*\\d.*")) {
-            return "La contraseña debe contener al menos un numero";
+            mensaje += "La contraseña debe contener al menos un numero\n";
         }
         if (!contrasenia.matches(".*[!@#$%^&*().,_-].*")) {
-            return "La contraseña debe contener al menos un caracter especial";
+            mensaje += "La contraseña debe contener al menos un caracter especial\n";
         }
-        return "OK";
+        return mensaje.isEmpty() ? "OK" : mensaje;
     }
     
     public boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException{
     
         if(nuevoUsuario == null || nuevoUsuario.getNombres() == null){
             return false;
-        }       
-        return repositorio.registrarUsuario(nuevoUsuario); 
+        }  
+        
+        boolean registrado = repositorio.registrarUsuario(nuevoUsuario);
+        
+        if (registrado) {
+            this.ultimoUsuario = nuevoUsuario;
+            notifyAllObserves(); 
+        }
+
+        return registrado;
     }
     
     public boolean inicioSesion(String correo, String contrasenia){
@@ -60,6 +72,10 @@ public class Servicio {
     }
     public String obtenerRolUsuario(String correo) {
         return repositorio.obtenerRolUsuario(correo);
+    }
+
+    public Usuario getUltimoUsuario() {
+        return ultimoUsuario;
     }
 
     
