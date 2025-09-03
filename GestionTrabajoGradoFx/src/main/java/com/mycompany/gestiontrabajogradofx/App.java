@@ -5,8 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+
 
 /**
  * JavaFX App
@@ -17,8 +17,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        Parent root = loadFXML("mainMenu");
+        scene = new Scene(root); // 👈 sin tamaños forzados
         stage.setScene(scene);
+        stage.sizeToScene(); // 👈 ajusta la ventana al tamaño del FXML
+        stage.setResizable(false); // opcional: bloquear el cambio de tamaño
         stage.show();
     }
 
