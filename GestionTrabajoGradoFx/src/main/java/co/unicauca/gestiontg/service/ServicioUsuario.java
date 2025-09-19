@@ -4,16 +4,17 @@ import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.infra.Subject;
 import java.sql.SQLException;
+import java.util.Optional;
+import org.mindrot.jbcrypt.BCrypt;
 
-public class Servicio extends Subject {
-    
-    private IUsuarioRepositorio repositorio;
-    private Usuario ultimoUsuario; //el último usuario registrado
-    
-    public Servicio(IUsuarioRepositorio repositorio) {
-        this.repositorio = repositorio;
+public class ServicioUsuario extends Subject {
+
+    private final IUsuarioRepositorio userRepository;
+
+    public ServicioUsuario(IUsuarioRepositorio userRepository) {
+        this.userRepository = userRepository;
     }
-    
+
     public String validarCorreoInstitucional(String correo) {
         // Verifica que termine con el dominio institucional
         if (!correo.endsWith("@unicauca.edu.co")) {
@@ -22,10 +23,10 @@ public class Servicio extends Subject {
 
         return "OK";
     }
-    
+
     public String validarContrasenia(String contrasenia) {
-        String mensaje="";
-        
+        String mensaje = "";
+
         if (contrasenia == null || contrasenia.isBlank()) {
             mensaje += "La contraseña no puede estar vacía\n";
         }
@@ -43,38 +44,34 @@ public class Servicio extends Subject {
         }
         return mensaje.isEmpty() ? "OK" : mensaje;
     }
-    
-    public boolean registrarUsuario(Usuario nuevoUsuario) throws SQLException{
-    
-        if(nuevoUsuario == null || nuevoUsuario.getNombres() == null){
-            return false;
-        }  
-        
-        boolean registrado = repositorio.registrarUsuario(nuevoUsuario);
-        if (registrado) {
-            this.ultimoUsuario = nuevoUsuario;
-        }
 
-        return registrado;
+    // Nuevoooo
+    public boolean register(Usuario usuario) throws SQLException {
+        // Encriptar y guardar
+        String hashed = BCrypt.hashpw(usuario.getContrasenia(), BCrypt.gensalt());
+        usuario.setContrasenia(hashed);
+        userRepository.save(usuario);
+
+        // Notificar
+        notifyAllObserves();
+        return true;
     }
-    
-    public boolean inicioSesion(String correo, String contrasenia){
-        if(repositorio.iniciarSesion(correo, contrasenia)){
-            return true;
+
+    public boolean login(String correo, String contrasenia) throws SQLException {
+        Optional<Usuario> optUser = userRepository.findByCorreo(correo);
+        if (optUser.isPresent()) {
+            Usuario user = optUser.get();
+            return BCrypt.checkpw(contrasenia, user.getContrasenia());
         }
         return false;
     }
-    public Usuario obtenerUsuarioPorCorreo(String correo){
-        Usuario usuario = repositorio.obtenerUsuarioPorCorreo(correo);
-        return usuario;        
-    }
-    public String obtenerRolUsuario(String correo) {
-        return repositorio.obtenerRolUsuario(correo);
-    }
-
-    public Usuario getUltimoUsuario() {
-        return ultimoUsuario;
-    }
-
     
+    public Optional<String> obtenerRolUsuario(String correo) throws SQLException {
+        return userRepository.getRolByCorreo(correo);
+    }
+    
+    public Optional<Usuario> obtenerUsuarioPorEstudianteCorreo(String correo) throws SQLException {
+    return userRepository.findByCorreo(correo);
+}
+
 }

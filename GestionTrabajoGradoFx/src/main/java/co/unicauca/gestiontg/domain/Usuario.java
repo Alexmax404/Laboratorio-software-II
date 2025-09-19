@@ -1,7 +1,10 @@
-
 package co.unicauca.gestiontg.domain;
 
+import java.util.UUID;
+
 public class Usuario {
+
+    private UUID id;
     private String nombres;
     private String apellidos;
     private String celular;
@@ -10,8 +13,6 @@ public class Usuario {
     private String correo;
     private String contrasenia;
 
-
-    
     public Usuario(String nombres, String apellidos, String celular, EnumPrograma programa, EnumRol rol, String correo, String contrasenia) {
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -20,6 +21,17 @@ public class Usuario {
         this.rol = rol;
         this.correo = correo;
         this.contrasenia = contrasenia;
+    }
+
+    public Usuario() {
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getNombres() {
@@ -77,6 +89,4 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-    
-    
 }

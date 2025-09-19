@@ -1,17 +1,13 @@
 package co.unicauca.gestiontg;
 
-import co.unicauca.gestiontg.service.Servicio;
+import co.unicauca.gestiontg.controller.AuthController;
 import java.io.IOException;
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.scene.Cursor;
@@ -20,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 public class LoggedDocenteController {
 
     @FXML
@@ -48,7 +45,7 @@ public class LoggedDocenteController {
 
     @FXML
     private Hyperlink linkExit;
-    
+
     @FXML
     private Hyperlink linkCambiarDatos;
 
@@ -57,12 +54,13 @@ public class LoggedDocenteController {
 
     @FXML
     private Pane pnDatos1;
-    
-    private Servicio servicio;
-    
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
+
+    private AuthController authController;
+
+    public void setController(AuthController authController) {
+        this.authController = authController;
     }
+
     @FXML
     public void handleClickPane(MouseEvent event) {
         // Quita el foco del TextField (y de cualquier otro nodo que lo tenga)
@@ -103,12 +101,13 @@ public class LoggedDocenteController {
         Parent root = loader.load();
 
         MainMenuController mainController = loader.getController();
-        mainController.setServicio(servicio); 
+        mainController.setController(authController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     @FXML
     public void initialize() {
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);

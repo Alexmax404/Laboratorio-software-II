@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package co.unicauca.gestiontg.infra;
 
 import java.util.ArrayList;
@@ -12,6 +8,10 @@ import java.util.ArrayList;
  */
 public class Subject {
     ArrayList<Observer> observers;
+    
+    public Subject() {
+        this.observers = new ArrayList<>();
+    }
     
     public void addObserver(Observer obs) {
         if (observers == null) {
