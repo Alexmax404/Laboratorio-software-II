@@ -2,6 +2,7 @@
 package co.unicauca.gestiontg.domain;
 
 public class Usuario {
+    private int id;
     private String nombres;
     private String apellidos;
     private String celular;
@@ -20,6 +21,14 @@ public class Usuario {
         this.rol = rol;
         this.correo = correo;
         this.contrasenia = contrasenia;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombres() {
@@ -78,5 +87,5 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
     
-    
+      
 }

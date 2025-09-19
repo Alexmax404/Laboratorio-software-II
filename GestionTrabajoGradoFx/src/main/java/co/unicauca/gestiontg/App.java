@@ -23,12 +23,12 @@ public class App extends Application {
         
     @Override
     public void start(Stage stage) throws IOException {
-        
 
-        IUsuarioRepositorio repositorio = new UsuarioRepositorio();
-        Servicio servicio = new Servicio(repositorio);
+
+       IUsuarioRepositorio repositorio = new UsuarioRepositorio();
+       Servicio servicio = new Servicio(repositorio);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
-        
+ 
         Parent root = loader.load();
         MainMenuController mainController = loader.getController();
         mainController.setServicio(servicio);
