@@ -73,9 +73,9 @@ public class MainMenuController implements Observer {
         if (espaciosVacios() == false) {
             if (validar) {
                 Optional<String> rol = authController.getRolUsuario(correo);
-                if (rol.equals("Estudiante")) {
+                if (rol.get().equals("Estudiante")) {
                     mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
-
+                    
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedEstudiante.fxml"));
                     Parent root = loader.load();
 

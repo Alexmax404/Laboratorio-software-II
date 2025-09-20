@@ -19,11 +19,12 @@ import javafx.stage.Stage;
 
 public class LoggedDocenteController {
 
-    @FXML
-    private Button btnEvaluarAnteproyectos;
 
     @FXML
-    private Button btnEvaluarMonografias;
+    private Button btnGestionarFormatoA;
+
+    @FXML
+    private Button btnVerEstadoDeFormatoA;
 
     @FXML
     private ImageView fadingImage;
@@ -107,7 +108,18 @@ public class LoggedDocenteController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+    @FXML
+    public void switchToFormatoA() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfesorFormatoA1.fxml"));
+        Parent root = loader.load();
 
+        ProfesorFormatoAController formatoAController = loader.getController();
+        formatoAController.setController(authController);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
     @FXML
     public void initialize() {
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);

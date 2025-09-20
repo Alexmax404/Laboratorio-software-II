@@ -234,7 +234,7 @@ public class RegisterFrameController {
         // Crear un Label personalizado para el mensaje
         Label etiqueta = new Label(mensaje);
         etiqueta.setWrapText(true);
-        etiqueta.setStyle("-fx-font-Tebuchet MS: 14px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #2c3e50;");
+        //etiqueta.setStyle("-fx-font-Tebuchet MS: 14px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #2c3e50;");
 
         // Meter el Label en un contenedor para darle padding
         VBox contenedor = new VBox(etiqueta);
