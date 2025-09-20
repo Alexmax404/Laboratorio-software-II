@@ -19,11 +19,12 @@ public class FormatoAController {
         this.servicio = servicio;
     }
 
-    public String crearOReenviarFormato(String formatoIdStr, String estudianteId1Str, String estudianteId2Str, String enviadoPorStr, String titulo, String modalidadStr, String director, String coDirector, String fechaPresentacionStr, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) {
+    public String crearOReenviarFormato(String formatoIdStr, String estudianteId1Str, String estudianteId2Str, String docenteIdStr, String enviadoPorStr, String titulo, String modalidadStr, String director, String coDirector, String fechaPresentacionStr, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) {
         try {
             UUID formatoId = formatoIdStr != null && !formatoIdStr.isEmpty() ? UUID.fromString(formatoIdStr) : null;
             UUID estudianteId1 = UUID.fromString(estudianteId1Str);
             UUID estudianteId2 = (estudianteId2Str != null && !estudianteId2Str.isEmpty()) ? UUID.fromString(estudianteId2Str) : null;
+            UUID docenteId = UUID.fromString(docenteIdStr);
             UUID enviadoPor = UUID.fromString(enviadoPorStr);
             EnumModalidad modalidad = EnumModalidad.valueOf(modalidadStr);
             LocalDate fechaPresentacion = LocalDate.parse(fechaPresentacionStr);
@@ -32,6 +33,7 @@ public class FormatoAController {
                     formatoId,
                     estudianteId1,
                     estudianteId2,
+                    docenteId,
                     enviadoPor,
                     titulo,
                     modalidad,

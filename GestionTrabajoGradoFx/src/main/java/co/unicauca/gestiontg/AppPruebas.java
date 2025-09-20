@@ -23,47 +23,50 @@ public class AppPruebas {
         var servicio = new ServicioFormatoA(repo);
 
         var controller = new FormatoAController(servicio);
-//
-        UUID estudianteId1 = UUID.fromString("4c3fdc7c-b8fc-4e3f-91fb-05e495d75b5b");
-        UUID estudianteId2 = UUID.fromString("7b45eed0-65be-45c1-b311-691f84bc6a34");
-        UUID enviadoPor = estudianteId1;
+        
+        UUID estudianteId1 = UUID.fromString("65bfdcfb-cdd9-4bb8-951a-4a5ff64f709b");
+        UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
+        UUID docenteId = UUID.fromString("bfa36952-998e-40ba-803b-749dac59c31d");
+        UUID enviadoPor = docenteId;
 
-        // Primer envío (creación)
-        String result1 = controller.crearOReenviarFormato(
-                null,
-                estudianteId1.toString(),
-                estudianteId2.toString(),
-                enviadoPor.toString(),
-                "Sistema de Gestión de TG",
-                "TRABAJO_DE_INVESTIGACION",
-                "Dr. López",
-                null,
-                "2025-09-20",
-                "Objetivo general del proyecto",
-                "Objetivo específico 1; Objetivo 2",
-                null,
-                "/uploads/formatoA_v1.pdf"
-        );
-        System.out.println("Resultado primer envío: " + result1);
-
-//        // Reenvío (corrección) - Extraer formatoId de result1 para pruebas reales
-//        // Ejemplo: supongamos que el formatoId es "33333333-3333-3333-3333-333333333333"
-//        String formatoId = "bb1c3bee-f537-43bf-b80f-6a4e533ae751"; // Reemplazar con ID real
-//        String result2 = controller.crearOReenviarFormato(
-//            formatoId,
-//            estudianteId1.toString(),
-//            estudianteId2.toString(),
-//            enviadoPor.toString(),
-//            "Sistema de Gestión de TG - Corregido",
-//            "TRABAJO_DE_INVESTIGACION",
-//            "Dr. López",
-//            null,
-//            "2025-09-25",
-//            "Objetivo general actualizado",
-//            "Objetivo específico 1 actualizado",
-//            null,
-//            "/uploads/formatoA_v2.pdf"
+//        // Primer envío (creación)
+//        String result1 = controller.crearOReenviarFormato(
+//                null,
+//                estudianteId1.toString(),
+//                null,
+//                docenteId.toString(),
+//                enviadoPor.toString(),
+//                "Sistema de Gestión de TG",
+//                "TRABAJO_DE_INVESTIGACION",
+//                "Dr. López",
+//                null,
+//                "2025-09-20",
+//                "Objetivo general del proyecto",
+//                "Objetivo específico 1; Objetivo 2",
+//                null,
+//                "/uploads/formatoA_v1.pdf"
 //        );
-//        System.out.println("Resultado reenvío: " + result2);
+//        System.out.println("Resultado primer envío: " + result1);
+
+        // Reenvío (corrección) - Extraer formatoId de result1 para pruebas reales
+        // Ejemplo: supongamos que el formatoId es "33333333-3333-3333-3333-333333333333"
+        String formatoId = "cc4d0108-d8c8-4aae-a6dc-a4c58473553d"; 
+        String result2 = controller.crearOReenviarFormato(
+            formatoId,
+            estudianteId1.toString(),
+            estudianteId2.toString(),
+            docenteId.toString(),
+            enviadoPor.toString(),
+            "Sistema de Gestión de TG - Corregido3",
+            "TRABAJO_DE_INVESTIGACION",
+            "Dr. López",
+            null,
+            "2025-09-25",
+            "Objetivo general actualizado",
+            "Objetivo específico 1 actualizado",
+            null,
+            "/uploads/formatoA_v2.pdf"
+        );
+        System.out.println("Resultado reenvío: " + result2);
     }
 }
