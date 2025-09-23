@@ -22,24 +22,25 @@ import java.util.UUID;
 public class FormatoARepositorio implements IFormatoARepositorio {
 
     @Override
-    public SubmitResult submitFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID enviadoPor, String titulo, String modalidad, String director, String coDirector, Date fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) throws Exception {
-        String sql = "SELECT * FROM gtg.submit_formato(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public SubmitResult submitFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, String modalidad, String director, String coDirector, Date fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) throws Exception {
+        String sql = "SELECT * FROM gtg.submit_formato(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setObject(1, formatoId, Types.OTHER);
             stmt.setObject(2, estudianteId1, Types.OTHER);
             stmt.setObject(3, estudianteId2, Types.OTHER);
-            stmt.setObject(4, enviadoPor, Types.OTHER);
-            stmt.setString(5, titulo);
-            stmt.setString(6, modalidad);
-            stmt.setString(7, director);
-            stmt.setString(8, coDirector);
-            stmt.setDate(9, fechaPresentacion);
-            stmt.setString(10, objetivosGenerales);
-            stmt.setString(11, objetivosEspecificos);
-            stmt.setString(12, cartaAceptacionPath);
-            stmt.setString(13, archivoFormatoPath);
+            stmt.setObject(4, docenteId, Types.OTHER);
+            stmt.setObject(5, enviadoPor, Types.OTHER);
+            stmt.setString(6, titulo);
+            stmt.setString(7, modalidad);
+            stmt.setString(8, director);
+            stmt.setString(9, coDirector);
+            stmt.setDate(10, fechaPresentacion);
+            stmt.setString(11, objetivosGenerales);
+            stmt.setString(12, objetivosEspecificos);
+            stmt.setString(13, cartaAceptacionPath);
+            stmt.setString(14, archivoFormatoPath);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
