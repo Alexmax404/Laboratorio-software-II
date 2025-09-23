@@ -1,13 +1,35 @@
 -- Eliminar tablas
-DROP TABLE IF EXISTS gtg.aval_coordinador CASCADE;
-DROP TABLE IF EXISTS gtg.evaluacion_docente CASCADE;
+DROP TABLE IF EXISTS gtg.evaluacion_coordinador CASCADE;
 DROP TABLE IF EXISTS gtg.formato_version CASCADE;
 DROP TABLE IF EXISTS gtg.formato CASCADE;
 DROP TABLE IF EXISTS gtg.usuario CASCADE;
 
+-- Eliminar funciones
+DROP FUNCTION IF EXISTS gtg.fn_get_latest_version(UUID);
+
+DROP FUNCTION IF EXISTS gtg.submit_formato(
+    UUID, UUID, UUID, UUID, UUID, TEXT, TEXT, TEXT, TEXT, DATE, TEXT, TEXT, TEXT, TEXT,
+    OUT UUID, OUT INTEGER
+);
+
+DROP FUNCTION IF EXISTS gtg.add_evaluacion_coordinador(
+    UUID, UUID, UUID, TEXT, TEXT,
+    OUT UUID
+); 
+
+--Eliminar indices 
+DROP INDEX IF EXISTS gtg.idx_usuario_correo;
+DROP INDEX IF EXISTS gtg.idx_formato_est1;
+DROP INDEX IF EXISTS gtg.idx_formato_est2;
+DROP INDEX IF EXISTS gtg.idx_formato_doc;
+DROP INDEX IF EXISTS gtg.idx_formato_estado;
+DROP INDEX IF EXISTS gtg.idx_formato_version_formato;
+DROP INDEX IF EXISTS gtg.idx_formato_version_formato_version;
+DROP INDEX IF EXISTS gtg.idx_eval_formato;
+DROP INDEX IF EXISTS gtg.idx_eval_coordinador_coordinador;
+
 -- Limpiar tablas
-TRUNCATE TABLE gtg.aval_coordinador RESTART IDENTITY CASCADE;
-TRUNCATE TABLE gtg.evaluacion_docente RESTART IDENTITY CASCADE;
+TRUNCATE TABLE gtg.evaluacion_coordinador RESTART IDENTITY CASCADE;
 TRUNCATE TABLE gtg.formato_version RESTART IDENTITY CASCADE;
 TRUNCATE TABLE gtg.formato RESTART IDENTITY CASCADE;
 TRUNCATE TABLE gtg.usuario RESTART IDENTITY CASCADE;
@@ -38,8 +60,6 @@ GRANT USAGE ON SCHEMA public TO gtg_appuser;          -- uso de esquema public
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO gtg_appuser; -- DML
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO gtg_appuser;
-
-
 
 -- Conceder acceso al esquema gtg
 GRANT USAGE ON SCHEMA gtg TO gtg_appuser;
@@ -83,6 +103,7 @@ CREATE TABLE IF NOT EXISTS gtg.formato (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     estudiante_id1 UUID NOT NULL REFERENCES gtg.usuario(id) ON DELETE CASCADE,
 	estudiante_id2 UUID	NULL REFERENCES gtg.usuario(id) ON DELETE SET NULL, --- Cambiar esto
+	docente_id UUID NOT NULL REFERENCES gtg.usuario(id) ON DELETE CASCADE,
     titulo TEXT NOT NULL,
     modalidad TEXT NOT NULL,
     director TEXT NOT NULL,
@@ -99,6 +120,7 @@ CREATE TABLE IF NOT EXISTS gtg.formato (
 
 CREATE INDEX IF NOT EXISTS idx_formato_est1 ON gtg.formato(estudiante_id1);
 CREATE INDEX IF NOT EXISTS idx_formato_est2 ON gtg.formato(estudiante_id2);
+CREATE INDEX IF NOT EXISTS idx_formato_doc ON gtg.formato(docente_id);
 CREATE INDEX IF NOT EXISTS idx_formato_estado ON gtg.formato(estado);
 
 -- HISTORIAL DE VERSIONES (Cada reenvío genera una nueva fila)
@@ -127,31 +149,19 @@ CREATE TABLE IF NOT EXISTS gtg.formato_version (
 CREATE INDEX IF NOT EXISTS idx_formato_version_formato ON gtg.formato_version(formato_id);
 CREATE INDEX IF NOT EXISTS idx_formato_version_formato_version ON gtg.formato_version(formato_id, version DESC);
 
--- EVALUACIÓN DOCENTE
-CREATE TABLE IF NOT EXISTS gtg.evaluacion_docente (
+-- EVALUACIÓN COORDINADOR
+CREATE TABLE IF NOT EXISTS gtg.evaluacion_coordinador (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     formato_id UUID NOT NULL REFERENCES gtg.formato(id) ON DELETE CASCADE,
     formato_version_id UUID REFERENCES gtg.formato_version(id) ON DELETE SET NULL,
-    docente_id UUID NOT NULL REFERENCES gtg.usuario(id),
+    coordinador_id UUID NOT NULL REFERENCES gtg.usuario(id),
     decision TEXT NOT NULL CHECK (decision IN ('Aprobado', 'Correcciones', 'Rechazado')),
     comentarios TEXT,
     fecha_evaluacion TIMESTAMPTZ DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS idx_eval_formato ON gtg.evaluacion_docente(formato_id);
-CREATE INDEX IF NOT EXISTS idx_eval_docente_docente ON gtg.evaluacion_docente(docente_id);
-
--- AVAL DEL COORDINADOR
-CREATE TABLE IF NOT EXISTS gtg.aval_coordinador (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    evaluacion_id UUID NOT NULL REFERENCES gtg.evaluacion_docente(id) ON DELETE CASCADE,
-    coordinador_id UUID NOT NULL REFERENCES gtg.usuario(id),
-    aval BOOLEAN NOT NULL,
-    observaciones TEXT,
-    fecha_aval TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_aval_eval ON gtg.aval_coordinador(evaluacion_id);
+CREATE INDEX IF NOT EXISTS idx_eval_formato ON gtg.evaluacion_coordinador(formato_id);
+CREATE INDEX IF NOT EXISTS idx_eval_coordinador_coordinador ON gtg.evaluacion_coordinador(coordinador_id);
 
 -- ===========================================
 -- Función para obtener la última versión de un formato
@@ -171,6 +181,7 @@ CREATE OR REPLACE FUNCTION gtg.submit_formato(
     p_formato_id UUID,            -- NULL => crear nuevo
     p_estudiante_id1 UUID,
     p_estudiante_id2 UUID,
+	p_docente_id UUID,
     p_enviado_por UUID,
     p_titulo TEXT,
     p_modalidad TEXT,
@@ -201,13 +212,13 @@ BEGIN
                 RAISE EXCEPTION 'Estudiante2 informado no existe';
             END IF;
         END IF;
-        -- validar que p_enviado_por sea uno de los estudiantes
-        IF p_enviado_por IS NULL OR (p_enviado_por <> p_estudiante_id1 AND (p_estudiante_id2 IS NULL OR p_enviado_por <> p_estudiante_id2)) THEN
-            RAISE EXCEPTION 'p_enviado_por debe ser est1 o est2';
+        -- validar que p_enviado_por sea el docente
+        IF p_enviado_por IS NULL OR (p_enviado_por <> p_docente_id) THEN
+            RAISE EXCEPTION 'p_enviado_por debe ser enviado por el docente.';
         END IF;
 
-        INSERT INTO gtg.formato (estudiante_id1, estudiante_id2, titulo, modalidad, director, co_director, fecha_presentacion, estado, intentos, max_intentos, created_at, updated_at)
-        VALUES (p_estudiante_id1, p_estudiante_id2, p_titulo, p_modalidad, p_director, p_co_director, p_fecha_presentacion, 'EnRevision', 1, 3, now(), now())
+        INSERT INTO gtg.formato (estudiante_id1, estudiante_id2, docente_id, titulo, modalidad, director, co_director, fecha_presentacion, estado, intentos, max_intentos, created_at, updated_at)
+        VALUES (p_estudiante_id1, p_estudiante_id2, p_docente_id, p_titulo, p_modalidad, p_director, p_co_director, p_fecha_presentacion, 'EnRevision', 1, 3, now(), now())
         RETURNING * INTO v_formato;
 
         v_next_version := 1;
@@ -227,8 +238,8 @@ BEGIN
             RAISE EXCEPTION 'Formato % no encontrado', p_formato_id;
         END IF;
 
-        -- validar que p_enviado_por sea uno de los estudiantes registrados en el formato
-        IF p_enviado_por IS NULL OR (p_enviado_por <> v_formato.estudiante_id1 AND (v_formato.estudiante_id2 IS NULL OR p_enviado_por <> v_formato.estudiante_id2)) THEN
+        -- validar que p_enviado_por sea el docente registrado en el formato
+        IF p_enviado_por IS NULL OR (p_enviado_por <> v_formato.docente_id) THEN
             RAISE EXCEPTION 'Solo estudiantes propietarios pueden reenviar (p_enviado_por inválido)';
         END IF;
 
@@ -264,12 +275,12 @@ END;
 $$;
 
 -- ===================================
--- Función: add_evaluacion_docente (docente evalúa)
+-- Función: add_evaluacion_coordinador (coordinador evalúa)
 -- ===================================
-CREATE OR REPLACE FUNCTION gtg.add_evaluacion_docente(
+CREATE OR REPLACE FUNCTION gtg.add_evaluacion_coordinador(
     p_formato_id UUID,
     p_formato_version_id UUID,
-    p_docente_id UUID,
+    p_coordinador_id UUID,
     p_decision TEXT,
     p_comentarios TEXT,
     OUT o_eval_id UUID
@@ -278,13 +289,13 @@ LANGUAGE plpgsql AS $$
 DECLARE
     v_rol TEXT;
 BEGIN
-    -- validar rol del docente
-    SELECT rol INTO v_rol FROM gtg.usuario WHERE id = p_docente_id;
+    -- validar rol del coordinador
+    SELECT rol INTO v_rol FROM gtg.usuario WHERE id = p_coordinador_id;
     IF NOT FOUND THEN
-        RAISE EXCEPTION 'Docente con id % no encontrado', p_docente_id;
+        RAISE EXCEPTION 'Coordinador con id % no encontrado', p_coordinador_id;
     END IF;
-    IF v_rol <> 'Docente' THEN
-        RAISE EXCEPTION 'Usuario % no tiene rol Docente', p_docente_id;
+    IF v_rol <> 'Coordinador' THEN
+        RAISE EXCEPTION 'Usuario % no tiene rol Coordinador', p_coordinador_id;
     END IF;
 
     -- validar existencia del formato maestro
@@ -308,8 +319,8 @@ BEGIN
     END IF;
 
     -- insertar evaluación y devolver id en la variable OUT
-    INSERT INTO gtg.evaluacion_docente (formato_id, formato_version_id, docente_id, decision, comentarios, fecha_evaluacion)
-    VALUES (p_formato_id, p_formato_version_id, p_docente_id, p_decision, p_comentarios, now())
+    INSERT INTO gtg.evaluacion_coordinador (formato_id, formato_version_id, coordinador_id, decision, comentarios, fecha_evaluacion)
+    VALUES (p_formato_id, p_formato_version_id, p_coordinador_id, p_decision, p_comentarios, now())
     RETURNING id INTO o_eval_id;
 
     -- actualizar estado del maestro según la decisión
@@ -321,64 +332,7 @@ BEGIN
         UPDATE gtg.formato SET estado = 'CorreccionesSolicitadas', updated_at = now() WHERE id = p_formato_id;
     END IF;
 
-    RETURN;  -- IMPORTANTE: en funciones con OUT usar RETURN sin valor
-END;
-$$;
-
--- ===================================
--- Función: add_aval_coordinador
--- ===================================
-CREATE OR REPLACE FUNCTION gtg.add_aval_coordinador(
-    p_evaluacion_id UUID,
-    p_coordinador_id UUID,
-    p_aval BOOLEAN,
-    p_observaciones TEXT,
-    OUT o_aval_id UUID
-) RETURNS UUID
-LANGUAGE plpgsql AS $$
-DECLARE
-    v_rol TEXT;
-    v_decision TEXT;
-    v_formato_id UUID;
-BEGIN
-    -- validar rol coordinador
-    SELECT rol INTO v_rol FROM gtg.usuario WHERE id = p_coordinador_id;
-    IF NOT FOUND THEN
-        RAISE EXCEPTION 'Coordinador con id % no encontrado', p_coordinador_id;
-    END IF;
-    IF v_rol <> 'Coordinador' THEN
-        RAISE EXCEPTION 'Usuario % no tiene rol Coordinador', p_coordinador_id;
-    END IF;
-
-    -- validar evaluación
-    SELECT formato_id, decision 
-    INTO v_formato_id, v_decision 
-    FROM gtg.evaluacion_docente 
-    WHERE id = p_evaluacion_id;
-    IF NOT FOUND THEN
-        RAISE EXCEPTION 'Evaluación % no encontrada', p_evaluacion_id;
-    END IF;
-
-    -- insertar aval
-    INSERT INTO gtg.aval_coordinador (evaluacion_id, coordinador_id, aval, observaciones, fecha_aval)
-    VALUES (p_evaluacion_id, p_coordinador_id, p_aval, p_observaciones, now())
-    RETURNING id INTO o_aval_id;
-
-    -- actualizar estado del formato según el aval
-    IF p_aval = TRUE THEN
-        IF v_decision = 'Aprobado' THEN
-            UPDATE gtg.formato 
-            SET estado = 'Aprobado', updated_at = now() 
-            WHERE id = v_formato_id;
-        END IF;
-    ELSE
-        -- regla: si no avala, se marca como Rechazado
-        UPDATE gtg.formato 
-        SET estado = 'Rechazado', updated_at = now() 
-        WHERE id = v_formato_id;
-    END IF;
-
-    RETURN;  -- importante: solo RETURN vacío cuando hay parámetros OUT
+    RETURN;  -- RECORDAAAR: en funciones con OUT usar RETURN sin valor
 END;
 $$;
 
@@ -403,8 +357,9 @@ VALUES ('Marta', 'Ríos', 'IngenieriaDeSistemas', 'Coordinador', 'marta@correo.c
 SELECT * FROM gtg.submit_formato(
     NULL,                                   -- NULL = nuevo formato
     (SELECT id FROM gtg.usuario WHERE correo='juan@correo.com'), -- estudiante1
-    (SELECT id FROM gtg.usuario WHERE correo='ana@correo.com'),  -- estudiante2
-    (SELECT id FROM gtg.usuario WHERE correo='juan@correo.com'), -- enviado_por (debe ser uno de los estudiantes)
+	NULL,
+    (SELECT id FROM gtg.usuario WHERE correo='carlos@correo.com'),  -- docente
+    (SELECT id FROM gtg.usuario WHERE correo='carlos@correo.com'), -- enviado_por (debe ser uno de los estudiantes)
     'Sistema de Gestión de TG',             -- título
     'Investigación',                        -- modalidad
     'Dr. López',                            -- director
@@ -420,9 +375,10 @@ SELECT * FROM gtg.submit_formato(
 SELECT * FROM gtg.submit_formato(
     (SELECT id FROM gtg.formato LIMIT 1),   -- formato ya existente
     (SELECT id FROM gtg.usuario WHERE correo='juan@correo.com'),
-    (SELECT id FROM gtg.usuario WHERE correo='ana@correo.com'),
-    (SELECT id FROM gtg.usuario WHERE correo='ana@correo.com'), -- ahora lo envía Ana
-    'Sistema de Gestión de TG - corregido',
+    NULL,
+    (SELECT id FROM gtg.usuario WHERE correo='carlos@correo.com'), 
+	(SELECT id FROM gtg.usuario WHERE correo='carlos@correo.com'), -- Lo reenvía docente
+    'Sistema de Gestión de TG - corregido3',
     'Investigación',
     'Dr. López',
     NULL,
@@ -433,28 +389,20 @@ SELECT * FROM gtg.submit_formato(
     '/uploads/formatoA_v2.pdf'
 );
 
--- Docente evalua formato
-SELECT * FROM gtg.add_evaluacion_docente(
+-- Coordinador evalua formato
+SELECT * FROM gtg.add_evaluacion_coordinador(
     (SELECT id FROM gtg.formato LIMIT 1),
     (SELECT id FROM gtg.formato_version ORDER BY version DESC LIMIT 1),
-    (SELECT id FROM gtg.usuario WHERE rol='Docente'),
+    (SELECT id FROM gtg.usuario WHERE rol='Coordinador'),
     'Correcciones',
     'El título no es claro'
 );
 
--- Aval coordinador
-SELECT * FROM gtg.add_aval_coordinador(
-    (SELECT id FROM gtg.evaluacion_docente LIMIT 1),
-    (SELECT id FROM gtg.usuario WHERE rol='Coordinador'),
-    TRUE,   -- aval positivo
-    'De acuerdo con el docente'
-);
 
 SELECT * FROM gtg.usuario;
 SELECT * FROM gtg.formato;
 SELECT * FROM gtg.formato_version;
 SELECT * FROM gtg.evaluacion_docente;
-SELECT * FROM gtg.aval_coordinador;
 
 -- ===============================================
 -- NOTAS:

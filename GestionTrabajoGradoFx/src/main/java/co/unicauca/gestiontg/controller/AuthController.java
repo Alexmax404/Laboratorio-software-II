@@ -23,18 +23,7 @@ public class AuthController extends Subject {
     }
     
     public boolean loginUser(String correo, String contrasenia) throws SQLException {
-        try {
-            boolean usuario = userService.login(correo, contrasenia);
-            if (usuario) {
-                SessionManager.getInstancia().setUsuarioActual(getUsuarioPorEstudianteCorreo(correo));
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            System.err.println("Error en login: " + e.getMessage());
-            return false;
-        }
-//        return userService.login(correo, contrasenia);
+        return userService.login(correo, contrasenia);
     }
     
     public Optional<String> getRolUsuario(String correo) throws SQLException {
