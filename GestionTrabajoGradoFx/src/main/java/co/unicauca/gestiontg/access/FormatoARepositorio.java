@@ -84,6 +84,28 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         return formatos;
     }
 
+    @Override
+    public boolean existsById(UUID formatoId) throws SQLException {
+        String sql = "SELECT 1 FROM gtg.formato WHERE id = ? LIMIT 1";
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setObject(1, formatoId, Types.OTHER);
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    @Override
+    public boolean existsVersionById(UUID formatoVersionId) throws SQLException {
+        String sql = "SELECT 1 FROM gtg.formato_version WHERE id = ? LIMIT 1";
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setObject(1, formatoVersionId, Types.OTHER);
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
     private FormatoA mapFormatoFromResultSet(ResultSet rs) throws SQLException {
         FormatoA formato = new FormatoA();
         formato.setId((UUID) rs.getObject("id"));
@@ -101,5 +123,4 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         formato.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         return formato;
     }
-
 }
