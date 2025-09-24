@@ -4,6 +4,7 @@ import co.unicauca.gestiontg.domain.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IUsuarioRepositorio {
 
@@ -14,4 +15,6 @@ public interface IUsuarioRepositorio {
     boolean existsByCorreo(String correo) throws SQLException;
 
     Optional<String> getRolByCorreo(String correo) throws SQLException;
+    
+    Optional<String> getRolById(UUID id) throws SQLException;
 }

@@ -2,6 +2,7 @@ package co.unicauca.gestiontg.access;
 
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,4 +34,8 @@ public interface IFormatoARepositorio {
     List<FormatoAVersion> findVersionsByFormatoId(UUID formatoId) throws Exception;
 
     List<FormatoA> findFormatosByEstudianteId(UUID estudianteId) throws Exception;
+
+    boolean existsById(UUID formatoId) throws SQLException;
+    
+    boolean existsVersionById(UUID formatoVersionId) throws SQLException;
 }
