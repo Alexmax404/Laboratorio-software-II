@@ -110,7 +110,7 @@ public class LoggedDocenteController {
     }
     @FXML
     public void switchToFormatoA() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfesorFormatoA1.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfesorFormatoA.fxml"));
         Parent root = loader.load();
 
         ProfesorFormatoAController formatoAController = loader.getController();
