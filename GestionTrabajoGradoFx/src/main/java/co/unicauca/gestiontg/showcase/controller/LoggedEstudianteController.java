@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.service.ServicioUsuario;
@@ -64,7 +64,7 @@ public class LoggedEstudianteController {
     
     @FXML
     public void switchToMainMenu() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
         Parent root = loader.load();
         
         MainMenuController mainController = loader.getController();

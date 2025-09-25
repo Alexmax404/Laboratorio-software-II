@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.EnumPrograma;
@@ -87,7 +87,7 @@ public class RegisterFrameController {
 
     @FXML
     private void EventSalir(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
         Parent root = loader.load();
 
         MainMenuController mainController = loader.getController();
@@ -204,7 +204,7 @@ public class RegisterFrameController {
         try {
             if (authController.registerUser(user)){
                 mostrarAlerta(null, "Cuenta registrada con exito.", Alert.AlertType.INFORMATION);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
                 Parent root = loader.load();
 
                 MainMenuController mainController = loader.getController();

@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
@@ -79,7 +79,7 @@ public class MainMenuController implements Observer {
                 if (rol.get().equals("Estudiante")) {
                     mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedEstudiante.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedEstudiante.fxml"));
                     Parent root = loader.load();
 
                     LoggedEstudianteController estudiante = loader.getController();
@@ -91,7 +91,7 @@ public class MainMenuController implements Observer {
                 } else {
                     mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Docente", Alert.AlertType.INFORMATION);
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedDocente.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
                     Parent root = loader.load();
 
                     LoggedDocenteController controller = loader.getController();
@@ -119,7 +119,7 @@ public class MainMenuController implements Observer {
 
     @FXML
     void switchToRegister(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterFrame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/RegisterFrame.fxml"));
         Parent root = loader.load();
 
         RegisterFrameController registerController = loader.getController();

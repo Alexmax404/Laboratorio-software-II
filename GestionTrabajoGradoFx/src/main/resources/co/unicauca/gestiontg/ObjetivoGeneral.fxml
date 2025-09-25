@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pnDatos1" onMouseClicked="#handleClickPane" prefHeight="325.0" prefWidth="605.0" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-color: #DDDDDD;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.unicauca.gestiontg.ObjetivoGeneralController">
+<Pane fx:id="pnDatos1" onMouseClicked="#handleClickPane" prefHeight="325.0" prefWidth="605.0" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-color: #DDDDDD;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.unicauca.gestiontg.showcase.controller.ObjetivoGeneralController">
    <children>
       <AnchorPane layoutX="118.0" layoutY="432.0" />
       <Label fx:id="lblTitulo" layoutX="23.0" layoutY="14.0" text="Objetivo General">

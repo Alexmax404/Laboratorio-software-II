@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +15,6 @@ public class ObjetivoGeneralController {
     public static void resetObjetivoGuardado() {
         objetivoGuardado = "";
     }
-
 
     @FXML
     private Button btnGuardar;

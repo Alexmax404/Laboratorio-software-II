@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
@@ -182,7 +182,7 @@ public class ProfesorFormatoAController {
 
                 try {
                     // 🔄 Volver a la ventana principal
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedDocente.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
                     Parent root = loader.load();
 
                     LoggedDocenteController docenteController = loader.getController();
@@ -207,7 +207,7 @@ public class ProfesorFormatoAController {
     @FXML
     void abrirObjetivoEspecifico(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ObjetivosEspecificos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ObjetivosEspecificos.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -232,7 +232,7 @@ public class ProfesorFormatoAController {
     @FXML
     void abrirObjetivoGeneral(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ObjetivoGeneral.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ObjetivoGeneral.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -257,7 +257,7 @@ public class ProfesorFormatoAController {
     @FXML
     void abrirSubirPDF(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CargarPDF.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/CargarPDF.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
