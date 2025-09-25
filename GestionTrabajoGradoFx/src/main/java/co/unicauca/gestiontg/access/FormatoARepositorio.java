@@ -22,8 +22,8 @@ import java.util.UUID;
 public class FormatoARepositorio implements IFormatoARepositorio {
 
     @Override
-    public SubmitResult submitFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, String modalidad, String director, String coDirector, Date fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) throws Exception {
-        String sql = "SELECT * FROM gtg.submit_formato(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public SubmitResult submitFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, String modalidad, String director, String coDirector, Date fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String archivoFormatoPath) throws Exception {
+        String sql = "SELECT * FROM gtg.submit_formato(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -39,8 +39,7 @@ public class FormatoARepositorio implements IFormatoARepositorio {
             stmt.setDate(10, fechaPresentacion);
             stmt.setString(11, objetivosGenerales);
             stmt.setString(12, objetivosEspecificos);
-            stmt.setString(13, cartaAceptacionPath);
-            stmt.setString(14, archivoFormatoPath);
+            stmt.setString(13, archivoFormatoPath);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {

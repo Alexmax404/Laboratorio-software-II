@@ -25,7 +25,6 @@ public interface IFormatoARepositorio {
             java.sql.Date fechaPresentacion,
             String objetivosGenerales,
             String objetivosEspecificos,
-            String cartaAceptacionPath,
             String archivoFormatoPath
     ) throws Exception;
 

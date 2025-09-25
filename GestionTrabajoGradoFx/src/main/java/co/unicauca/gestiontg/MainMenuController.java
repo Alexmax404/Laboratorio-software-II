@@ -1,7 +1,10 @@
 package co.unicauca.gestiontg;
 
+import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.infra.Observer;
+import co.unicauca.gestiontg.service.ServicioFormatoA;
 import co.unicauca.gestiontg.service.ServicioUsuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +56,7 @@ public class MainMenuController implements Observer {
 
     private AuthController authController;
 
-    public void setController(AuthController authController){
+    public void setController(AuthController authController) {
         this.authController = authController;
     }
 
@@ -75,7 +78,7 @@ public class MainMenuController implements Observer {
                 Optional<String> rol = authController.getRolUsuario(correo);
                 if (rol.get().equals("Estudiante")) {
                     mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
-                    
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedEstudiante.fxml"));
                     Parent root = loader.load();
 
@@ -91,8 +94,9 @@ public class MainMenuController implements Observer {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("loggedDocente.fxml"));
                     Parent root = loader.load();
 
-                    LoggedDocenteController docente = loader.getController();
-                    docente.setController(authController);
+                    LoggedDocenteController controller = loader.getController();
+                    controller.setController(authController);
+                    controller.setFormatoAController(new FormatoAController(new ServicioFormatoA(new FormatoARepositorio())));
 
                     Stage stage = (Stage) btnIngresar.getScene().getWindow();
                     stage.setScene(new Scene(root));

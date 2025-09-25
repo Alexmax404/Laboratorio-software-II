@@ -1,6 +1,7 @@
 package co.unicauca.gestiontg;
 
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
 import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -18,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class LoggedDocenteController {
-
 
     @FXML
     private Button btnGestionarFormatoA;
@@ -58,8 +58,14 @@ public class LoggedDocenteController {
 
     private AuthController authController;
 
+    private FormatoAController formatoAController;
+
     public void setController(AuthController authController) {
         this.authController = authController;
+    }
+
+    public void setFormatoAController(FormatoAController formatoAController) {
+        this.formatoAController = formatoAController;
     }
 
     @FXML
@@ -108,18 +114,21 @@ public class LoggedDocenteController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     @FXML
     public void switchToFormatoA() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfesorFormatoA.fxml"));
         Parent root = loader.load();
 
-        ProfesorFormatoAController formatoAController = loader.getController();
-        formatoAController.setController(authController);
+        ProfesorFormatoAController controller = loader.getController();
+        controller.setController(authController);
+        controller.setFormatoAController(formatoAController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     @FXML
     public void initialize() {
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);

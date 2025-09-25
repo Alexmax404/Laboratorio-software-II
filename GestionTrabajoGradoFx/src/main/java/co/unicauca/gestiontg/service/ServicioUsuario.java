@@ -11,6 +11,8 @@ public class ServicioUsuario extends Subject {
 
     private final IUsuarioRepositorio userRepository;
 
+    private Usuario usuarioLogueado;
+
     public ServicioUsuario(IUsuarioRepositorio userRepository) {
         this.userRepository = userRepository;
     }
@@ -61,17 +63,24 @@ public class ServicioUsuario extends Subject {
         Optional<Usuario> optUser = userRepository.findByCorreo(correo);
         if (optUser.isPresent()) {
             Usuario user = optUser.get();
-            return BCrypt.checkpw(contrasenia, user.getContrasenia());
+            if (BCrypt.checkpw(contrasenia, user.getContrasenia())) {
+                usuarioLogueado = user; 
+                return true;
+            }
         }
         return false;
     }
-    
+
     public Optional<String> obtenerRolUsuario(String correo) throws SQLException {
         return userRepository.getRolByCorreo(correo);
     }
-    
+
     public Optional<Usuario> obtenerUsuarioPorEstudianteCorreo(String correo) throws SQLException {
-    return userRepository.findByCorreo(correo);
-}
+        return userRepository.findByCorreo(correo);
+    }
+
+    public Usuario getUsuarioLogueado() {
+        return usuarioLogueado;
+    }
 
 }
