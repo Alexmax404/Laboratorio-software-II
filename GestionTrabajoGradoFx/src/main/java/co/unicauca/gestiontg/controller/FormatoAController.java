@@ -19,7 +19,7 @@ public class FormatoAController {
         this.servicio = servicio;
     }
 
-    public String crearOReenviarFormato(String formatoIdStr, String estudianteId1Str, String estudianteId2Str, String docenteIdStr, String enviadoPorStr, String titulo, String modalidadStr, String director, String coDirector, String fechaPresentacionStr, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) {
+    public String crearOReenviarFormato(String formatoIdStr, String estudianteId1Str, String estudianteId2Str, String docenteIdStr, String enviadoPorStr, String titulo, String modalidadStr, String director, String coDirector, String fechaPresentacionStr, String objetivosGenerales, String objetivosEspecificos, String archivoFormatoPath) {
         try {
             UUID formatoId = formatoIdStr != null && !formatoIdStr.isEmpty() ? UUID.fromString(formatoIdStr) : null;
             UUID estudianteId1 = UUID.fromString(estudianteId1Str);
@@ -42,7 +42,6 @@ public class FormatoAController {
                     fechaPresentacion,
                     objetivosGenerales,
                     objetivosEspecificos,
-                    cartaAceptacionPath,
                     archivoFormatoPath
             );
             return "Éxito. Formato ID: " + result.getFormatoId() + ", Versión: " + result.getVersion();

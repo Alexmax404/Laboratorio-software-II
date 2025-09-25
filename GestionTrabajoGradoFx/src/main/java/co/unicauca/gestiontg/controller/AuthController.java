@@ -11,33 +11,33 @@ import java.util.Optional;
  * @author kthn1
  */
 public class AuthController extends Subject {
-    
+
     private final ServicioUsuario userService;
-    
+
     public AuthController(ServicioUsuario userService) {
         this.userService = userService;
     }
-    
+
     public boolean registerUser(Usuario usuario) throws SQLException {
         return userService.register(usuario);
     }
-    
+
     public boolean loginUser(String correo, String contrasenia) throws SQLException {
         return userService.login(correo, contrasenia);
     }
-    
+
     public Optional<String> getRolUsuario(String correo) throws SQLException {
         return userService.obtenerRolUsuario(correo);
     }
-    
+
     public String validarCorreoInstitucional(String correo) {
         return userService.validarCorreoInstitucional(correo);
     }
-    
+
     public String validarContrasenia(String contrasenia) {
         return userService.validarContrasenia(contrasenia);
     }
-    
+
     public Usuario getUsuarioPorEstudianteCorreo(String correo) {
         try {
             return userService.obtenerUsuarioPorEstudianteCorreo(correo)
@@ -47,5 +47,8 @@ public class AuthController extends Subject {
             return null;
         }
     }
-    
+
+    public Usuario getUsuarioLogueado() {
+        return userService.getUsuarioLogueado();
+    }
 }

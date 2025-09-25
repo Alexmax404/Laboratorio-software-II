@@ -20,7 +20,7 @@ public class ServicioFormatoA {
         this.formatoRepo = formatoRepo;
     }
 
-    public SubmitResult crearOReenviarFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String cartaAceptacionPath, String archivoFormatoPath) throws Exception {
+    public SubmitResult crearOReenviarFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String archivoFormatoPath) throws Exception {
         validarCamposObligatorios(titulo, director, fechaPresentacion, objetivosGenerales, objetivosEspecificos, archivoFormatoPath);
         try {
             return formatoRepo.submitFormato(
@@ -36,7 +36,6 @@ public class ServicioFormatoA {
                     java.sql.Date.valueOf(fechaPresentacion),
                     objetivosGenerales,
                     objetivosEspecificos,
-                    cartaAceptacionPath,
                     archivoFormatoPath
             );
         } catch (Exception e) {

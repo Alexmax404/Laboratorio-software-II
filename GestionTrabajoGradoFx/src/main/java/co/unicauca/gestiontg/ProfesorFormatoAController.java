@@ -1,6 +1,8 @@
 package co.unicauca.gestiontg;
 
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
+import co.unicauca.gestiontg.domain.EnumModalidad;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,12 +34,12 @@ public class ProfesorFormatoAController {
 
     @FXML
     private Button btnObjetivoEspecifico;
-    
+
     @FXML
     private Button btnObjetivoGeneral;
 
     @FXML
-    private ComboBox<String> cbxModalidad;
+    private ComboBox<EnumModalidad> cbxModalidad;
 
     @FXML
     private ImageView fadingImage;
@@ -98,9 +100,67 @@ public class ProfesorFormatoAController {
 
     @FXML
     void handleClickPane(MouseEvent event) {
-         pnDatos1.requestFocus();
+        pnDatos1.requestFocus();
     }
-    
+
+    private FormatoAController formatoAController;
+
+    public void setFormatoAController(FormatoAController formatoAController) {
+        this.formatoAController = formatoAController;
+    }
+
+    @FXML
+    void guardarFormatoA(ActionEvent event) {
+        try {
+            if (formatoAController == null || authController == null) {
+                mostrarAlerta("Error", "No hay controlador de autenticación o formato configurado.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Datos del docente autenticado
+            String docenteId = authController.getUsuarioLogueado().getId().toString();
+
+            // Datos del formulario
+            String estudianteId1 = txtCodigoEst1.getText();
+            String estudianteId2 = txtCodigoEst2.getText().isEmpty() ? null : txtCodigoEst2.getText();
+            String titulo = txtTituloProyecto.getText();
+            String modalidad = cbxModalidad.getValue().name();
+            String director = txtDirectorProyecto.getText();
+            String coDirector = txtCoodirectorProyecto.getText();
+            String fechaPresentacion = txtFecha.getText();
+
+            // Objetivos guardados en ventanas modales
+            String objetivoGeneral = ObjetivoGeneralController.getObjetivosGuardados();
+            String objetivosEspecificos = ObjetivosEspecificosController.getObjetivosGuardados();
+
+            // ?Archivos PDF cargados
+            String archivoFormatoPath = "src/main/resources/pdfs";
+
+            // ⚡ Llamada al caso de uso (application controller)
+            String resultado = formatoAController.crearOReenviarFormato(
+                    null, // es un nuevo formato
+                    estudianteId1,
+                    estudianteId2,
+                    docenteId,
+                    docenteId, // enviadoPor = docente
+                    titulo,
+                    modalidad,
+                    director,
+                    coDirector,
+                    fechaPresentacion,
+                    objetivoGeneral,
+                    objetivosEspecificos,
+                    archivoFormatoPath
+            );
+
+            mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
+
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void EventSalir(ActionEvent event) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -138,15 +198,12 @@ public class ProfesorFormatoAController {
         });
     }
 
-
-
-
     private AuthController authController;
 
     public void setController(AuthController authController) {
         this.authController = authController;
     }
-    
+
     @FXML
     void abrirObjetivoEspecifico(ActionEvent event) {
         try {
@@ -174,7 +231,7 @@ public class ProfesorFormatoAController {
 
     @FXML
     void abrirObjetivoGeneral(ActionEvent event) {
-                try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ObjetivoGeneral.fxml"));
             Parent root = loader.load();
 
@@ -196,9 +253,10 @@ public class ProfesorFormatoAController {
             e.printStackTrace();
         }
     }
-        @FXML
+
+    @FXML
     void abrirSubirPDF(ActionEvent event) {
-                try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CargarPDF.fxml"));
             Parent root = loader.load();
 
@@ -220,15 +278,22 @@ public class ProfesorFormatoAController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void initialize() {
         cbxModalidad.getItems().addAll(
-                "Trabajo de investigacion",
-                "Practica profesional"
+                EnumModalidad.TRABAJO_DE_INVESTIGACION,
+                EnumModalidad.PRACTICA_PROFESIONAL
         );
         cbxModalidad.setPromptText("Seleccione una opción");
 
-
     }
 
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
 }
