@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg;
 
+import co.unicauca.gestiontg.showcase.controller.MainMenuController;
 import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.access.UsuarioRepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
@@ -17,9 +18,6 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    //LuFerpas@unicauca.edu.co
-    //pr@unicauca.edu.co
-    //Nico020903.
 
     @Override
     public void start(Stage stage) throws IOException {

@@ -34,43 +34,42 @@ public class AppPruebas {
         UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
         UUID docenteId = UUID.fromString("2b0fedf3-3942-44a4-93b8-9bb7577f73a8");
         UUID enviadoPor = docenteId;
-        // Primer envío (creación)
-        String result1 = controller.crearOReenviarFormato(
-                null,
-                estudianteId1.toString(),
-                null,
-                docenteId.toString(),
-                enviadoPor.toString(),
-                "Sistema de Gestión de TG",
-                "TRABAJO_DE_INVESTIGACION",
-                "Dr. López",
-                null,
-                "2025-09-20",
-                "Objetivo general del proyecto",
-                "Objetivo específico 1; Objetivo 2",
-                "/uploads/formatoA_v1.pdf"
-        );
-        System.out.println("Resultado primer envío: " + result1);
+//        // Primer envío (creación)
+//        String result1 = controller.crearOReenviarFormato(
+//                null,
+//                estudianteId1.toString(),
+//                null,
+//                docenteId.toString(),
+//                enviadoPor.toString(),
+//                "Sistema de Gestión de TG",
+//                "TRABAJO_DE_INVESTIGACION",
+//                "Dr. López",
+//                null,
+//                "2025-09-20",
+//                "Objetivo general del proyecto",
+//                "Objetivo específico 1; Objetivo 2",
+//                "/uploads/formatoA_v1.pdf"
+//        );
+//        System.out.println("Resultado primer envío: " + result1);
         // Reenvío (corrección) - Extraer formatoId de result1 para pruebas reales
         // Ejemplo: supongamos que el formatoId es "33333333-3333-3333-3333-333333333333"
-//        String formatoId = "6bd90dcc-993b-4285-8e5f-0b3d2b86d695"; 
-//        String result2 = controller.crearOReenviarFormato(
-//            formatoId,
-//            estudianteId1.toString(),
-//            estudianteId2.toString(),
-//            docenteId.toString(),
-//            enviadoPor.toString(),
-//            "Sistema de Gestión de TG - Corregido2",
-//            "TRABAJO_DE_INVESTIGACION",
-//            "Dr. López",
-//            null,
-//            "2025-09-25",
-//            "Objetivo general actualizado",
-//            "Objetivo específico 1 actualizado",
-//            null,
-//            "/uploads/formatoA_v2.pdf"
-//        );
-//        System.out.println("Resultado reenvío: " + result2);
+        String formatoId = "6bd90dcc-993b-4285-8e5f-0b3d2b86d695"; 
+        String result2 = controller.crearOReenviarFormato(
+            formatoId,
+            estudianteId1.toString(),
+            estudianteId2.toString(),
+            docenteId.toString(),
+            enviadoPor.toString(),
+            "Sistema de Gestión de TG - Corregido2",
+            "TRABAJO_DE_INVESTIGACION",
+            "Dr. López",
+            null,
+            "2025-09-25",
+            "Objetivo general actualizado",
+            "Objetivo específico 1 actualizado",
+            "/uploads/formatoA_v2.pdf"
+        );
+        System.out.println("Resultado reenvío: " + result2);
 
 //        IFormatoARepositorio formatoRepo = new FormatoARepositorio();
 //        IEvaluacionCoordinadorRepositorio evalRepo = new EvaluacionCoordinadorRepositorio();

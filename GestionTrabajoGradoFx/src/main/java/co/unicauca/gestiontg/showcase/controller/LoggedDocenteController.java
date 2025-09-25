@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
@@ -104,7 +104,7 @@ public class LoggedDocenteController {
 
     @FXML
     public void switchToMainMenu() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
         Parent root = loader.load();
 
         MainMenuController mainController = loader.getController();
@@ -117,7 +117,7 @@ public class LoggedDocenteController {
 
     @FXML
     public void switchToFormatoA() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfesorFormatoA.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ProfesorFormatoA.fxml"));
         Parent root = loader.load();
 
         ProfesorFormatoAController controller = loader.getController();
