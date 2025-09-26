@@ -84,7 +84,7 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtCodigoEst1" layoutX="440.0" layoutY="299.0" prefHeight="51.0" prefWidth="351.0" promptText="Codigo del estudiante" style="-fx-background-radius: 20;">
+                  <TextField fx:id="txtCorreoEst1" layoutX="440.0" layoutY="299.0" prefHeight="51.0" prefWidth="351.0" promptText="Correo del estudiante" style="-fx-background-radius: 20;">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
@@ -113,7 +113,7 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtCodigoEst2" layoutX="440.0" layoutY="449.0" prefHeight="51.0" prefWidth="351.0" promptText="Codigo del estudiante" style="-fx-background-radius: 20;">
+                  <TextField fx:id="txtCorreoEst2" layoutX="440.0" layoutY="449.0" prefHeight="51.0" prefWidth="351.0" promptText="Correo del estudiante" style="-fx-background-radius: 20;">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>

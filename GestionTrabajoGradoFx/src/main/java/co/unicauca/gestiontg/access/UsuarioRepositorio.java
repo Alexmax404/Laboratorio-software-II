@@ -16,7 +16,6 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
     public UsuarioRepositorio() {
     }
 
-    // Nuevooo -------------------------------------------------------------------------------------------------------------------
     @Override
     public void save(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO gtg.usuario (nombres, apellidos, celular, programa, rol, correo, contrasenia) "

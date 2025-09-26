@@ -5,7 +5,7 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.infra.Observer;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
-import co.unicauca.gestiontg.service.ServicioUsuario;
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -77,7 +77,7 @@ public class MainMenuController implements Observer {
             if (validar) {
                 Optional<String> rol = authController.getRolUsuario(correo);
                 if (rol.get().equals("Estudiante")) {
-                    mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
+                    AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedEstudiante.fxml"));
                     Parent root = loader.load();
@@ -89,7 +89,7 @@ public class MainMenuController implements Observer {
                     stage.setScene(new Scene(root));
                     stage.show();
                 } else {
-                    mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Docente", Alert.AlertType.INFORMATION);
+                    AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Docente", Alert.AlertType.INFORMATION);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
                     Parent root = loader.load();
@@ -103,7 +103,7 @@ public class MainMenuController implements Observer {
                     stage.show();
                 }
             } else {
-                mostrarAlerta("Ingreso Incorrecto", "Correo o contraseña incorrectos", Alert.AlertType.WARNING);
+                AlertUtil.mostrarAlerta("Ingreso Incorrecto", "Correo o contraseña incorrectos", Alert.AlertType.WARNING);
                 txtCorreo.setText("");
                 txtContraseña.setText("");
             }
@@ -132,53 +132,18 @@ public class MainMenuController implements Observer {
     private boolean espaciosVacios() {
 
         if (txtCorreo.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio", "Ingrese un correo", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese un correo", Alert.AlertType.WARNING);
             return true;
         }
         if (txtContraseña.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio", "Ingrese la contraseña", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese la contraseña", Alert.AlertType.WARNING);
             return true;
         }
         return false;
     }
 
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        Alert alerta = new Alert(tipo);
-
-        // Cambiar título e ícono de ventana
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-
-        // Crear un Label personalizado para el mensaje
-        Label etiqueta = new Label(mensaje);
-        etiqueta.setWrapText(true);
-        etiqueta.setStyle("-fx-font-Tebuchet MS: 14px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #2c3e50;");
-
-        // Meter el Label en un contenedor para darle padding
-        VBox contenedor = new VBox(etiqueta);
-        contenedor.setSpacing(10);
-        contenedor.setPadding(new Insets(10));
-
-        alerta.getDialogPane().setContent(contenedor);
-
-        // Aplicar estilo al cuadro de diálogo completo
-        alerta.getDialogPane().setStyle(
-                "-fx-background-color: #f9f9f9; "
-                + "-fx-border-color: #ABBEF6; "
-                + "-fx-border-width: 1px; "
-                + "-fx-border-radius: 5px; "
-                + "-fx-background-radius: 5px;"
-        );
-
-        // Cambiar estilo de los botones
-        alerta.getDialogPane().lookupButton(ButtonType.OK)
-                .setStyle("-fx-background-color: #1E2C9E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7px;");
-
-        alerta.showAndWait();
-    }
-
     @Override
     public void update(Object o) {
-        mostrarAlerta("Notificacion", "Usuario registrado", Alert.AlertType.INFORMATION);
+        AlertUtil.mostrarAlerta("Notificacion", "Usuario registrado", Alert.AlertType.INFORMATION);
     }
 }

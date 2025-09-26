@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg.access;
 
+import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.config.DatabaseConfig;
 import co.unicauca.gestiontg.domain.EnumEstadoFormato;
 import co.unicauca.gestiontg.domain.EnumModalidad;

@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg.access;
 
+import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
 import java.sql.SQLException;

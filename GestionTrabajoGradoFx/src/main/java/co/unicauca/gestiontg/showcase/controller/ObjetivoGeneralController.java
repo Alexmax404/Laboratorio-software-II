@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg.showcase.controller;
 
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -43,23 +44,14 @@ public class ObjetivoGeneralController {
 
         if (texto.isEmpty()) {
             //️ Mostrar alerta si está vacío
-            Alert alertaVacio = new Alert(Alert.AlertType.WARNING);
-            alertaVacio.setTitle("Advertencia");
-            alertaVacio.setHeaderText("Campo vacío");
-            alertaVacio.setContentText("Debe escribir al menos un objetivo antes de guardar.");
-            alertaVacio.showAndWait();
-            return;
+            AlertUtil.mostrarAlerta("Campo vacío", "Debe escribir al menos un objetivo antes de guardar.", Alert.AlertType.WARNING);
         }
 
         // Guardar el texto
         objetivoGuardado = texto;
 
         // Alerta de confirmación
-        Alert alertaGuardado = new Alert(Alert.AlertType.INFORMATION);
-        alertaGuardado.setTitle("Éxito");
-        alertaGuardado.setHeaderText("Cambios guardados");
-        alertaGuardado.setContentText("Los objetivos han sido guardados correctamente.");
-        alertaGuardado.showAndWait();
+        AlertUtil.mostrarAlerta("Cambios guardados", "Los objetivos han sido guardados correctamente.", Alert.AlertType.INFORMATION);
 
         // Cerrar la ventana
         Stage stage = (Stage) btnGuardar.getScene().getWindow();
