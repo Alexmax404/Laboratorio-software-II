@@ -2,9 +2,11 @@ package co.unicauca.gestiontg.controller;
 
 import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.domain.FormatoAVersion;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -49,14 +51,22 @@ public class FormatoAController {
             return "Error inesperado: " + e.getMessage();
         }
     }
-    
+
     public List<FormatoA> listarFormatosDeEstudiante(String estudianteIdStr) {
         try {
             UUID estudianteId = UUID.fromString(estudianteIdStr);
             return servicio.obtenerFormatosPorEstudiante(estudianteId);
         } catch (Exception e) {
             System.err.println("Error de negocio: " + e.getMessage());
-            return List.of(); // Devuelve lista vacía en caso de error
-        } 
+            return List.of(); 
+        }
+    }
+
+    public List<FormatoA> listarFormatos() {
+        return servicio.listarFormatos();
+    }
+
+    public Optional<FormatoAVersion> verDetalleFormato(UUID formatoId) {
+        return servicio.obtenerDetalles(formatoId);
     }
 }

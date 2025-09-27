@@ -47,6 +47,14 @@ public class ServicioUsuario extends Subject {
         return mensaje.isEmpty() ? "OK" : mensaje;
     }
 
+    public String validarUsuarioPorCorreo(String correo) throws SQLException {
+        userRepository.findByCorreo(correo);
+        if (userRepository.findByCorreo(correo).isEmpty()){
+            return "El correo del usuario no existe.";
+        } 
+        return "OK";
+    }
+
     // Nuevoooo
     public boolean register(Usuario usuario) throws SQLException {
         // Encriptar y guardar
@@ -64,7 +72,7 @@ public class ServicioUsuario extends Subject {
         if (optUser.isPresent()) {
             Usuario user = optUser.get();
             if (BCrypt.checkpw(contrasenia, user.getContrasenia())) {
-                usuarioLogueado = user; 
+                usuarioLogueado = user;
                 return true;
             }
         }

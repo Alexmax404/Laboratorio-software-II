@@ -118,14 +118,14 @@ public class ProfesorFormatoAController {
                 return;
             }
 
-            String resultadoVal1 = authController.validarCorreoInstitucional(txtCorreoEst1.getText());
+            String resultadoVal1 = authController.validarUsuarioPorCorreo(txtCorreoEst1.getText());
             if (!"OK".equals(resultadoVal1)) {
                 AlertUtil.mostrarAlerta("Error", resultadoVal1, Alert.AlertType.ERROR);
                 return;
             }
 
             if (!txtCorreoEst2.getText().isEmpty()) {
-                String resultadoVal2 = authController.validarCorreoInstitucional(txtCorreoEst2.getText());
+                String resultadoVal2 = authController.validarUsuarioPorCorreo(txtCorreoEst2.getText());
                 if (!"OK".equals(resultadoVal2)) {
                     AlertUtil.mostrarAlerta("Error", resultadoVal2, Alert.AlertType.ERROR);
                     return;

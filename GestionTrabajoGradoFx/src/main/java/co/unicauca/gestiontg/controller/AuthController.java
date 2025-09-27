@@ -38,6 +38,10 @@ public class AuthController extends Subject {
         return userService.validarContrasenia(contrasenia);
     }
 
+    public String validarUsuarioPorCorreo(String correo) throws SQLException {
+        return userService.validarUsuarioPorCorreo(correo);
+    }
+
     public Usuario getUsuarioPorEstudianteCorreo(String correo) {
         try {
             return userService.obtenerUsuarioPorEstudianteCorreo(correo)
