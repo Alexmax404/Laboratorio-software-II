@@ -110,7 +110,7 @@ public class AppPruebas {
 //            System.out.println(ver.get().getObjetivosGenerales());
 //        }
         
-        List<FormatoA> formatos = controller.listarFormatosByUsuario("d1097940-66de-4160-937d-dea6f9d6ea17");
+        List<FormatoA> formatos = controller.listarFormatosByUsuario("cfac71a5-2ec2-480f-a3d7-61af9d13c13d");
         for (int i = 0; i < formatos.size(); i++){
             System.out.println(formatos.get(i).getDocenteId());
         }

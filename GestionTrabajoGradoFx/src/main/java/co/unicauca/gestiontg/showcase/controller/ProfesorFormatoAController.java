@@ -220,18 +220,18 @@ public class ProfesorFormatoAController {
 
         confirmacion.showAndWait().ifPresent(respuesta -> {
             if (respuesta == btnSi) {
-                // 🔄 Resetear todos los datos
+                // 🔄 Resetear datos temporales
                 ObjetivoGeneralController.resetObjetivoGuardado();
                 ObjetivosEspecificosController.resetObjetivosGuardados();
                 CargarPDFController.resetPDF();
 
                 try {
-                    // 🔄 Volver a la ventana principal
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
                     Parent root = loader.load();
 
                     LoggedDocenteController docenteController = loader.getController();
                     docenteController.setController(authController);
+                    docenteController.setFormatoAController(formatoAController); // 👈 pasar también FormatoAController
 
                     Stage stage = (Stage) btnExit.getScene().getWindow();
                     stage.setScene(new Scene(root));
@@ -242,6 +242,7 @@ public class ProfesorFormatoAController {
             }
         });
     }
+
 
     private AuthController authController;
 
