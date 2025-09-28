@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 
 public class ElegirFormatoController {
@@ -30,7 +31,7 @@ public class ElegirFormatoController {
 
     @FXML
     private TableView<FormatoA> tbFormatos;
-
+    
     @FXML
     private TableColumn<FormatoA, String> colTitulo;
 
@@ -53,15 +54,30 @@ public class ElegirFormatoController {
                 authController.getUsuarioLogueado().getId().toString()
         );
 
-        // Debug en consola
-        System.out.println("Usuario logueado: " + authController.getUsuarioLogueado().getId());
-        for (FormatoA f : formatos) {
-            System.out.println("Formato docenteId: " + f.getDocenteId());
-        }
+
 
         // 👉 refrescar la tabla
         data.setAll(formatos);
     }
+    @FXML
+    public void switchToEditarFormatoA(FormatoA seleccionado) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/EditarFormatoA.fxml"));
+        Parent root = loader.load();
+
+        EditarFormatoAController editarController = loader.getController();
+        editarController.setAuthController(authController);
+        editarController.setFormatoAController(formatoAController);
+
+        // 👉 Aquí pasamos el FormatoA seleccionado
+        editarController.setFormatoA(seleccionado);
+
+        Stage stage = (Stage) btnExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+
+
 
     @FXML
     private void initialize() {
@@ -76,13 +92,17 @@ public class ElegirFormatoController {
         tbFormatos.setRowFactory(tv -> {
             TableRow<FormatoA> row = new TableRow<>();
 
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty()) {
-                    FormatoA seleccionado = row.getItem();
-                    System.out.println("Seleccionado: " + seleccionado.getId() +
-                            " - " + seleccionado.getTitulo());
+        row.setOnMouseClicked(event -> {
+            if (!row.isEmpty() && event.getClickCount() == 2) { // doble clic, opcional
+                FormatoA seleccionado = row.getItem();
+                try {
+                    switchToEditarFormatoA(seleccionado);
+                } catch (IOException | SQLException e) {
+                    e.printStackTrace();
                 }
-            });
+            }
+        });
+
 
             row.setOnMousePressed(event -> {
                 if (!row.isEmpty()) {

@@ -90,7 +90,7 @@
                      </graphic>
                   </Button>
                   <Label layoutX="281.0" layoutY="106.0" text="Ver estado de&#10;Formato A&#10;&#10;&#10;" textAlignment="CENTER" />
-                  <Button fx:id="btnEditarFormatoA" layoutX="157.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToEditarFormatoA" onMousePressed="#handlePress" onMouseReleased="#handleRelease" prefHeight="82.0" prefWidth="82.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: transparent; -fx-cursor: hand;">
+                  <Button fx:id="btnEditarFormatoA" layoutX="157.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToVerFormatosA" onMousePressed="#handlePress" onMouseReleased="#handleRelease" prefHeight="82.0" prefWidth="82.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: transparent; -fx-cursor: hand;">
                      <font>
                         <Font name="Yu Gothic Regular" size="19.0" />
                      </font>

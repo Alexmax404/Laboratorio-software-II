@@ -142,7 +142,7 @@ public class LoggedDocenteController {
         stage.show();
     }
     @FXML
-    public void switchToEditarFormatoA() throws IOException, SQLException {
+    public void switchToVerFormatosA() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
         Parent root = loader.load();
 
