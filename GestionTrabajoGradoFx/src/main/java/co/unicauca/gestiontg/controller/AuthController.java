@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @author kthn1
  */
-public class AuthController{
+public class AuthController {
 
     private final ServicioUsuario userService;
 
@@ -24,6 +24,10 @@ public class AuthController{
 
     public boolean loginUser(String correo, String contrasenia) throws SQLException {
         return userService.login(correo, contrasenia);
+    }
+
+    public void logout() {
+        userService.logout();
     }
 
     public Optional<String> getRolUsuario(String correo) throws SQLException {
@@ -51,7 +55,7 @@ public class AuthController{
             return null;
         }
     }
-    
+
     public Subject getEventPublisher() {
         return userService.getEventPublisher();
     }

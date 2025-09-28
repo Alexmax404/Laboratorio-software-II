@@ -87,6 +87,16 @@ public class ServicioUsuario {
         return false;
     }
 
+    public void logout() {
+        if (usuarioLogueado != null) {
+            String correo = usuarioLogueado.getCorreo();
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGOUT, correo));
+            usuarioLogueado = null;
+        } else {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGOUT, null));
+        }
+    }
+
     public Subject getEventPublisher() {
         return eventPublisher;
     }
@@ -102,6 +112,5 @@ public class ServicioUsuario {
     public Usuario getUsuarioLogueado() {
         return usuarioLogueado;
     }
-
 
 }

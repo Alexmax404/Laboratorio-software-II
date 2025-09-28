@@ -28,10 +28,10 @@ public class ObjetivoGeneralController {
 
     @FXML
     private TextArea txtObjetivos;
-    
+
     // Variable estática para guardar el texto entre aperturas
     private static String objetivoGuardado = "";
-    
+
     @FXML
     public void initialize() {
         // Cargar el texto previo si existe
@@ -57,7 +57,8 @@ public class ObjetivoGeneralController {
         Stage stage = (Stage) btnGuardar.getScene().getWindow();
         stage.close();
     }
-        public static String getObjetivosGuardados() {
+
+    public static String getObjetivosGuardados() {
         return objetivoGuardado;
     }
 

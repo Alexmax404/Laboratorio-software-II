@@ -6,7 +6,6 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.events.DomainEvent;
-import co.unicauca.gestiontg.events.EnumEventType;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.infra.Observer;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
@@ -87,7 +86,10 @@ public class MainMenuController implements Observer {
         if (validar) {
             Optional<String> rol = authController.getRolUsuario(correo);
             if (rol.get().equals("Estudiante")) {
-                router.goToStudentModule(authController);
+                FormatoAController formatoCtrl = (formatoFactory != null)
+                        ? formatoFactory.create()
+                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
+                router.goToStudentModule(authController, formatoCtrl);
             } else if (rol.get().equals("Docente")) {
                 FormatoAController formatoCtrl = (formatoFactory != null)
                         ? formatoFactory.create()
@@ -153,6 +155,9 @@ public class MainMenuController implements Observer {
                 break;
             case LOGIN_EXITOSO:
                 AlertUtil.mostrarAlerta("Bienvenido", "Ingreso exitoso", Alert.AlertType.INFORMATION);
+                break;
+            case LOGOUT:
+                AlertUtil.mostrarAlerta("Despedida", "Salida exitosa", Alert.AlertType.INFORMATION);
                 break;
             default:
                 throw new AssertionError();

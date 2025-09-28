@@ -1,8 +1,9 @@
 package co.unicauca.gestiontg.showcase.router;
 
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import java.io.IOException;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -11,15 +12,21 @@ import javafx.stage.Stage;
  */
 public interface SceneRouter {
 
-    void goToStudentModule(AuthController authController) throws IOException;
+    void goToStudentModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException;
 
     void goToTeacherModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException;
 
     void goToCoordinadorModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException;
 
     void goToRegister(AuthController authController) throws IOException;
-    
-    void goToCoordinadorModule(AuthController authController, Button btnIngresar) throws IOException;
-    
+
+    void goToMainMenu(AuthController authController, FormatoAControllerFactory formatoFactory);
+
+    void goToProfesorFormatoA(AuthController authController, FormatoAController formatoCtrl);
+
+    void goToElegirFormato(AuthController authController, FormatoAController formatoCtrl);
+
+    void goToListaDeEstados(AuthController authController, FormatoAController formatoCtrl);
+
     Stage getPrimaryStage();
 }

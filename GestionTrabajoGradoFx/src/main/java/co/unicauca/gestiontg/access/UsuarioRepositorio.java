@@ -37,7 +37,16 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             stmt.setString(1, correo);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(UsuarioFactory.fromResultSet(rs));
+                    Usuario u = new Usuario(); 
+                    u.setId((java.util.UUID) rs.getObject("id")); 
+                    u.setNombres(rs.getString("nombres")); 
+                    u.setApellidos(rs.getString("apellidos")); 
+                    u.setCelular(rs.getString("celular")); 
+                    u.setPrograma(EnumPrograma.valueOf(rs.getString("programa"))); 
+                    u.setRol(EnumRol.valueOf(rs.getString("rol"))); 
+                    u.setCorreo(rs.getString("correo")); 
+                    u.setContrasenia(rs.getString("contrasenia")); 
+                    return Optional.of(u);
                 }
             }
         }
