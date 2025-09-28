@@ -29,7 +29,7 @@ public class ObjetivosEspecificosController {
         // Cargar el texto previo si existe
         txtObjetivos.setText(objetivosGuardados);
     }
-    
+
     @FXML
     void btnGuardarClick(ActionEvent event) {
         String texto = txtObjetivos.getText().trim();
@@ -54,7 +54,8 @@ public class ObjetivosEspecificosController {
     public static String getObjetivosGuardados() {
         return objetivosGuardados;
     }
-        @FXML
+
+    @FXML
     void handleClickPane(MouseEvent event) {
 
     }

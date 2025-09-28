@@ -38,7 +38,7 @@ public class ElegirFormatoController {
     private AuthController authController;
     private FormatoAController formatoAController;
 
-    // 👉 Lista observable para refrescar automáticamente la tabla
+    // Lista observable para refrescar automáticamente la tabla
     private ObservableList<FormatoA> data = FXCollections.observableArrayList();
     
 

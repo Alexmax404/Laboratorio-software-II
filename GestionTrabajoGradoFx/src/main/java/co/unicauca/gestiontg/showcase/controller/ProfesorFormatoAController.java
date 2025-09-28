@@ -3,6 +3,8 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.EnumModalidad;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
+import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -43,7 +45,7 @@ public class ProfesorFormatoAController {
 
     @FXML
     private ComboBox<EnumModalidad> cbxModalidad;
-    
+
     @FXML
     private DatePicker datePicker;
 
@@ -109,12 +111,25 @@ public class ProfesorFormatoAController {
         pnDatos1.requestFocus();
     }
     private boolean modoEdicion = false;
-    
+
     private FormatoAController formatoAController;
+
+    private FormatoAControllerFactory formatoFactory;
+
+    private SceneRouter router;
 
     public void setFormatoAController(FormatoAController formatoAController) {
         this.formatoAController = formatoAController;
     }
+
+    public void setFormatoFactory(FormatoAControllerFactory factory) {
+        this.formatoFactory = factory;
+    }
+
+    public void setRouter(SceneRouter router) {
+        this.router = router;
+    }
+
     public void setModoEdicion(boolean modoEdicion) {
         this.modoEdicion = modoEdicion;
         if (modoEdicion) {
@@ -132,6 +147,7 @@ public class ProfesorFormatoAController {
         datePicker.setDisable(true);
         txtCoodirectorProyecto.setDisable(true);
     }
+
     @FXML
     void guardarFormatoA(ActionEvent event) {
         try {
@@ -159,11 +175,11 @@ public class ProfesorFormatoAController {
 
             // Datos de los estudiantes
             String estudianteId1 = authController.getUsuarioPorEstudianteCorreo(txtCorreoEst1.getText()).getId().toString();
-            
+
             String estudianteId2;
-            if (!txtCorreoEst2.getText().isEmpty()){
+            if (!txtCorreoEst2.getText().isEmpty()) {
                 estudianteId2 = authController.getUsuarioPorEstudianteCorreo(txtCorreoEst2.getText()).getId().toString();
-            } else{
+            } else {
                 estudianteId2 = null;
             }
 
@@ -242,7 +258,6 @@ public class ProfesorFormatoAController {
             }
         });
     }
-
 
     private AuthController authController;
 
@@ -324,38 +339,37 @@ public class ProfesorFormatoAController {
         }
     }
 
-@FXML
-private void initialize() {
-    cbxModalidad.getItems().addAll(
-            EnumModalidad.TRABAJO_DE_INVESTIGACION,
-            EnumModalidad.PRACTICA_PROFESIONAL
-    );
-    cbxModalidad.setPromptText("Seleccione una opción");
+    @FXML
+    private void initialize() {
+        cbxModalidad.getItems().addAll(
+                EnumModalidad.TRABAJO_DE_INVESTIGACION,
+                EnumModalidad.PRACTICA_PROFESIONAL
+        );
+        cbxModalidad.setPromptText("Seleccione una opción");
 
-    // 🔹 Convertidor: cómo mostrar y cómo recuperar el enum
-    cbxModalidad.setConverter(new javafx.util.StringConverter<EnumModalidad>() {
-        @Override
-        public String toString(EnumModalidad modalidad) {
-            if (modalidad == null) {
-                return "";
+        // 🔹 Convertidor: cómo mostrar y cómo recuperar el enum
+        cbxModalidad.setConverter(new javafx.util.StringConverter<EnumModalidad>() {
+            @Override
+            public String toString(EnumModalidad modalidad) {
+                if (modalidad == null) {
+                    return "";
+                }
+                // Reemplaza guiones bajos por espacios y capitaliza
+                return modalidad.name().replace("_", " ");
             }
-            // Reemplaza guiones bajos por espacios y capitaliza
-            return modalidad.name().replace("_", " ");
-        }
 
-        @Override
-        public EnumModalidad fromString(String string) {
-            if (string == null) {
-                return null;
+            @Override
+            public EnumModalidad fromString(String string) {
+                if (string == null) {
+                    return null;
+                }
+                // Convierte de nuevo a enum (reemplaza espacios por "_")
+                return EnumModalidad.valueOf(string.replace(" ", "_"));
             }
-            // Convierte de nuevo a enum (reemplaza espacios por "_")
-            return EnumModalidad.valueOf(string.replace(" ", "_"));
-        }
-    });
+        });
 
-    // 🔹 Fuente más grande al DatePicker
-    datePicker.setStyle("-fx-font-size: 16px;");
-    datePicker.setEditable(false); // 👈 no editable
-}
+        datePicker.setStyle("-fx-font-size: 16px;");
+        datePicker.setEditable(false); // 👈 no editable
+    }
 
 }
