@@ -119,7 +119,7 @@ public class LoggedDocenteController {
         );
     }
 
-    @FXML
+@   FXML
     public void switchToMainMenu() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
         Parent root = loader.load();
