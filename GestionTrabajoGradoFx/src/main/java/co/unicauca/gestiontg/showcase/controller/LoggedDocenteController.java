@@ -3,6 +3,7 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,6 +67,8 @@ public class LoggedDocenteController {
     private AuthController authController;
 
     private FormatoAController formatoAController;
+    
+    
 
     public void setController(AuthController authController) {
         this.authController = authController;
@@ -139,16 +142,15 @@ public class LoggedDocenteController {
         stage.show();
     }
     @FXML
-    public void switchToEditarFormatoA() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ProfesorFormatoA.fxml"));
+    public void switchToEditarFormatoA() throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
         Parent root = loader.load();
-
-        ProfesorFormatoAController controller = loader.getController();
-        controller.setController(authController);
-        controller.setFormatoAController(formatoAController);
-
         
-        controller.setModoEdicion(true);
+        ElegirFormatoController controller = loader.getController();
+        controller.setController(authController);
+
+
+       
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
