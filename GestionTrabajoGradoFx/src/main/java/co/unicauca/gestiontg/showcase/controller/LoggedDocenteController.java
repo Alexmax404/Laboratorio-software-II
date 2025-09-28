@@ -3,19 +3,22 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
-import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class LoggedDocenteController {
 
@@ -65,23 +68,17 @@ public class LoggedDocenteController {
 
     private FormatoAController formatoAController;
 
-    private FormatoAControllerFactory formatoFactory; 
+    private FormatoAControllerFactory formatoFactory;
 
-    private SceneRouter router;
+    public void setFormatoFactory(FormatoAControllerFactory factory) {
+        this.formatoFactory = factory;
+    }
 
     public void setController(AuthController authController) {
         this.authController = authController;
         if (authController.getUsuarioLogueado() != null) {
             cargarDatosDocente();
         }
-    }
-
-    public void setFormatoFactory(FormatoAControllerFactory factory) {
-        this.formatoFactory = factory;
-    }
-
-    public void setRouter(SceneRouter router) {
-        this.router = router;
     }
 
     public void setFormatoAController(FormatoAController formatoAController) {
@@ -124,33 +121,52 @@ public class LoggedDocenteController {
 
     @FXML
     public void switchToMainMenu() throws IOException {
-        authController.logout(); 
-        if (router != null) {
-            router.goToMainMenu(authController, formatoFactory);
-        } 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
+        Parent root = loader.load();
+
+        MainMenuController mainController = loader.getController();
+        mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
     public void switchToFormatoA() throws IOException {
-        if (router != null) {
-            FormatoAController formatoCtrl = formatoFactory.create();
-            router.goToProfesorFormatoA(authController, formatoCtrl);
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ProfesorFormatoA.fxml"));
+        Parent root = loader.load();
+
+        ProfesorFormatoAController controller = loader.getController();
+        controller.setController(authController);
+        controller.setFormatoAController(formatoAController);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
     public void switchToVerFormatosA() throws IOException, SQLException {
-        if (router != null) {
-            FormatoAController formatoCtrl = formatoFactory.create();
-            router.goToElegirFormato(authController, formatoAController);
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
+        Parent root = loader.load();
+
+        ElegirFormatoController controller = loader.getController();
+        controller.setFormatoAController(formatoAController); 
+        controller.setController(authController);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void cargarDatosDocente() {
         if (authController != null) {
             var usuario = authController.getUsuarioLogueado();
             if (usuario != null) {
-                lblName.setText(usuario.getNombreCompleto());
+                lblName.setText(usuario.getNombreCompleto());   // 👈 aquí pones nombres
                 lblCorreo.setText(usuario.getCorreo());
             }
         }
@@ -158,11 +174,13 @@ public class LoggedDocenteController {
 
     @FXML
     public void initialize() {
+
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
 
         fade.setOnFinished(event -> {
+            // Cuando termine la animación, mandar el ImageView al fondo
             fadingImage.toBack();
         });
 

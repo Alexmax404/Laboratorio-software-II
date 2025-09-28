@@ -1,30 +1,31 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
-import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
-import co.unicauca.gestiontg.showcase.router.SceneRouter;
+import co.unicauca.gestiontg.service.ServicioUsuario;
 import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoggedEstudianteController {
-
+    
     @FXML
     private Button btnGestionTrabajoDeGrado;
-
+    
     @FXML
     private Button btnNuevotrabajoDeGrado;
-
+    
     @FXML
     private ImageView fadingImage;
-
+    
     @FXML
     private Label lblCorreo;
 
@@ -36,63 +37,49 @@ public class LoggedEstudianteController {
 
     @FXML
     private Label lblRol;
-
+    
     @FXML
     private Hyperlink linkExit;
     @FXML
     private Hyperlink linkCambiarDatos;
     @FXML
     private Pane pnDatos;
-
+    
     @FXML
     private Pane pnDatos1;
 
     private AuthController authController;
-
-    private FormatoAControllerFactory formatoFactory;
-
-    private FormatoAController formatoAController;
-
-    private SceneRouter router;
-
+    
     public void setController(AuthController authController) {
         this.authController = authController;
         if (authController.getUsuarioLogueado() != null) {
-            cargarDatosEstudiante();
+        cargarDatosEstudiante();
         }
     }
-
-    public void setFormatoFactory(FormatoAControllerFactory factory) {
-        this.formatoFactory = factory;
-    }
-
-    public void setFormatoAController(FormatoAController formatoAController) {
-        this.formatoAController = formatoAController;
-    }
-
-    public void setRouter(SceneRouter router) {
-        this.router = router;
-    }
-
+    
     @FXML
     public void handleClickPane(MouseEvent event) {
         // Quita el foco del TextField (y de cualquier otro nodo que lo tenga)
         pnDatos.requestFocus();
     }
-
+    
     @FXML
     public void switchToMainMenu() throws IOException {
-        authController.logout();
-        if (router != null) {
-            router.goToMainMenu(authController, formatoFactory);
-            System.out.println("ppp");
-        } else {
-            System.out.println("mksdsk");
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
+        Parent root = loader.load();
+        
+        MainMenuController mainController = loader.getController();
+        mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
+        
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
     @FXML
     private Button btnGestionTrabajoDeGrado1;
-
+    
     @FXML
     private void handlePress(MouseEvent event) {
         Button btn = (Button) event.getSource(); // Obtiene el botón que lanzó el evento
@@ -106,7 +93,7 @@ public class LoggedEstudianteController {
                 + "-fx-background-radius: 10;"
         );
     }
-
+    
     @FXML
     private void handleRelease(MouseEvent event) {
         Button btn = (Button) event.getSource();
@@ -120,7 +107,6 @@ public class LoggedEstudianteController {
                 + "-fx-background-radius: 10;"
         );
     }
-
     public void cargarDatosEstudiante() {
         if (authController != null) {
             var usuario = authController.getUsuarioLogueado();
@@ -130,19 +116,18 @@ public class LoggedEstudianteController {
             }
         }
     }
-
     @FXML
     public void initialize() {
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
-
+        
         fade.setOnFinished(event -> {
             // Cuando termine la animación, mandar el ImageView al fondo
             fadingImage.toBack();
         });
-
+        
         fade.play();
     }
-
+    
 }

@@ -5,6 +5,7 @@ import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.access.UsuarioRepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
+import co.unicauca.gestiontg.infra.ISubject;
 import co.unicauca.gestiontg.infra.Subject;
 import co.unicauca.gestiontg.service.ServicioUsuario;
 import co.unicauca.gestiontg.showcase.controller.SceneRouterImpl;

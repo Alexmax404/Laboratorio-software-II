@@ -87,16 +87,6 @@ public class ServicioUsuario {
         return false;
     }
 
-    public void logout() {
-        if (usuarioLogueado != null) {
-            String correo = usuarioLogueado.getCorreo();
-            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGOUT, correo));
-            usuarioLogueado = null;
-        } else {
-            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGOUT, null));
-        }
-    }
-
     public Subject getEventPublisher() {
         return eventPublisher;
     }
@@ -113,4 +103,15 @@ public class ServicioUsuario {
         return usuarioLogueado;
     }
 
+    public boolean validarEspaciosVacios(String correo, String contrasenia) {
+        if (correo == null || correo.trim().isEmpty()) {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, correo));
+            return true;
+        }
+        if (contrasenia == null || contrasenia.trim().isEmpty()) {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, contrasenia));
+            return true;
+        }
+        return false;
+    }
 }

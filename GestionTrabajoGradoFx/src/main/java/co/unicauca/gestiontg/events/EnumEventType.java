@@ -8,6 +8,5 @@ public enum EnumEventType {
     USER_REGISTERED,
     LOGIN_EXITOSO,
     LOGIN_FALLIDO,
-    ESPACIOS_VACIOS,
-    LOGOUT
+    ESPACIOS_VACIOS
 }
