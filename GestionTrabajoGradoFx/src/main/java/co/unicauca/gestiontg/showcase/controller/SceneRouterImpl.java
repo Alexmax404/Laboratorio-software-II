@@ -58,9 +58,20 @@ public class SceneRouterImpl implements SceneRouter{
         ctrl.setController(authController);
         if (formatoAController != null) {
             ctrl.setFormatoAController(formatoAController);
-        } else {
-            System.out.println("snsjshdbshbd");
-        }
+        } 
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+    
+    @Override
+    public void goToCoordinadorModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
+        Parent root = loader.load();
+        LoggedCoordinadorController ctrl = loader.getController();
+        ctrl.setController(authController);
+        if (formatoAController != null) {
+            ctrl.setFormatoAController(formatoAController);
+        } 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
