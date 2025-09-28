@@ -145,12 +145,10 @@ public class LoggedDocenteController {
     public void switchToEditarFormatoA() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
         Parent root = loader.load();
-        
+
         ElegirFormatoController controller = loader.getController();
+        controller.setFormatoAController(formatoAController); 
         controller.setController(authController);
-
-
-       
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
