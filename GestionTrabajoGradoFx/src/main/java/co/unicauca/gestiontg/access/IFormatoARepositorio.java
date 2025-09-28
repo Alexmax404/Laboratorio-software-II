@@ -29,12 +29,8 @@ public interface IFormatoARepositorio {
             String objetivosEspecificos,
             String archivoFormatoPath
     ) throws Exception;
-
-    FormatoA findFormatoById(UUID id) throws Exception;
-
-    List<FormatoAVersion> findVersionsByFormatoId(UUID formatoId) throws Exception;
-
-    List<FormatoA> findFormatosByEstudianteId(UUID estudianteId) throws Exception;
+    
+    List<FormatoA> findFormatosByUsuario(UUID usuarioId) throws SQLException;
 
     boolean existsById(UUID formatoId) throws SQLException;
     

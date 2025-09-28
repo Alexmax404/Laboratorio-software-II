@@ -53,26 +53,17 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         }
         throw new Exception("Error ejecutando submit_formato");
     }
-
+    
     @Override
-    public FormatoA findFormatoById(UUID id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<FormatoAVersion> findVersionsByFormatoId(UUID formatoId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<FormatoA> findFormatosByEstudianteId(UUID estudianteId) throws SQLException {
-        String sql = "SELECT * FROM gtg.formato WHERE estudiante_id1 = ? OR estudiante_id2 = ? ORDER BY created_at DESC";
+    public List<FormatoA> findFormatosByUsuario(UUID usuarioId) throws SQLException {
+        String sql = "SELECT * FROM gtg.formato WHERE estudiante_id1 = ? OR estudiante_id2 = ? OR docente_id = ? ORDER BY created_at DESC";
 
         List<FormatoA> formatos = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setObject(1, estudianteId, Types.OTHER);
-            stmt.setObject(2, estudianteId, Types.OTHER);
+            stmt.setObject(1, usuarioId, Types.OTHER);
+            stmt.setObject(2, usuarioId, Types.OTHER);
+            stmt.setObject(3, usuarioId, Types.OTHER);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -116,47 +107,8 @@ public class FormatoARepositorio implements IFormatoARepositorio {
                 FormatoA formato = new FormatoA();
                 formato.setId(UUID.fromString(rs.getString("id")));
                 formato.setTitulo(rs.getString("titulo"));
-                formato.setEstado(EnumEstadoFormato.fromString(rs.getString("estado")));
+                formato.setEstado(EnumEstadoFormato.valueOf(rs.getString("estado")));
                 formatos.add(formato);
-            }
-        }
-        return formatos;
-    }
-    /* ten en cuenta los siguientes atributos de FormatoA: id
-     *     public FormatoA(UUID id, UUID estudianteId1, UUID estudianteId2, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, EnumEstadoFormato estado, int intentos, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.estudianteId1 = estudianteId1;
-        this.estudianteId2 = estudianteId2;
-        this.titulo = titulo;
-        this.modalidad = modalidad;
-        this.director = director;
-        this.coDirector = coDirector;
-        this.fechaPresentacion = fechaPresentacion;
-        this.estado = estado;
-        this.intentos = intentos;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-     */
-    public List<FormatoA> listarFormatoAPorProfesor(UUID profesorId) throws SQLException {
-        String sql = "SELECT f.id, f.titulo, f.estado FROM gtg.formato f "
-                + "JOIN gtg.formato_version fv ON f.id = fv.formato_id "
-                + "WHERE fv.director = ? OR fv.co_director = ? "
-                + "GROUP BY f.id, f.titulo, f.estado "
-                + "ORDER BY f.created_at DESC";
-        List<FormatoA> formatos = new ArrayList<>();
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setObject(1, profesorId, Types.OTHER);
-            stmt.setObject(2, profesorId, Types.OTHER);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    FormatoA formato = new FormatoA();
-                    formato.setId(UUID.fromString(rs.getString("id")));
-                    formato.setTitulo(rs.getString("titulo"));
-                    formato.setEstado(EnumEstadoFormato.fromString(rs.getString("estado")));
-                    formatos.add(formato);
-                }
             }
         }
         return formatos;
@@ -184,7 +136,7 @@ public class FormatoARepositorio implements IFormatoARepositorio {
                     v.setObjetivosGenerales(rs.getString("objetivos_generales"));
                     v.setObjetivosEspecificos(rs.getString("objetivos_especificos"));
                     v.setArchivoFormatoPath(rs.getString("archivo_formato_path"));
-                    v.setEstadoLocal(EnumEstadoFormato.fromString(rs.getString("estado_local")));
+                    v.setEstadoLocal(EnumEstadoFormato.valueOf(rs.getString("estado_local")));
                     v.setEnviadoPor(UUID.fromString(rs.getString("enviado_por")));
                     return Optional.of(v);
                 } else {
@@ -199,6 +151,7 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         formato.setId((UUID) rs.getObject("id"));
         formato.setEstudianteId1((UUID) rs.getObject("estudiante_id1"));
         formato.setEstudianteId2((UUID) rs.getObject("estudiante_id2"));
+        formato.setDocenteId((UUID) rs.getObject("docente_id"));
         formato.setTitulo(rs.getString("titulo"));
         formato.setModalidad(EnumModalidad.valueOf(rs.getString("modalidad")));
         formato.setDirector(rs.getString("director"));
