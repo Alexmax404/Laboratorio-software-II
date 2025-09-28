@@ -1,6 +1,7 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.service.ServicioUsuario;
 import java.io.IOException;
 import javafx.animation.FadeTransition;
@@ -69,6 +70,8 @@ public class LoggedEstudianteController {
         
         MainMenuController mainController = loader.getController();
         mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
         
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
