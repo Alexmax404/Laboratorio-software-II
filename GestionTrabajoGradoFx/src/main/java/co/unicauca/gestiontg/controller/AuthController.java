@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @author kthn1
  */
-public class AuthController extends Subject {
+public class AuthController{
 
     private final ServicioUsuario userService;
 
@@ -51,8 +51,16 @@ public class AuthController extends Subject {
             return null;
         }
     }
+    
+    public Subject getEventPublisher() {
+        return userService.getEventPublisher();
+    }
 
     public Usuario getUsuarioLogueado() {
         return userService.getUsuarioLogueado();
+    }
+    
+    public boolean validarEspaciosVacios(String correo, String contrasenia){
+        return userService.validarEspaciosVacios(correo, contrasenia);
     }
 }
