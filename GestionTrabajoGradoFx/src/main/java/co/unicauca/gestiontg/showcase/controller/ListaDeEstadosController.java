@@ -31,8 +31,7 @@ public class ListaDeEstadosController {
     private TableColumn<FormatoA, String> colEstado;
 
     @FXML
-    private TableColumn<FormatoA, String> colFecha; // 👈 CAMBIA el tipo a String
-
+    private TableColumn<FormatoA, String> colFecha;
 
     @FXML
     private TableColumn<FormatoA, String> colId;
@@ -55,7 +54,6 @@ public class ListaDeEstadosController {
 
     @FXML
     void EventSalir(ActionEvent event) {
-        // Aquí puedes cerrar la ventana o cambiar de escena
         btnExit.getScene().getWindow().hide();
     }
 
@@ -69,13 +67,23 @@ public class ListaDeEstadosController {
         // Obtener formatos desde el controlador
         List<FormatoA> formatos = formatoAController.listarFormatos();
 
+        // DEBUG: Verificar que las fechas existen
+        System.out.println("=== DEBUG FECHAS ===");
+        for (FormatoA formato : formatos) {
+            System.out.println("ID: " + formato.getId() + 
+                              ", Fecha: " + formato.getFechaPresentacion() +
+                              ", Estado: " + formato.getEstado());
+        }
+        System.out.println("====================");
+
         data.setAll(formatos);
         tbFormatos.setItems(data);
+        tbFormatos.refresh();
     }
 
     @FXML
     public void initialize() {
-        // ID → lo convertimos a String
+        // ID
         colId.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getId().toString())
         );
@@ -90,15 +98,27 @@ public class ListaDeEstadosController {
             new SimpleStringProperty(cellData.getValue().getDirector())
         );
 
-        // Observaciones (placeholder)
+        // Observaciones
         colObservaciones.setCellValueFactory(cellData ->
             new SimpleStringProperty("DETALLES")
         );
 
-        // Estado → usamos un chip con colores
+        // Fecha - CORREGIDO: Conversión directa de LocalDate a String
+        colFecha.setCellValueFactory(cellData -> {
+            LocalDate fecha = cellData.getValue().getFechaPresentacion();
+            if (fecha != null) {
+                return new SimpleStringProperty(fecha.toString());
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
+
+        // Estado
         colEstado.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getEstado().name())
         );
+
+        // Estilo para la columna Estado
         colEstado.setCellFactory(column -> new TableCell<FormatoA, String>() {
             private final Label label = new Label();
 
@@ -131,15 +151,6 @@ public class ListaDeEstadosController {
                 }
             }
         });
-
-        // Fecha
-    colFecha.setCellValueFactory(cellData ->
-        new SimpleStringProperty(
-            cellData.getValue().getFechaPresentacion() != null
-                ? cellData.getValue().getFechaPresentacion().toString()
-                : ""
-        )
-    );
 
         // Enlazar data
         tbFormatos.setItems(data);

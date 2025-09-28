@@ -89,11 +89,16 @@ public class MainMenuController implements Observer {
                 Optional<String> rol = authController.getRolUsuario(correo);
                 if (rol.get().equals("Estudiante")) {
                     router.goToStudentModule(authController);
-                } else {
+                } else if(rol.get().equals("Docente")) {
                     FormatoAController formatoCtrl = (formatoFactory != null)
                             ? formatoFactory.create()
                             : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
                     router.goToTeacherModule(authController, formatoCtrl);
+                } else if(rol.get().equals("Coordinador")){
+                    FormatoAController formatoCtrl = (formatoFactory != null)
+                            ? formatoFactory.create()
+                            : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
+                    router.goToCoordinadorModule(authController, btnIngresar);
                 }
             }
         }

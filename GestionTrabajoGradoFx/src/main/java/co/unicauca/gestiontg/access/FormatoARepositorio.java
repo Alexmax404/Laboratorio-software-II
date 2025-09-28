@@ -100,14 +100,16 @@ public class FormatoARepositorio implements IFormatoARepositorio {
 
     @Override
     public List<FormatoA> listarFormatos() throws SQLException {
-        String sql = "SELECT id, titulo, estado FROM gtg.formato";
+        String sql = "SELECT id, titulo, fecha_presentacion, estado, director FROM gtg.formato";
         List<FormatoA> formatos = new ArrayList<>();
         try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 FormatoA formato = new FormatoA();
                 formato.setId(UUID.fromString(rs.getString("id")));
                 formato.setTitulo(rs.getString("titulo"));
+                formato.setFechaPresentacion(rs.getDate("fecha_presentacion").toLocalDate());
                 formato.setEstado(EnumEstadoFormato.valueOf(rs.getString("estado")));
+                formato.setDirector(rs.getString("director"));
                 formatos.add(formato);
             }
         }

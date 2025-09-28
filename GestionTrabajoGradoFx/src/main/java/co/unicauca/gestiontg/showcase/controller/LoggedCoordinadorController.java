@@ -117,8 +117,9 @@ public class LoggedCoordinadorController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstados.fxml"));
         Parent root = loader.load();
 
-        ListaDeEstadosController mainController = loader.getController();
-        mainController.setController(authController);
+        ListaDeEstadosController controller = loader.getController();
+        controller.setFormatoAController(formatoAController); 
+        controller.setController(authController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
