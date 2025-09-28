@@ -20,7 +20,7 @@
             </ImageView>
             <Pane fx:id="pnDatos1" layoutX="83.0" layoutY="67.0" prefHeight="499.0" prefWidth="839.0">
                <children>
-                  <TableView fx:id="tbFormatos" layoutX="-8.0" layoutY="1.0" prefHeight="499.0" prefWidth="850.0" style="-fx-cell-size: 40; -fx-background-color: white; -fx-border-color: #dddddd; -fx-border-width: 0 0 1 0;">
+                  <TableView fx:id="tbFormatos" layoutX="-82.0" prefHeight="634.0" prefWidth="1000.0" style="-fx-cell-size: 40; -fx-background-color: white; -fx-border-color: #dddddd; -fx-border-width: 0 0 1 0;">
                      <columns>
                         <TableColumn fx:id="colId" editable="false" prefWidth="274.4000473022461" sortable="false" style="-fx-font-weight: bold;" text="ID" />
                         <TableColumn fx:id="colTitulo" prefWidth="206.40005493164062" text="Titulo" />

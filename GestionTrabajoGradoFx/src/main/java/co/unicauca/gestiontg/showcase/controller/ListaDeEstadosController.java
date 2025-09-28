@@ -4,6 +4,7 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.EnumEstadoFormato;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,12 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class ListaDeEstadosController {
 
@@ -54,7 +59,20 @@ public class ListaDeEstadosController {
 
     @FXML
     void EventSalir(ActionEvent event) {
-        btnExit.getScene().getWindow().hide();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
+            Parent root = loader.load();
+
+            LoggedCoordinadorController coordinadorController = loader.getController();
+            coordinadorController.setController(authController);
+            coordinadorController.setFormatoAController(formatoAController);
+
+            Stage stage = (Stage) btnExit.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setFormatoAController(FormatoAController formatoAController) {
@@ -67,12 +85,12 @@ public class ListaDeEstadosController {
         // Obtener formatos desde el controlador
         List<FormatoA> formatos = formatoAController.listarFormatos();
 
-        // DEBUG: Verificar que las fechas existen
+        // DEBUG
         System.out.println("=== DEBUG FECHAS ===");
         for (FormatoA formato : formatos) {
-            System.out.println("ID: " + formato.getId() + 
-                              ", Fecha: " + formato.getFechaPresentacion() +
-                              ", Estado: " + formato.getEstado());
+            System.out.println("ID: " + formato.getId() +
+                    ", Fecha: " + formato.getFechaPresentacion() +
+                    ", Estado: " + formato.getEstado());
         }
         System.out.println("====================");
 
@@ -85,37 +103,28 @@ public class ListaDeEstadosController {
     public void initialize() {
         // ID
         colId.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getId().toString())
+                new SimpleStringProperty(cellData.getValue().getId().toString())
         );
 
         // Título
         colTitulo.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getTitulo())
+                new SimpleStringProperty(cellData.getValue().getTitulo())
         );
 
         // Director
         colDirector.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getDirector())
+                new SimpleStringProperty(cellData.getValue().getDirector())
         );
 
-        // Observaciones
-        colObservaciones.setCellValueFactory(cellData ->
-            new SimpleStringProperty("DETALLES")
-        );
-
-        // Fecha - CORREGIDO: Conversión directa de LocalDate a String
+        // Fecha
         colFecha.setCellValueFactory(cellData -> {
             LocalDate fecha = cellData.getValue().getFechaPresentacion();
-            if (fecha != null) {
-                return new SimpleStringProperty(fecha.toString());
-            } else {
-                return new SimpleStringProperty("");
-            }
+            return new SimpleStringProperty(fecha != null ? fecha.toString() : "");
         });
 
         // Estado
         colEstado.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getEstado().name())
+                new SimpleStringProperty(cellData.getValue().getEstado().name())
         );
 
         // Estilo para la columna Estado
@@ -148,6 +157,46 @@ public class ListaDeEstadosController {
                     }
 
                     setGraphic(label);
+                }
+            }
+        });
+
+        // Observaciones → botón "Ver Detalles"
+        colObservaciones.setCellFactory(column -> new TableCell<FormatoA, String>() {
+            private final Button btnDetalles = new Button("Ver Detalles");
+
+            {
+                btnDetalles.setStyle(
+                        "-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 4px 8px; -fx-background-radius: 8;"
+                );
+
+                btnDetalles.setOnAction(event -> {
+                    FormatoA formato = getTableView().getItems().get(getIndex());
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/verDetallesCoordinador.fxml"));
+                        Parent root = loader.load();
+
+                        VerDetallesCoordinadorController detallesController = loader.getController();
+                        detallesController.setFormato(formato); // 👈 pasamos el objeto seleccionado
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Detalles del Formato");
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnDetalles);
                 }
             }
         });
