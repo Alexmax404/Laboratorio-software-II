@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg.showcase.controller;
 
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -71,12 +72,12 @@ public class CargarPDFController {
     @FXML
     void btnGuardarClick(ActionEvent event) {
         if (fileSeleccionado == null) {
-            mostrarAlerta("Advertencia", "No se ha seleccionado ningún PDF.", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Advertencia", "No se ha seleccionado ningún PDF.", Alert.AlertType.WARNING);
             return;
         }
 
         copiarArchivo(fileSeleccionado); // Aquí sí lo copiamos realmente
-        mostrarAlerta("Guardar", "Cambios guardados con éxito.", Alert.AlertType.INFORMATION);
+        AlertUtil.mostrarAlerta("Guardar", "Cambios guardados con éxito.", Alert.AlertType.INFORMATION);
 
         // Cerrar ventana, pero mantener referencia
         Stage stage = (Stage) btnGuardar.getScene().getWindow();
@@ -94,7 +95,7 @@ public class CargarPDFController {
                 actualizarUIConArchivo(fileSeleccionado);
                 success = true;
             } else {
-                mostrarAlerta("Error", "El archivo no es un PDF válido.", Alert.AlertType.ERROR);
+                AlertUtil.mostrarAlerta("Error", "El archivo no es un PDF válido.", Alert.AlertType.ERROR);
             }
         }
         event.setDropCompleted(success);
@@ -130,7 +131,7 @@ public class CargarPDFController {
 
             archivoCargado = destino.toFile(); // Guardamos referencia
         } catch (IOException e) {
-            mostrarAlerta("Error", "No se pudo copiar el archivo:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtil.mostrarAlerta("Error", "No se pudo copiar el archivo:\n" + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -138,14 +139,6 @@ public class CargarPDFController {
         imagenPDF.setVisible(true);
         lblNombrePDF.setVisible(true);
         lblNombrePDF.setText(file.getName());
-    }
-
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 
     @FXML

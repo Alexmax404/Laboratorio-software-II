@@ -1,25 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.EnumPrograma;
 import co.unicauca.gestiontg.domain.EnumRol;
 import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -77,9 +72,9 @@ public class RegisterFrameController {
             if (validarCorreo() && validarContrasenia()) {
                 registrarUsuario();
             } else if (!validarCorreo()) {
-                mostrarAlerta(null, authController.validarCorreoInstitucional(user.getCorreo()), Alert.AlertType.WARNING);
+                AlertUtil.mostrarAlerta(null, authController.validarCorreoInstitucional(user.getCorreo()), Alert.AlertType.WARNING);
             } else if (!validarContrasenia()) {
-                mostrarAlerta(null, authController.validarContrasenia(user.getContrasenia()), Alert.AlertType.WARNING);
+                AlertUtil.mostrarAlerta(null, authController.validarContrasenia(user.getContrasenia()), Alert.AlertType.WARNING);
             }
 
         }
@@ -132,27 +127,27 @@ public class RegisterFrameController {
     private boolean espaciosVacios() {
 
         if (txtNombres.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio.", "Ingrese su/s nombre/s", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio.", "Ingrese su/s nombre/s", Alert.AlertType.WARNING);
             return true;
         }
         if (txtApellidos.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio.", "Ingrese sus apellidos", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio.", "Ingrese sus apellidos", Alert.AlertType.WARNING);
             return true;
         }
         if (txtCorreo.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio", "Ingrese un correo", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese un correo", Alert.AlertType.WARNING);
             return true;
         }
         if (txtContrasenia.getText().trim().isEmpty()) {
-            mostrarAlerta("Espacio vacio", "Ingrese la contraseña", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese la contraseña", Alert.AlertType.WARNING);
             return true;
         }
         if (cbxPrograma.getValue() == null) {
-            mostrarAlerta("Espacio vacio", "Seleccione el programa al cual pertenece", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Seleccione el programa al cual pertenece", Alert.AlertType.WARNING);
             return true;
         }
         if (chkbDocente.isSelected() == false && chkbEstudiante.isSelected() == false) {
-            mostrarAlerta("Espacio vacio", "Seleccione un rol", Alert.AlertType.WARNING);
+            AlertUtil.mostrarAlerta("Espacio vacio", "Seleccione un rol", Alert.AlertType.WARNING);
             return true;
         }
         return false;
@@ -203,7 +198,7 @@ public class RegisterFrameController {
     private void registrarUsuario() throws IOException {
         try {
             if (authController.registerUser(user)){
-                mostrarAlerta(null, "Cuenta registrada con exito.", Alert.AlertType.INFORMATION);
+                AlertUtil.mostrarAlerta(null, "Cuenta registrada con exito.", Alert.AlertType.INFORMATION);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
                 Parent root = loader.load();
 
@@ -212,50 +207,12 @@ public class RegisterFrameController {
                 Stage stage = (Stage) btnRegistrar.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-//                authController.notifyAllObserves();
                 
             } else {
-                mostrarAlerta(null, "Correo ya en uso.", Alert.AlertType.WARNING);
+                AlertUtil.mostrarAlerta(null, "Correo ya en uso.", Alert.AlertType.WARNING);
             }
         } catch (SQLException ex) {
-            mostrarAlerta("Error al crear cuenta.", ex.getMessage(), Alert.AlertType.ERROR);
+            AlertUtil.mostrarAlerta("Error al crear cuenta.", ex.getMessage(), Alert.AlertType.ERROR);
         }
-    }
-
-    @FXML
-
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        Alert alerta = new Alert(tipo);
-
-        // Cambiar título e ícono de ventana
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-
-        // Crear un Label personalizado para el mensaje
-        Label etiqueta = new Label(mensaje);
-        etiqueta.setWrapText(true);
-        //etiqueta.setStyle("-fx-font-Tebuchet MS: 14px; -fx-font-family: 'Segoe UI'; -fx-text-fill: #2c3e50;");
-
-        // Meter el Label en un contenedor para darle padding
-        VBox contenedor = new VBox(etiqueta);
-        contenedor.setSpacing(10);
-        contenedor.setPadding(new Insets(10));
-
-        alerta.getDialogPane().setContent(contenedor);
-
-        // Aplicar estilo al cuadro de diálogo completo
-        alerta.getDialogPane().setStyle(
-                "-fx-background-color: #f9f9f9; "
-                + "-fx-border-color: #ABBEF6; "
-                + "-fx-border-width: 1px; "
-                + "-fx-border-radius: 5px; "
-                + "-fx-background-radius: 5px;"
-        );
-
-        // Cambiar estilo de los botones
-        alerta.getDialogPane().lookupButton(ButtonType.OK)
-                .setStyle("-fx-background-color: #1E2C9E; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 7px;");
-
-        alerta.showAndWait();
     }
 }

@@ -1,11 +1,14 @@
 package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.access.IFormatoARepositorio;
-import co.unicauca.gestiontg.access.SubmitResult;
+import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.domain.FormatoAVersion;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -39,7 +42,7 @@ public class ServicioFormatoA {
                     archivoFormatoPath
             );
         } catch (Exception e) {
-            throw mapearExcepcion(e);
+            throw new Exception("Error: " + e);
         }
     }
 
@@ -64,23 +67,27 @@ public class ServicioFormatoA {
         }
     }
 
-    private Exception mapearExcepcion(Exception e) {
-        String msg = e.getMessage();
-        if (msg.contains("numero maximo de intentos")) {
-            return new Exception("Se alcanzó el máximo de 3 intentos");
-        } else if (msg.contains("propietario") || msg.contains("p_enviado_por")) {
-            return new Exception("No tiene permisos para modificar este formato");
-        } else if (msg.contains("no existe")) {
-            return new Exception("Estudiante no encontrado");
-        }
-        return new Exception("Error en el envío: " + msg);
-    }
-
     public List<FormatoA> obtenerFormatosPorEstudiante(UUID estudianteId) throws Exception {
         try {
             return formatoRepo.findFormatosByEstudianteId(estudianteId);
         } catch (Exception e) {
             throw new Exception("Error al obtener formatos: " + e.getMessage());
+        }
+    }
+
+    public List<FormatoA> listarFormatos() {
+        try {
+            return formatoRepo.listarFormatos();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error listando formatos", e);
+        }
+    }
+
+    public Optional<FormatoAVersion> obtenerDetalles(UUID formatoId) {
+        try {
+            return formatoRepo.obtenerDetalleFormato(formatoId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error obteniendo detalle del formato", e);
         }
     }
 }

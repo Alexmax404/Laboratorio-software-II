@@ -1,5 +1,6 @@
 package co.unicauca.gestiontg.access;
 
+import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.config.DatabaseConfig;
 import co.unicauca.gestiontg.domain.EnumEstadoFormato;
 import co.unicauca.gestiontg.domain.EnumModalidad;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -86,9 +88,9 @@ public class FormatoARepositorio implements IFormatoARepositorio {
     @Override
     public boolean existsById(UUID formatoId) throws SQLException {
         String sql = "SELECT 1 FROM gtg.formato WHERE id = ? LIMIT 1";
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement st = conn.prepareStatement(sql)) {
-            st.setObject(1, formatoId, Types.OTHER);
-            try (ResultSet rs = st.executeQuery()) {
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, formatoId, Types.OTHER);
+            try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
             }
         }
@@ -97,10 +99,58 @@ public class FormatoARepositorio implements IFormatoARepositorio {
     @Override
     public boolean existsVersionById(UUID formatoVersionId) throws SQLException {
         String sql = "SELECT 1 FROM gtg.formato_version WHERE id = ? LIMIT 1";
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement st = conn.prepareStatement(sql)) {
-            st.setObject(1, formatoVersionId, Types.OTHER);
-            try (ResultSet rs = st.executeQuery()) {
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, formatoVersionId, Types.OTHER);
+            try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
+            }
+        }
+    }
+
+    @Override
+    public List<FormatoA> listarFormatos() throws SQLException {
+        String sql = "SELECT id, titulo, estado FROM gtg.formato";
+        List<FormatoA> formatos = new ArrayList<>();
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                FormatoA formato = new FormatoA();
+                formato.setId(UUID.fromString(rs.getString("id")));
+                formato.setTitulo(rs.getString("titulo"));
+                formato.setEstado(EnumEstadoFormato.fromString(rs.getString("estado")));
+                formatos.add(formato);
+            }
+        }
+        return formatos;
+    }
+
+    @Override
+    public Optional<FormatoAVersion> obtenerDetalleFormato(UUID formatoId) throws SQLException {
+        String sql = "SELECT fv.id, fv.version, fv.titulo, fv.modalidad, fv.director, fv.co_director, "
+                + "fv.fecha_presentacion, fv.objetivos_generales, fv.objetivos_especificos, "
+                + "fv.archivo_formato_path, fv.estado_local, fv.enviado_por "
+                + "FROM gtg.formato_version fv WHERE fv.formato_id = ? "
+                + "ORDER BY fv.version DESC LIMIT 1";
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, formatoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    FormatoAVersion v = new FormatoAVersion();
+                    v.setId(UUID.fromString(rs.getString("id")));
+                    v.setVersion(rs.getInt("version"));
+                    v.setTitulo(rs.getString("titulo"));
+                    v.setModalidad(EnumModalidad.valueOf(rs.getString("modalidad")));
+                    v.setDirector(rs.getString("director"));
+                    v.setCoDirector(rs.getString("co_director"));
+                    v.setFechaPresentacion(rs.getDate("fecha_presentacion").toLocalDate());
+                    v.setObjetivosGenerales(rs.getString("objetivos_generales"));
+                    v.setObjetivosEspecificos(rs.getString("objetivos_especificos"));
+                    v.setArchivoFormatoPath(rs.getString("archivo_formato_path"));
+                    v.setEstadoLocal(EnumEstadoFormato.fromString(rs.getString("estado_local")));
+                    v.setEnviadoPor(UUID.fromString(rs.getString("enviado_por")));
+                    return Optional.of(v);
+                } else {
+                    return Optional.empty();
+                }
             }
         }
     }

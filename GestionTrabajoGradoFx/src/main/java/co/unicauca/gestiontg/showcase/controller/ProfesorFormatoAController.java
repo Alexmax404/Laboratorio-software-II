@@ -3,6 +3,7 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.EnumModalidad;
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,10 +76,10 @@ public class ProfesorFormatoAController {
     private Pane pnDatos1;
 
     @FXML
-    private TextField txtCodigoEst1;
+    private TextField txtCorreoEst1;
 
     @FXML
-    private TextField txtCodigoEst2;
+    private TextField txtCorreoEst2;
 
     @FXML
     private TextField txtCoodirectorProyecto;
@@ -113,16 +114,38 @@ public class ProfesorFormatoAController {
     void guardarFormatoA(ActionEvent event) {
         try {
             if (formatoAController == null || authController == null) {
-                mostrarAlerta("Error", "No hay controlador de autenticación o formato configurado.", Alert.AlertType.ERROR);
+                AlertUtil.mostrarAlerta("Error", "No hay controlador de autenticación o formato configurado.", Alert.AlertType.ERROR);
                 return;
+            }
+
+            String resultadoVal1 = authController.validarUsuarioPorCorreo(txtCorreoEst1.getText());
+            if (!"OK".equals(resultadoVal1)) {
+                AlertUtil.mostrarAlerta("Error", resultadoVal1, Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (!txtCorreoEst2.getText().isEmpty()) {
+                String resultadoVal2 = authController.validarUsuarioPorCorreo(txtCorreoEst2.getText());
+                if (!"OK".equals(resultadoVal2)) {
+                    AlertUtil.mostrarAlerta("Error", resultadoVal2, Alert.AlertType.ERROR);
+                    return;
+                }
             }
 
             // Datos del docente autenticado
             String docenteId = authController.getUsuarioLogueado().getId().toString();
 
+            // Datos de los estudiantes
+            String estudianteId1 = authController.getUsuarioPorEstudianteCorreo(txtCorreoEst1.getText()).getId().toString();
+            
+            String estudianteId2;
+            if (!txtCorreoEst2.getText().isEmpty()){
+                estudianteId2 = authController.getUsuarioPorEstudianteCorreo(txtCorreoEst2.getText()).getId().toString();
+            } else{
+                estudianteId2 = null;
+            }
+
             // Datos del formulario
-            String estudianteId1 = txtCodigoEst1.getText();
-            String estudianteId2 = txtCodigoEst2.getText().isEmpty() ? null : txtCodigoEst2.getText();
             String titulo = txtTituloProyecto.getText();
             String modalidad = cbxModalidad.getValue().name();
             String director = txtDirectorProyecto.getText();
@@ -133,10 +156,10 @@ public class ProfesorFormatoAController {
             String objetivoGeneral = ObjetivoGeneralController.getObjetivosGuardados();
             String objetivosEspecificos = ObjetivosEspecificosController.getObjetivosGuardados();
 
-            // ?Archivos PDF cargados
+            // Archivos PDF cargados
             String archivoFormatoPath = "src/main/resources/pdfs";
 
-            // ⚡ Llamada al caso de uso (application controller)
+            // Llamada al caso de uso (application controller)
             String resultado = formatoAController.crearOReenviarFormato(
                     null, // es un nuevo formato
                     estudianteId1,
@@ -153,10 +176,10 @@ public class ProfesorFormatoAController {
                     archivoFormatoPath
             );
 
-            mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
+            AlertUtil.mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
 
         } catch (Exception e) {
-            mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtil.mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -239,7 +262,7 @@ public class ProfesorFormatoAController {
             stage.setTitle("Objetivo General");
             stage.setScene(new Scene(root));
 
-            // 🔑 Hace que la ventana sea modal → bloquea la principal
+            // Hace que la ventana sea modal → bloquea la principal
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(btnObjetivoEspecifico.getScene().getWindow());
 
@@ -248,7 +271,6 @@ public class ProfesorFormatoAController {
 
             // Bloquea la ejecución hasta que la ventana se cierre
             stage.showAndWait();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -264,7 +286,7 @@ public class ProfesorFormatoAController {
             stage.setTitle("CargarPDF");
             stage.setScene(new Scene(root));
 
-            // 🔑 Hace que la ventana sea modal → bloquea la principal
+            // Hace que la ventana sea modal → bloquea la principal
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(btnObjetivoEspecifico.getScene().getWindow());
 
@@ -287,13 +309,5 @@ public class ProfesorFormatoAController {
         );
         cbxModalidad.setPromptText("Seleccione una opción");
 
-    }
-
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 }

@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg.access;
+package co.unicauca.gestiontg.domain;
 
 import java.util.UUID;
 
