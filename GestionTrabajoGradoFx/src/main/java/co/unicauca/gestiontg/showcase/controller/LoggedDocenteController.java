@@ -138,6 +138,23 @@ public class LoggedDocenteController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+    @FXML
+    public void switchToEditarFormatoA() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ProfesorFormatoA.fxml"));
+        Parent root = loader.load();
+
+        ProfesorFormatoAController controller = loader.getController();
+        controller.setController(authController);
+        controller.setFormatoAController(formatoAController);
+
+        
+        controller.setModoEdicion(true);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
     public void cargarDatosDocente() {
         if (authController != null) {
             var usuario = authController.getUsuarioLogueado();

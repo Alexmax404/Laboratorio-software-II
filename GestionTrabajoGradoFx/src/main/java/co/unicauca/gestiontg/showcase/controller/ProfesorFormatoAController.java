@@ -108,13 +108,30 @@ public class ProfesorFormatoAController {
     void handleClickPane(MouseEvent event) {
         pnDatos1.requestFocus();
     }
-
+    private boolean modoEdicion = false;
+    
     private FormatoAController formatoAController;
 
     public void setFormatoAController(FormatoAController formatoAController) {
         this.formatoAController = formatoAController;
     }
+    public void setModoEdicion(boolean modoEdicion) {
+        this.modoEdicion = modoEdicion;
+        if (modoEdicion) {
+            deshabilitarCamposEdicion();
+        }
+    }
 
+    private void deshabilitarCamposEdicion() {
+        cbxModalidad.setDisable(true);
+        txtNombreEst1.setDisable(true);
+        txtCorreoEst1.setDisable(true);
+        txtNombreEst2.setDisable(true);
+        txtCorreoEst2.setDisable(true);
+        txtDirectorProyecto.setDisable(true);
+        datePicker.setDisable(true);
+        txtCoodirectorProyecto.setDisable(true);
+    }
     @FXML
     void guardarFormatoA(ActionEvent event) {
         try {
