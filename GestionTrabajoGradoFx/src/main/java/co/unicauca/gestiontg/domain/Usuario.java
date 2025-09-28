@@ -37,7 +37,7 @@ public class Usuario {
     public String getNombres() {
         return nombres;
     }
-
+    
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
@@ -49,7 +49,10 @@ public class Usuario {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
-
+    
+    public String getNombreCompleto() {
+        return nombres+" "+apellidos;
+    }
     public String getCelular() {
         return celular;
     }

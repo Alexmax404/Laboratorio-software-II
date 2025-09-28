@@ -20,21 +20,28 @@ import javafx.stage.Stage;
 
 public class LoggedDocenteController {
 
+
+    @FXML
+    private Button btnEditarFormatoA;
+
     @FXML
     private Button btnGestionarFormatoA;
 
     @FXML
     private Button btnVerEstadoDeFormatoA;
-
     @FXML
     private ImageView fadingImage;
 
     @FXML
+    
+    private Label lblName;
+    @FXML
+    
     private Label lblCarrera;
 
     @FXML
     private Label lblCelular;
-
+    
     @FXML
     private Label lblCorreo;
 
@@ -62,6 +69,9 @@ public class LoggedDocenteController {
 
     public void setController(AuthController authController) {
         this.authController = authController;
+        if (authController.getUsuarioLogueado() != null) {
+        cargarDatosDocente();
+        }
     }
 
     public void setFormatoAController(FormatoAController formatoAController) {
@@ -73,7 +83,7 @@ public class LoggedDocenteController {
         // Quita el foco del TextField (y de cualquier otro nodo que lo tenga)
         pnDatos.requestFocus();
     }
-
+    
     @FXML
     private void handlePress(MouseEvent event) {
         Button btn = (Button) event.getSource(); // Obtiene el botón que lanzó el evento
@@ -128,18 +138,30 @@ public class LoggedDocenteController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
+    public void cargarDatosDocente() {
+        if (authController != null) {
+            var usuario = authController.getUsuarioLogueado();
+            if (usuario != null) {
+                lblName.setText(usuario.getNombreCompleto());   // 👈 aquí pones nombres
+                lblCorreo.setText(usuario.getCorreo());
+            }
+        }
+    }
     @FXML
     public void initialize() {
+        
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
-
+        
+       
         fade.setOnFinished(event -> {
             // Cuando termine la animación, mandar el ImageView al fondo
             fadingImage.toBack();
         });
-
+        
+        
+        
         fade.play();
     }
 }
