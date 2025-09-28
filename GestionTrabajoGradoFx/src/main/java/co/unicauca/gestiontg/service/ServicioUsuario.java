@@ -2,19 +2,24 @@ package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.events.DomainEvent;
+import co.unicauca.gestiontg.events.EnumEventType;
 import co.unicauca.gestiontg.infra.Subject;
 import java.sql.SQLException;
 import java.util.Optional;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class ServicioUsuario extends Subject {
+public class ServicioUsuario {
 
     private final IUsuarioRepositorio userRepository;
 
     private Usuario usuarioLogueado;
 
-    public ServicioUsuario(IUsuarioRepositorio userRepository) {
+    private final Subject eventPublisher;
+
+    public ServicioUsuario(IUsuarioRepositorio userRepository, Subject eventPublisher) {
         this.userRepository = userRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     public String validarCorreoInstitucional(String correo) {
@@ -49,9 +54,9 @@ public class ServicioUsuario extends Subject {
 
     public String validarUsuarioPorCorreo(String correo) throws SQLException {
         userRepository.findByCorreo(correo);
-        if (userRepository.findByCorreo(correo).isEmpty()){
+        if (userRepository.findByCorreo(correo).isEmpty()) {
             return "El correo del usuario no existe.";
-        } 
+        }
         return "OK";
     }
 
@@ -63,7 +68,7 @@ public class ServicioUsuario extends Subject {
         userRepository.save(usuario);
 
         // Notificar
-        notifyAllObserves();
+        eventPublisher.notifyObservers(new DomainEvent(EnumEventType.USER_REGISTERED, usuario));
         return true;
     }
 
@@ -73,10 +78,17 @@ public class ServicioUsuario extends Subject {
             Usuario user = optUser.get();
             if (BCrypt.checkpw(contrasenia, user.getContrasenia())) {
                 usuarioLogueado = user;
+                eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGIN_EXITOSO, correo));
                 return true;
+            } else {
+                eventPublisher.notifyObservers(new DomainEvent(EnumEventType.LOGIN_FALLIDO, correo));
             }
         }
         return false;
+    }
+
+    public Subject getEventPublisher() {
+        return eventPublisher;
     }
 
     public Optional<String> obtenerRolUsuario(String correo) throws SQLException {
@@ -91,4 +103,15 @@ public class ServicioUsuario extends Subject {
         return usuarioLogueado;
     }
 
+    public boolean validarEspaciosVacios(String correo, String contrasenia) {
+        if (correo == null || correo.trim().isEmpty()) {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, correo));
+            return true;
+        }
+        if (contrasenia == null || contrasenia.trim().isEmpty()) {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, contrasenia));
+            return true;
+        }
+        return false;
+    }
 }

@@ -3,6 +3,9 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
+import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.events.DomainEvent;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.infra.Observer;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
@@ -12,21 +15,13 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class MainMenuController implements Observer {
 
@@ -55,14 +50,30 @@ public class MainMenuController implements Observer {
     private StackPane rootContainer;
 
     private AuthController authController;
+    private SceneRouter router;
+    private FormatoAControllerFactory formatoFactory;
 
     public void setController(AuthController authController) {
         this.authController = authController;
+        initializeObserver();
+    }
+
+    public void setRouter(SceneRouter router) {
+        this.router = router;
+    }
+
+    public void setFormatoFactory(FormatoAControllerFactory factory) {
+        this.formatoFactory = factory;
+    }
+
+    public void initializeObserver() {
+        if (authController != null) {
+            authController.getEventPublisher().addObserver(this);
+        }
     }
 
     @FXML
     private void initialize() {
-
     }
 
     @FXML
@@ -73,77 +84,66 @@ public class MainMenuController implements Observer {
         // Poner alertas de que está vacio
         boolean validar = authController.loginUser(correo, contrasenia);
 
-        if (espaciosVacios() == false) {
+        if (authController.validarEspaciosVacios(correo, contrasenia) == false) {
             if (validar) {
                 Optional<String> rol = authController.getRolUsuario(correo);
                 if (rol.get().equals("Estudiante")) {
-                    AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Estudiante", Alert.AlertType.INFORMATION);
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedEstudiante.fxml"));
-                    Parent root = loader.load();
-
-                    LoggedEstudianteController estudiante = loader.getController();
-                    estudiante.setController(authController);
-
-                    Stage stage = (Stage) btnIngresar.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
+                    router.goToStudentModule(authController);
                 } else {
-                    AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Docente", Alert.AlertType.INFORMATION);
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
-                    Parent root = loader.load();
-
-                    LoggedDocenteController controller = loader.getController();
-                    controller.setController(authController);
-                    controller.setFormatoAController(new FormatoAController(new ServicioFormatoA(new FormatoARepositorio())));
-
-                    Stage stage = (Stage) btnIngresar.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
+                    FormatoAController formatoCtrl = (formatoFactory != null)
+                            ? formatoFactory.create()
+                            : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
+                    router.goToTeacherModule(authController, formatoCtrl);
                 }
-            } else {
-                AlertUtil.mostrarAlerta("Ingreso Incorrecto", "Correo o contraseña incorrectos", Alert.AlertType.WARNING);
-                txtCorreo.setText("");
-                txtContraseña.setText("");
             }
         }
+    }
 
+    @FXML
+    void switchToRegister(ActionEvent event) {
+        try {
+            if (authController == null || router == null) {
+                throw new IllegalStateException("Dependencias no inyectadas");
+            }
+            router.goToRegister(authController);
+        } catch (IOException ex) {
+            showError(ex);
+        }
     }
 
     @FXML
     private void handleClickPane(MouseEvent event) {
-        // Quita el foco del TextField (y de cualquier otro nodo que lo tenga)
         pnDatos.requestFocus();
     }
 
-    @FXML
-    void switchToRegister(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/RegisterFrame.fxml"));
-        Parent root = loader.load();
-
-        RegisterFrameController registerController = loader.getController();
-        registerController.setController(authController);
-        Stage stage = (Stage) btnIngresar.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    private boolean espaciosVacios() {
-
-        if (txtCorreo.getText().trim().isEmpty()) {
-            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese un correo", Alert.AlertType.WARNING);
-            return true;
-        }
-        if (txtContraseña.getText().trim().isEmpty()) {
-            AlertUtil.mostrarAlerta("Espacio vacio", "Ingrese la contraseña", Alert.AlertType.WARNING);
-            return true;
-        }
-        return false;
+    private void showError(Exception ex) {
+        ex.printStackTrace();
+        AlertUtil.mostrarAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
     }
 
     @Override
     public void update(Object o) {
         AlertUtil.mostrarAlerta("Notificacion", "Usuario registrado", Alert.AlertType.INFORMATION);
+    }
+
+    @Override
+    public void update(DomainEvent event) {
+        switch (event.getName()) {
+            case USER_REGISTERED:
+                Usuario u = (Usuario) event.getData();
+                AlertUtil.mostrarAlerta("Usuario Registrado", "Bienvenido " + u.getNombreCompleto(), Alert.AlertType.INFORMATION);
+                break;
+            case LOGIN_FALLIDO:
+                AlertUtil.mostrarAlerta("Error", "Credenciales incorrectas", Alert.AlertType.WARNING);
+                break;
+            case LOGIN_EXITOSO:
+                AlertUtil.mostrarAlerta("Bienvenido", "Ingreso exitoso", Alert.AlertType.INFORMATION);
+                break;
+            case ESPACIOS_VACIOS:
+                AlertUtil.mostrarAlerta("Espacios Vacíos", "Correo o contraseña no pueden estar vacío", Alert.AlertType.WARNING);
+                break;
+            default:
+                throw new AssertionError();
+        }
     }
 }

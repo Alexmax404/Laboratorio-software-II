@@ -2,12 +2,10 @@ package co.unicauca.gestiontg.access;
 
 import co.unicauca.gestiontg.config.DatabaseConfig;
 import co.unicauca.gestiontg.domain.*;
-import co.unicauca.gestiontg.service.ServicioUsuario;
+import co.unicauca.gestiontg.factory.UsuarioFactory;
 import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UsuarioRepositorio implements IUsuarioRepositorio {
 
@@ -39,16 +37,7 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             stmt.setString(1, correo);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Usuario u = new Usuario();
-                    u.setId((java.util.UUID) rs.getObject("id"));
-                    u.setNombres(rs.getString("nombres"));
-                    u.setApellidos(rs.getString("apellidos"));
-                    u.setCelular(rs.getString("celular"));
-                    u.setPrograma(EnumPrograma.valueOf(rs.getString("programa")));
-                    u.setRol(EnumRol.valueOf(rs.getString("rol")));
-                    u.setCorreo(rs.getString("correo"));
-                    u.setContrasenia(rs.getString("contrasenia"));
-                    return Optional.of(u);
+                    return Optional.of(UsuarioFactory.fromResultSet(rs));
                 }
             }
         }
@@ -93,5 +82,4 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
         }
         return Optional.empty();
     }
-
 }
