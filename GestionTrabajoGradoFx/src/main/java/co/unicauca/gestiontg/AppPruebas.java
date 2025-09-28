@@ -17,6 +17,7 @@ import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.service.ServicioEvaluacionCoordinador;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
 import co.unicauca.gestiontg.service.ServicioUsuario;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -36,9 +37,9 @@ public class AppPruebas {
         var controller = new FormatoAController(servicio);
         Scanner scanner = new Scanner(System.in);
 
-        UUID estudianteId1 = UUID.fromString("ede1e9a7-959e-49ca-a2fc-a7570b7fe076");
+        UUID estudianteId1 = UUID.fromString("d1097940-66de-4160-937d-dea6f9d6ea17");
         UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
-        UUID docenteId = UUID.fromString("2b0fedf3-3942-44a4-93b8-9bb7577f73a8");
+        UUID docenteId = UUID.fromString("80cb2cce-4eaf-4d1b-a196-20c28305baac");
         UUID enviadoPor = docenteId;
 //        // Primer envío (creación)
 //        String result1 = controller.crearOReenviarFormato(
@@ -51,7 +52,7 @@ public class AppPruebas {
 //                "TRABAJO_DE_INVESTIGACION",
 //                "Dr. López",
 //                null,
-//                "2025-09-20",
+//                LocalDate.now(),
 //                "Objetivo general del proyecto",
 //                "Objetivo específico 1; Objetivo 2",
 //                "/uploads/formatoA_v1.pdf"
@@ -93,19 +94,25 @@ public class AppPruebas {
 //        String resultado = controller.evaluar(formatoId, formatoVersionId, coordinadorId, decision, comentarios);
 //        System.out.println(resultado);
 
-        List<FormatoA> formatos = controller.listarFormatos();
+//        List<FormatoA> formatos = controller.listarFormatos();
 
-        if (formatos.isEmpty()) {
-            System.out.println("No hay formatos registrados.");
-            return;
-        }
-
-        for (int i = 0; i < formatos.size(); i++) {
-            FormatoA f = formatos.get(i);
-            System.out.printf("[%d] ID: %s | Titulo: %s | Estado: %s%n",
-                    i + 1, f.getId(), f.getTitulo(), f.getEstado());
-            Optional<FormatoAVersion> ver = controller.verDetalleFormato(f.getId());
-            System.out.println(ver.get().getObjetivosGenerales());
+//        if (formatos.isEmpty()) {
+//            System.out.println("No hay formatos registrados.");
+//            return;
+//        }
+//
+//        for (int i = 0; i < formatos.size(); i++) {
+//            FormatoA f = formatos.get(i);
+//            
+//            System.out.printf("[%d] ID: %s | Titulo: %s | Estado: %s%n",
+//                    i + 1, f.getId(), f.getTitulo(), f.getEstado());
+//            Optional<FormatoAVersion> ver = controller.verDetalleFormato(f.getId());
+//            System.out.println(ver.get().getObjetivosGenerales());
+//        }
+        
+        List<FormatoA> formatos = controller.listarFormatosByUsuario("d1097940-66de-4160-937d-dea6f9d6ea17");
+        for (int i = 0; i < formatos.size(); i++){
+            System.out.println(formatos.get(i).getDocenteId());
         }
     }
 }

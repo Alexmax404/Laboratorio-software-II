@@ -2,6 +2,7 @@ package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.FormatoA;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,15 +27,16 @@ public class ElegirFormatoController {
     @FXML
     private TableColumn<FormatoA, String> colTitulo;
 
-    private final FormatoARepositorio formatoRepo = new FormatoARepositorio();
     
     private List<FormatoA> formatos = new ArrayList<>();
 
     private AuthController authController;
     
+    private FormatoAController formatoAController;
+    
     public void setController(AuthController authController) throws SQLException {
         this.authController = authController;
-        formatos = formatoRepo.listarFormatoAPorProfesor(authController.getUsuarioLogueado().getId());
+        formatos = formatoAController.listarFormatosByUsuario(authController.getUsuarioLogueado().getId().toString());
     }
     @FXML
     private void initialize() {

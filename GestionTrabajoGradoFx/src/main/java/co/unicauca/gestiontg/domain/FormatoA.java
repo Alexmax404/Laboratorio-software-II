@@ -13,6 +13,7 @@ public class FormatoA {
     private UUID id;
     private UUID estudianteId1;
     private UUID estudianteId2;
+    private UUID docenteId;
     private String titulo;
     private EnumModalidad modalidad;
     private String director;
@@ -27,10 +28,11 @@ public class FormatoA {
     public FormatoA() {
     }
 
-    public FormatoA(UUID id, UUID estudianteId1, UUID estudianteId2, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, EnumEstadoFormato estado, int intentos, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FormatoA(UUID id, UUID estudianteId1, UUID estudianteId2, UUID docenteId, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, EnumEstadoFormato estado, int intentos, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.estudianteId1 = estudianteId1;
         this.estudianteId2 = estudianteId2;
+        this.docenteId = docenteId;
         this.titulo = titulo;
         this.modalidad = modalidad;
         this.director = director;
@@ -64,6 +66,14 @@ public class FormatoA {
 
     public void setEstudianteId2(UUID estudianteId2) {
         this.estudianteId2 = estudianteId2;
+    }
+
+    public UUID getDocenteId() {
+        return docenteId;
+    }
+
+    public void setDocenteId(UUID docenteId) {
+        this.docenteId = docenteId;
     }
 
     public String getTitulo() {
@@ -145,4 +155,5 @@ public class FormatoA {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

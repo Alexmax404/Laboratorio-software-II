@@ -67,9 +67,9 @@ public class ServicioFormatoA {
         }
     }
 
-    public List<FormatoA> obtenerFormatosPorEstudiante(UUID estudianteId) throws Exception {
+    public List<FormatoA> obtenerFormatosPorUsuario(UUID usuarioId) throws Exception {
         try {
-            return formatoRepo.findFormatosByEstudianteId(estudianteId);
+            return formatoRepo.findFormatosByUsuario(usuarioId);
         } catch (Exception e) {
             throw new Exception("Error al obtener formatos: " + e.getMessage());
         }
