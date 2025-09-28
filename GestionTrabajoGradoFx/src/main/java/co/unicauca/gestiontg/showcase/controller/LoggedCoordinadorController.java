@@ -2,6 +2,7 @@ package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.animation.FadeTransition;
@@ -24,8 +25,7 @@ public class LoggedCoordinadorController {
 
     private FormatoAController formatoAController;
     private AuthController authController;
-    
-    
+
     public void setController(AuthController authController) {
         this.authController = authController;
         if (authController.getUsuarioLogueado() != null) {
@@ -87,7 +87,7 @@ public class LoggedCoordinadorController {
 
     @FXML
     void handleRelease(MouseEvent event) {
-                Button btn = (Button) event.getSource();
+        Button btn = (Button) event.getSource();
         btn.setCursor(Cursor.HAND); // 👈 Manita se mantiene
         btn.setStyle(
                 "-fx-background-color: transparent;"
@@ -106,11 +106,13 @@ public class LoggedCoordinadorController {
 
         MainMenuController mainController = loader.getController();
         mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-    }   
+    }
 
     @FXML
     void switchToVerFormatosA(ActionEvent event) throws IOException, SQLException {
@@ -118,13 +120,14 @@ public class LoggedCoordinadorController {
         Parent root = loader.load();
 
         ListaDeEstadosController controller = loader.getController();
-        controller.setFormatoAController(formatoAController); 
+        controller.setFormatoAController(formatoAController);
         controller.setController(authController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     public void cargarDatosCoordinador() {
         if (authController != null) {
             var usuario = authController.getUsuarioLogueado();
@@ -134,21 +137,19 @@ public class LoggedCoordinadorController {
             }
         }
     }
+
     @FXML
     public void initialize() {
-        
+
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
-        
-       
+
         fade.setOnFinished(event -> {
             // Cuando termine la animación, mandar el ImageView al fondo
             fadingImage.toBack();
         });
-        
-        
-        
+
         fade.play();
     }
 

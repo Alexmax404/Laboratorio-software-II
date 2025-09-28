@@ -1,9 +1,10 @@
-package co.unicauca.gestiontg.showcase.controller;
+package co.unicauca.gestiontg.showcase.router;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.EnumPrograma;
 import co.unicauca.gestiontg.domain.EnumRol;
 import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.showcase.controller.MainMenuController;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import java.sql.SQLException;

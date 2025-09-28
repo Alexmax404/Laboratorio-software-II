@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg.showcase.controller;
+package co.unicauca.gestiontg.showcase.router;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import java.io.IOException;
