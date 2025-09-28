@@ -5,6 +5,7 @@ import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +43,9 @@ public class ProfesorFormatoAController {
 
     @FXML
     private ComboBox<EnumModalidad> cbxModalidad;
+    
+    @FXML
+    private DatePicker datePicker;
 
     @FXML
     private ImageView fadingImage;
@@ -150,7 +155,7 @@ public class ProfesorFormatoAController {
             String modalidad = cbxModalidad.getValue().name();
             String director = txtDirectorProyecto.getText();
             String coDirector = txtCoodirectorProyecto.getText();
-            String fechaPresentacion = txtFecha.getText();
+            LocalDate fechaPresentacion = datePicker.getValue();
 
             // Objetivos guardados en ventanas modales
             String objetivoGeneral = ObjetivoGeneralController.getObjetivosGuardados();
@@ -161,16 +166,16 @@ public class ProfesorFormatoAController {
 
             // Llamada al caso de uso (application controller)
             String resultado = formatoAController.crearOReenviarFormato(
-                    null, // es un nuevo formato
+                    null,
                     estudianteId1,
                     estudianteId2,
                     docenteId,
-                    docenteId, // enviadoPor = docente
+                    docenteId,
                     titulo,
                     modalidad,
                     director,
                     coDirector,
-                    fechaPresentacion,
+                    fechaPresentacion, // 👈 ya no es String
                     objetivoGeneral,
                     objetivosEspecificos,
                     archivoFormatoPath
@@ -301,13 +306,38 @@ public class ProfesorFormatoAController {
         }
     }
 
-    @FXML
-    private void initialize() {
-        cbxModalidad.getItems().addAll(
-                EnumModalidad.TRABAJO_DE_INVESTIGACION,
-                EnumModalidad.PRACTICA_PROFESIONAL
-        );
-        cbxModalidad.setPromptText("Seleccione una opción");
+@FXML
+private void initialize() {
+    cbxModalidad.getItems().addAll(
+            EnumModalidad.TRABAJO_DE_INVESTIGACION,
+            EnumModalidad.PRACTICA_PROFESIONAL
+    );
+    cbxModalidad.setPromptText("Seleccione una opción");
 
-    }
+    // 🔹 Convertidor: cómo mostrar y cómo recuperar el enum
+    cbxModalidad.setConverter(new javafx.util.StringConverter<EnumModalidad>() {
+        @Override
+        public String toString(EnumModalidad modalidad) {
+            if (modalidad == null) {
+                return "";
+            }
+            // Reemplaza guiones bajos por espacios y capitaliza
+            return modalidad.name().replace("_", " ");
+        }
+
+        @Override
+        public EnumModalidad fromString(String string) {
+            if (string == null) {
+                return null;
+            }
+            // Convierte de nuevo a enum (reemplaza espacios por "_")
+            return EnumModalidad.valueOf(string.replace(" ", "_"));
+        }
+    });
+
+    // 🔹 Fuente más grande al DatePicker
+    datePicker.setStyle("-fx-font-size: 16px;");
+    datePicker.setEditable(false); // 👈 no editable
+}
+
 }

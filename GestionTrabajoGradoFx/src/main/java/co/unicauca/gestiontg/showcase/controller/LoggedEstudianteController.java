@@ -26,17 +26,14 @@ public class LoggedEstudianteController {
     private ImageView fadingImage;
     
     @FXML
-    private Label lblCarrera;
-    
-    @FXML
-    private Label lblCelular;
-    
-    @FXML
     private Label lblCorreo;
-    
+
+    @FXML
+    private Label lblName;
+
     @FXML
     private Label lblNombre;
-    
+
     @FXML
     private Label lblRol;
     
@@ -54,6 +51,9 @@ public class LoggedEstudianteController {
     
     public void setController(AuthController authController) {
         this.authController = authController;
+        if (authController.getUsuarioLogueado() != null) {
+        cargarDatosEstudiante();
+        }
     }
     
     @FXML
@@ -104,7 +104,15 @@ public class LoggedEstudianteController {
                 + "-fx-background-radius: 10;"
         );
     }
-    
+    public void cargarDatosEstudiante() {
+        if (authController != null) {
+            var usuario = authController.getUsuarioLogueado();
+            if (usuario != null) {
+                lblName.setText(usuario.getNombreCompleto());   // 👈 aquí pones nombres
+                lblCorreo.setText(usuario.getCorreo());
+            }
+        }
+    }
     @FXML
     public void initialize() {
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
