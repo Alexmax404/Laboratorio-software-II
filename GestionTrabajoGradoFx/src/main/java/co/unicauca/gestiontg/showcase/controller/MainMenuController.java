@@ -5,6 +5,7 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.events.DomainEvent;
+import co.unicauca.gestiontg.events.EnumEventType;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.infra.Observer;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
@@ -55,7 +56,9 @@ public class MainMenuController implements Observer {
 
     public void setController(AuthController authController) {
         this.authController = authController;
-        initializeObserver();
+        if (authController != null) {
+            authController.getEventPublisher().addObserver(this);
+        }
     }
 
     public void setRouter(SceneRouter router) {
@@ -66,12 +69,6 @@ public class MainMenuController implements Observer {
         this.formatoFactory = factory;
     }
 
-    public void initializeObserver() {
-        if (authController != null) {
-            authController.getEventPublisher().addObserver(this);
-        }
-    }
-
     @FXML
     private void initialize() {
     }
@@ -80,21 +77,26 @@ public class MainMenuController implements Observer {
     void switchToLogged(ActionEvent event) throws IOException, SQLException {
         String correo = txtCorreo.getText();
         String contrasenia = txtContraseña.getText();
-
-        // Poner alertas de que está vacio
         boolean validar = authController.loginUser(correo, contrasenia);
 
-        if (authController.validarEspaciosVacios(correo, contrasenia) == false) {
-            if (validar) {
-                Optional<String> rol = authController.getRolUsuario(correo);
-                if (rol.get().equals("Estudiante")) {
-                    router.goToStudentModule(authController);
-                } else {
-                    FormatoAController formatoCtrl = (formatoFactory != null)
-                            ? formatoFactory.create()
-                            : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
-                    router.goToTeacherModule(authController, formatoCtrl);
-                }
+        if (validarEspaciosVacios(correo, contrasenia)) {
+            return;
+        }
+
+        if (validar) {
+            Optional<String> rol = authController.getRolUsuario(correo);
+            if (rol.get().equals("Estudiante")) {
+                router.goToStudentModule(authController);
+            } else if (rol.get().equals("Docente")) {
+                FormatoAController formatoCtrl = (formatoFactory != null)
+                        ? formatoFactory.create()
+                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
+                router.goToTeacherModule(authController, formatoCtrl);
+            } else {
+                FormatoAController formatoCtrl = (formatoFactory != null)
+                        ? formatoFactory.create()
+                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
+                router.goToCoordinadorModule(authController, formatoCtrl);
             }
         }
     }
@@ -121,6 +123,18 @@ public class MainMenuController implements Observer {
         AlertUtil.mostrarAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
     }
 
+    public boolean validarEspaciosVacios(String correo, String contrasenia) {
+        if (correo == null || correo.trim().isEmpty()) {
+            AlertUtil.mostrarAlerta("Espacios Vacíos", "Correo o contraseña no pueden estar vacío", Alert.AlertType.WARNING);
+            return true;
+        }
+        if (contrasenia == null || contrasenia.trim().isEmpty()) {
+            AlertUtil.mostrarAlerta("Espacios Vacíos", "Correo o contraseña no pueden estar vacío", Alert.AlertType.WARNING);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void update(Object o) {
         AlertUtil.mostrarAlerta("Notificacion", "Usuario registrado", Alert.AlertType.INFORMATION);
@@ -138,9 +152,6 @@ public class MainMenuController implements Observer {
                 break;
             case LOGIN_EXITOSO:
                 AlertUtil.mostrarAlerta("Bienvenido", "Ingreso exitoso", Alert.AlertType.INFORMATION);
-                break;
-            case ESPACIOS_VACIOS:
-                AlertUtil.mostrarAlerta("Espacios Vacíos", "Correo o contraseña no pueden estar vacío", Alert.AlertType.WARNING);
                 break;
             default:
                 throw new AssertionError();

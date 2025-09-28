@@ -59,8 +59,4 @@ public class AuthController{
     public Usuario getUsuarioLogueado() {
         return userService.getUsuarioLogueado();
     }
-    
-    public boolean validarEspaciosVacios(String correo, String contrasenia){
-        return userService.validarEspaciosVacios(correo, contrasenia);
-    }
 }
