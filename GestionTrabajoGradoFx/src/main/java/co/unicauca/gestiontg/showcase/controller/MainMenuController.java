@@ -88,13 +88,26 @@ public class MainMenuController implements Observer {
                     Stage stage = (Stage) btnIngresar.getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.show();
-                } else {
+                } else if(rol.get().equals("Docente")){
                     AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Docente", Alert.AlertType.INFORMATION);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
                     Parent root = loader.load();
 
                     LoggedDocenteController controller = loader.getController();
+                    controller.setController(authController);
+                    controller.setFormatoAController(new FormatoAController(new ServicioFormatoA(new FormatoARepositorio())));
+
+                    Stage stage = (Stage) btnIngresar.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } else if(rol.get().equals("Coordinador")){
+                    AlertUtil.mostrarAlerta("Bienvenido!", "Dirigiendose al modulo Coordinador", Alert.AlertType.INFORMATION);
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
+                    Parent root = loader.load();
+
+                    LoggedCoordinadorController controller = loader.getController();
                     controller.setController(authController);
                     controller.setFormatoAController(new FormatoAController(new ServicioFormatoA(new FormatoARepositorio())));
 

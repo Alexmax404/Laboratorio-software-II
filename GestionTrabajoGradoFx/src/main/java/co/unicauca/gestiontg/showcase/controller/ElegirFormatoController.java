@@ -54,9 +54,6 @@ public class ElegirFormatoController {
                 authController.getUsuarioLogueado().getId().toString()
         );
 
-
-
-        // 👉 refrescar la tabla
         data.setAll(formatos);
     }
     @FXML
