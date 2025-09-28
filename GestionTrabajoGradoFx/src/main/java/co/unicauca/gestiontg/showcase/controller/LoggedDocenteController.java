@@ -154,7 +154,7 @@ public class LoggedDocenteController {
         Parent root = loader.load();
 
         ElegirFormatoController controller = loader.getController();
-        controller.setFormatoAController(formatoAController); 
+        controller.setFormatoAController(formatoAController);
         controller.setController(authController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
