@@ -103,15 +103,5 @@ public class ServicioUsuario {
         return usuarioLogueado;
     }
 
-    public boolean validarEspaciosVacios(String correo, String contrasenia) {
-        if (correo == null || correo.trim().isEmpty()) {
-            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, correo));
-            return true;
-        }
-        if (contrasenia == null || contrasenia.trim().isEmpty()) {
-            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.ESPACIOS_VACIOS, contrasenia));
-            return true;
-        }
-        return false;
-    }
+
 }

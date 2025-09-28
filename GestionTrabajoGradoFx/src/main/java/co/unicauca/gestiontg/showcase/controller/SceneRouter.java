@@ -14,6 +14,8 @@ public interface SceneRouter {
 
     void goToTeacherModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException;
 
+    void goToCoordinadorModule(AuthController authController, co.unicauca.gestiontg.controller.FormatoAController formatoAController) throws IOException;
+
     void goToRegister(AuthController authController) throws IOException;
 
     Stage getPrimaryStage();
