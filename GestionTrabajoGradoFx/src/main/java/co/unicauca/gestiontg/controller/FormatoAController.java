@@ -4,6 +4,7 @@ import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +65,9 @@ public class FormatoAController {
             return "Error inesperado: " + e.getMessage();
         }
     }
-    
+    public String obtenerNombrePDF(UUID formatoId) throws SQLException{
+        return servicio.obtenerNombreDePDF(formatoId);
+    }
     public List<FormatoA> listarFormatosByUsuario(String usuarioIdStr) {
         try {
             UUID usuarioId = UUID.fromString(usuarioIdStr);
@@ -82,4 +85,6 @@ public class FormatoAController {
     public Optional<FormatoAVersion> verDetalleFormato(UUID formatoId) {
         return servicio.obtenerDetalles(formatoId);
     }
+
+
 }
