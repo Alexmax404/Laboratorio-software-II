@@ -1,1 +1,0 @@
-aquí dentro irían todos los pdfs que se adjunten en el formato A
