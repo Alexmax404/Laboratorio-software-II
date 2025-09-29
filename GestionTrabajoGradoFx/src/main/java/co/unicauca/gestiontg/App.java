@@ -1,14 +1,14 @@
 package co.unicauca.gestiontg;
 
+import co.unicauca.gestiontg.events.AlertObserver;
 import co.unicauca.gestiontg.showcase.controller.MainMenuController;
 import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.access.UsuarioRepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
-import co.unicauca.gestiontg.infra.ISubject;
 import co.unicauca.gestiontg.infra.Subject;
 import co.unicauca.gestiontg.service.ServicioUsuario;
-import co.unicauca.gestiontg.showcase.controller.SceneRouterImpl;
+import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +29,8 @@ public class App extends Application {
         Subject subject = new Subject();
         ServicioUsuario servicio = new ServicioUsuario(repo, subject);
         
+        servicio.getEventPublisher().addObserver(new AlertObserver());
+            
         AuthController controller = new AuthController(servicio);
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));

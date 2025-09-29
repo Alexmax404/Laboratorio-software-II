@@ -1,4 +1,4 @@
-package co.unicauca.gestiontg.showcase.router;
+package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.EnumPrograma;

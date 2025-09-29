@@ -3,9 +3,12 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
+import co.unicauca.gestiontg.showcase.router.SceneRouter;
+import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
@@ -70,15 +73,21 @@ public class LoggedDocenteController {
 
     private FormatoAControllerFactory formatoFactory;
 
-    public void setFormatoFactory(FormatoAControllerFactory factory) {
-        this.formatoFactory = factory;
-    }
+    private SceneRouter router;
 
     public void setController(AuthController authController) {
         this.authController = authController;
         if (authController.getUsuarioLogueado() != null) {
             cargarDatosDocente();
         }
+    }
+
+    public void setFormatoFactory(FormatoAControllerFactory factory) {
+        this.formatoFactory = factory;
+    }
+
+    public void setRouter(SceneRouter router) {
+        this.router = router;
     }
 
     public void setFormatoAController(FormatoAController formatoAController) {
@@ -120,9 +129,11 @@ public class LoggedDocenteController {
     }
 
     @FXML
-    public void switchToMainMenu() throws IOException {
+    void switchToMainMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
         Parent root = loader.load();
+        
+        authController.logout();
 
         MainMenuController mainController = loader.getController();
         mainController.setController(authController);
@@ -146,6 +157,7 @@ public class LoggedDocenteController {
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+
     }
 
     @FXML
@@ -154,19 +166,20 @@ public class LoggedDocenteController {
         Parent root = loader.load();
 
         ElegirFormatoController controller = loader.getController();
-        controller.setFormatoAController(formatoAController); 
+        controller.setFormatoAController(formatoAController);
         controller.setController(authController);
 
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+
     }
 
     public void cargarDatosDocente() {
         if (authController != null) {
             var usuario = authController.getUsuarioLogueado();
             if (usuario != null) {
-                lblName.setText(usuario.getNombreCompleto());   // 👈 aquí pones nombres
+                lblName.setText(usuario.getNombreCompleto());
                 lblCorreo.setText(usuario.getCorreo());
             }
         }
@@ -174,13 +187,11 @@ public class LoggedDocenteController {
 
     @FXML
     public void initialize() {
-
         FadeTransition fade = new FadeTransition(Duration.seconds(1), fadingImage);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
 
         fade.setOnFinished(event -> {
-            // Cuando termine la animación, mandar el ImageView al fondo
             fadingImage.toBack();
         });
 

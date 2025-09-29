@@ -44,6 +44,10 @@ public class CargarPDFController {
 
     // 🔹 Guardamos el archivo actual copiado en la carpeta
     private static File archivoCargado;
+    
+    public static File getArchivoCargado() {
+    return archivoCargado;
+    }
 
     @FXML
     public void initialize() {
@@ -101,7 +105,7 @@ public class CargarPDFController {
         event.setDropCompleted(success);
         event.consume();
     }
-
+    
     private void handleClickPanelPDF(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar PDF");
@@ -113,19 +117,26 @@ public class CargarPDFController {
             actualizarUIConArchivo(fileSeleccionado); // ✅ ahora sí actualizamos con el archivo seleccionado
         }
     }
+    public static String getRutaArchivo() {
+        if (archivoCargado == null) return null;
+        return archivoCargado.getAbsolutePath(); // ruta absoluta directa
+    }
+
 
     private void copiarArchivo(File file) {
         try {
-            Path carpetaDestino = Path.of("src", "main", "resources", "pdfs");
+            // 📂 Crear carpeta "pdfs" en la raíz del proyecto (no dentro de src)
+            Path carpetaDestino = Path.of("pdfs");
             if (!Files.exists(carpetaDestino)) {
                 Files.createDirectories(carpetaDestino);
             }
 
-            // Eliminar el archivo anterior si existía
+            // 🔄 Eliminar el archivo anterior si existía
             if (archivoCargado != null && archivoCargado.exists()) {
                 Files.deleteIfExists(archivoCargado.toPath());
             }
 
+            // 📥 Copiar el nuevo archivo
             Path destino = carpetaDestino.resolve(file.getName());
             Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
 

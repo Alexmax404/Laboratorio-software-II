@@ -3,6 +3,7 @@ package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.service.ServicioUsuario;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 

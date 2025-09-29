@@ -32,15 +32,15 @@ public class AppPruebas {
     public static void main(String[] args) {
 
         var repo = new FormatoARepositorio();
-        var servicio = new ServicioFormatoA(repo);
+//        var servicio = new ServicioFormatoA(repo);
 
-        var controller = new FormatoAController(servicio);
-        Scanner scanner = new Scanner(System.in);
-
-        UUID estudianteId1 = UUID.fromString("d1097940-66de-4160-937d-dea6f9d6ea17");
-        UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
-        UUID docenteId = UUID.fromString("80cb2cce-4eaf-4d1b-a196-20c28305baac");
-        UUID enviadoPor = docenteId;
+//        var controller = new FormatoAController(servicio);
+//        Scanner scanner = new Scanner(System.in);
+//
+//        UUID estudianteId1 = UUID.fromString("d1097940-66de-4160-937d-dea6f9d6ea17");
+//        UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
+//        UUID docenteId = UUID.fromString("80cb2cce-4eaf-4d1b-a196-20c28305baac");
+//        UUID enviadoPor = docenteId;
 //        // Primer envío (creación)
 //        String result1 = controller.crearOReenviarFormato(
 //                null,
@@ -110,9 +110,9 @@ public class AppPruebas {
 //            System.out.println(ver.get().getObjetivosGenerales());
 //        }
         
-        List<FormatoA> formatos = controller.listarFormatosByUsuario("cfac71a5-2ec2-480f-a3d7-61af9d13c13d");
-        for (int i = 0; i < formatos.size(); i++){
-            System.out.println(formatos.get(i).getDocenteId());
-        }
+//        List<FormatoA> formatos = controller.listarFormatosByUsuario("cfac71a5-2ec2-480f-a3d7-61af9d13c13d");
+//        for (int i = 0; i < formatos.size(); i++){
+//            System.out.println(formatos.get(i).getDocenteId());
+//        }
     }
 }
