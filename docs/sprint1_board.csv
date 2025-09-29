@@ -1,6 +1,6 @@
 Title,Body,Labels,Type,Status,Estimate,Type,Area
 HU-01: Login / Logout,Como usuario quiero iniciar y cerrar sesion para acceder a la app. Cubre flujo feliz y errores.,sprint:1,type:story,Finish,5,Funcional,Autenticacion
-HU-02: Registro de usuario,Como usuario nuevo quiero registrarme validando correo institucional y contrase�a segura.,sprint:1,type:story,Finish,5,Funcional,Autenticacion
+HU-02: Registro de usuario,Como usuario nuevo quiero registrarme validando correo institucional y contrasena segura.,sprint:1,type:story,Finish,5,Funcional,Autenticacion
 HU-03: Crear/Reenviar Formato A,Como estudiante quiero crear o reenviar el Formato A (acepta 1 o 2 estudiantes) y generar version.,sprint:1,type:story,Finish,8,Funcional,Formato A
 HU-04: Evaluacion de Formato A,Como coordinador quiero evaluar el Formato A con decisiones Aprobado/Correcciones/Rechazado.,sprint:1,type:story,Finish,5,Funcional,Evaluacion
 T-01: CI con GitHub Actions,"Pipeline JDK 21: mvn verify, cache de Maven y badge en README.",sprint:1,type:tech,Finish,3,Tecnica,DevOps
