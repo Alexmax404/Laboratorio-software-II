@@ -26,16 +26,18 @@ public class VerDetallesCoordinadorController {
 
     @FXML
     private Button btnVerPDF;
-
     @FXML
-  // 🔹 Único label para mostrar todo
+    private Label lblNombreDoc;
+    @FXML
+    // 🔹 Único label para mostrar todo
 
-    private FormatoA formato; 
-    private FormatoAVersion ultimaVersion; 
+    private FormatoA formato;
+    private FormatoAVersion ultimaVersion;
     private final FormatoARepositorio repositorio = new FormatoARepositorio();
-    
+
     @FXML
     private Pane pnDatos1;
+
     /**
      * Recibe el FormatoA seleccionado y busca su última versión
      */
@@ -61,72 +63,81 @@ public class VerDetallesCoordinadorController {
     /**
      * Muestra toda la información en un solo Label organizado
      */
-   @FXML
-private TextFlow lblGeneral;
+    @FXML
+    private TextFlow lblGeneral;
 
-private void mostrarDatos() {
-    if (ultimaVersion == null) return;
-
-    lblGeneral.getChildren().clear(); // limpiar antes de mostrar
-
-    // Helper para títulos en negrilla
-    java.util.function.Function<String, Text> bold = txt -> {
-        Text t = new Text(txt);
-        t.setStyle("-fx-font-weight: bold;");
-        return t;
-    };
-
-    // Helper para contenido normal (con wrap)
-    java.util.function.Function<String, Text> normal = txt -> new Text(txt + "\n");
-
-    lblGeneral.getChildren().addAll(
-        bold.apply("📄 Formato ID: "), normal.apply(ultimaVersion.getId().toString()),
-        bold.apply("Título: "), normal.apply(ultimaVersion.getTitulo()),
-        bold.apply("Director: "), normal.apply(ultimaVersion.getDirector()),
-        bold.apply("Codirector: "), normal.apply(ultimaVersion.getCoDirector() != null ? ultimaVersion.getCoDirector() : "N/A"),
-        bold.apply("Modalidad: "), normal.apply(ultimaVersion.getModalidad() != null ? ultimaVersion.getModalidad().name() : "N/A"),
-        bold.apply("Objetivos Generales:\n"), normal.apply(ultimaVersion.getObjetivosGenerales() != null ? wrapText(ultimaVersion.getObjetivosGenerales(), 200) : "N/A"),
-        bold.apply("Objetivos Específicos:\n"), normal.apply(ultimaVersion.getObjetivosEspecificos() != null ? wrapText(ultimaVersion.getObjetivosEspecificos(), 200) : "N/A"),
-        bold.apply("Versión: "), normal.apply(String.valueOf(ultimaVersion.getVersion())),
-        bold.apply("Fecha Presentación: "), normal.apply(ultimaVersion.getFechaPresentacion() != null ? ultimaVersion.getFechaPresentacion().toString() : "Sin fecha")
-    );
-
-    // 🔹 Nombres de estudiantes
-    try {
-        Optional<List<String>> optNombres = repositorio.obtenerNombresEstudiantesPorFormatoId(formato.getId());
-        String integrantes = (optNombres.isPresent() && !optNombres.get().isEmpty())
-                ? String.join(" y ", optNombres.get())
-                : "N/A";
-        lblGeneral.getChildren().addAll(
-            bold.apply("Integrantes: "), normal.apply(integrantes)
-        );
-    } catch (SQLException e) {
-        e.printStackTrace();
-        lblGeneral.getChildren().addAll(
-            bold.apply("Integrantes: "), normal.apply("Error al cargar")
-        );
-    }
-}
-
-/**
- * Envuelve texto largo insertando saltos de línea cada "lineLength" caracteres.
- */
-private String wrapText(String text, int lineLength) {
-    StringBuilder wrapped = new StringBuilder();
-    int count = 0;
-
-    for (String word : text.split(" ")) {
-        if (count + word.length() > lineLength) {
-            wrapped.append("\n");
-            count = 0;
+    private void mostrarDatos() {
+        if (ultimaVersion == null) {
+            return;
         }
-        wrapped.append(word).append(" ");
-        count += word.length() + 1;
+
+        lblGeneral.getChildren().clear(); // limpiar antes de mostrar
+
+        // Helper para títulos en negrilla
+        java.util.function.Function<String, Text> bold = txt -> {
+            Text t = new Text(txt);
+            t.setStyle("-fx-font-weight: bold;");
+            return t;
+        };
+
+        // Helper para contenido normal (con wrap)
+        java.util.function.Function<String, Text> normal = txt -> new Text(txt + "\n");
+
+        lblGeneral.getChildren().addAll(
+                bold.apply("📄 Formato ID: "), normal.apply(ultimaVersion.getId().toString()),
+                bold.apply("Título: "), normal.apply(ultimaVersion.getTitulo()),
+                bold.apply("Director: "), normal.apply(ultimaVersion.getDirector()),
+                bold.apply("Codirector: "), normal.apply(ultimaVersion.getCoDirector() != null ? ultimaVersion.getCoDirector() : "N/A"),
+                bold.apply("Modalidad: "), normal.apply(ultimaVersion.getModalidad() != null ? ultimaVersion.getModalidad().name() : "N/A"),
+                bold.apply("Objetivos Generales:\n"), normal.apply(ultimaVersion.getObjetivosGenerales() != null ? wrapText(ultimaVersion.getObjetivosGenerales(), 200) : "N/A"),
+                bold.apply("Objetivos Específicos:\n"), normal.apply(ultimaVersion.getObjetivosEspecificos() != null ? wrapText(ultimaVersion.getObjetivosEspecificos(), 200) : "N/A"),
+                bold.apply("Versión: "), normal.apply(String.valueOf(ultimaVersion.getVersion())),
+                bold.apply("Fecha Presentación: "), normal.apply(ultimaVersion.getFechaPresentacion() != null ? ultimaVersion.getFechaPresentacion().toString() : "Sin fecha")
+        );
+
+        // 🔹 Nombres de estudiantes
+        try {
+            Optional<List<String>> optNombres = repositorio.obtenerNombresEstudiantesPorFormatoId(formato.getId());
+            String integrantes = (optNombres.isPresent() && !optNombres.get().isEmpty())
+                    ? String.join(" y ", optNombres.get())
+                    : "N/A";
+            lblGeneral.getChildren().addAll(
+                    bold.apply("Integrantes: "), normal.apply(integrantes)
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            lblGeneral.getChildren().addAll(
+                    bold.apply("Integrantes: "), normal.apply("Error al cargar")
+            );
+        }
+
+        // 🔹 Mostrar nombre del archivo en lblNombreDoc
+        if (ultimaVersion.getArchivoFormatoPath() != null) {
+            File file = new File(ultimaVersion.getArchivoFormatoPath());
+            lblNombreDoc.setText(file.getName()); // <-- aquí queda solo el último elemento
+        } else {
+            lblNombreDoc.setText("Sin archivo");
+        }
     }
-    return wrapped.toString().trim();
-}
 
+    /**
+     * Envuelve texto largo insertando saltos de línea cada "lineLength"
+     * caracteres.
+     */
+    private String wrapText(String text, int lineLength) {
+        StringBuilder wrapped = new StringBuilder();
+        int count = 0;
 
+        for (String word : text.split(" ")) {
+            if (count + word.length() > lineLength) {
+                wrapped.append("\n");
+                count = 0;
+            }
+            wrapped.append(word).append(" ");
+            count += word.length() + 1;
+        }
+        return wrapped.toString().trim();
+    }
 
     @FXML
     void EventSalir(ActionEvent event) {
@@ -134,7 +145,7 @@ private String wrapText(String text, int lineLength) {
         stage.close();
     }
 
-        @FXML
+    @FXML
     void abrirSubirPDF(ActionEvent event) {
         if (ultimaVersion != null && ultimaVersion.getArchivoFormatoPath() != null) {
             try {
@@ -157,11 +168,8 @@ private String wrapText(String text, int lineLength) {
         }
     }
 
-
-
-
     @FXML
     void handleClickPane(MouseEvent event) {
-         pnDatos1.requestFocus();
+        pnDatos1.requestFocus();
     }
 }

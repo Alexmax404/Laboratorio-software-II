@@ -145,6 +145,19 @@ public class LoggedCoordinadorController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+    @FXML
+    void switchToListaDeFormatos(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeFormatos.fxml"));
+        Parent root = loader.load();
+
+        ListaDeFormatosController controller = loader.getController();
+        controller.setFormatoAController(formatoAController);
+        controller.setController(authController);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
     public void cargarDatosCoordinador() {
         if (authController != null) {
