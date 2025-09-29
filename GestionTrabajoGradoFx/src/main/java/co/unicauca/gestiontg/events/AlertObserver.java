@@ -34,7 +34,10 @@ public class AlertObserver implements Observer {
                 break;
             case FORMATO_CREADO:
                 AlertUtil.mostrarAlerta("Creación", "Formato creado", Alert.AlertType.INFORMATION);
-
+                break;
+            case EVALUACION_REGISTRADA:
+                AlertUtil.mostrarAlerta("Creación", "Evaluación registrada exitosamente", Alert.AlertType.INFORMATION);
+                break;
             default:
                 throw new AssertionError();
         }
