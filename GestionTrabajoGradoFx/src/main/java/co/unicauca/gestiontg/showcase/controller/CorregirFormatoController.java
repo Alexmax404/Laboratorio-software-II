@@ -1,21 +1,30 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.access.FormatoARepositorio;
+import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.FormatoA;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class CorregirFormatoController {
-
+    
+    @FXML
+    private Button btnExit;
     @FXML
     private Button btnCorregir;
 
@@ -39,9 +48,35 @@ public class CorregirFormatoController {
 
     @FXML
     private TextArea txtCorrecciones;
-
+    private FormatoAController formatoAController;
+    private AuthController authController;
     private final FormatoARepositorio repositorio = new FormatoARepositorio();
+     public void setFormatoAController(FormatoAController formatoAController) {
+        this.formatoAController = formatoAController;
+    }
 
+    public void setController(AuthController authController) throws SQLException {
+        this.authController = authController;
+
+    }
+    
+    @FXML
+    void EventSalir(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
+            Parent root = loader.load();
+
+            LoggedCoordinadorController coordinadorController = loader.getController();
+            coordinadorController.setController(authController);
+            coordinadorController.setFormatoAController(formatoAController);
+
+            Stage stage = (Stage) btnExit.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void handleClickPane(MouseEvent event) {
         // acción opcional
