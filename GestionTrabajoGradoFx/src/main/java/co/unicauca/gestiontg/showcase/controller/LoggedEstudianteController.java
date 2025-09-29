@@ -6,7 +6,9 @@ import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -57,7 +59,7 @@ public class LoggedEstudianteController {
     private FormatoAController formatoAController;
 
     private SceneRouter router;
-
+    
     public void setController(AuthController authController) {
         this.authController = authController;
         if (authController.getUsuarioLogueado() != null) {
@@ -95,6 +97,20 @@ public class LoggedEstudianteController {
         mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
         mainController.setFormatoFactory(new FormatoAControllerFactory());
 
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+        @FXML
+    void switchToVerEstadosDeFormatos(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstadosEstudiante.fxml"));
+        Parent root = loader.load();
+        
+
+        ListaDeEstadosEstudianteController listaController = loader.getController();
+        listaController.setFormatoAController(formatoAController);
+        listaController.setController(authController);  
+        
         Stage stage = (Stage) linkExit.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

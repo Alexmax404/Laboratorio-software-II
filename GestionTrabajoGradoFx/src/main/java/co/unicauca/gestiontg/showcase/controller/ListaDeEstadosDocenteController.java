@@ -2,8 +2,11 @@ package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
-import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.EnumEstadoFormato;
+import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Aprobado;
+import static co.unicauca.gestiontg.domain.EnumEstadoFormato.En_Revision;
+import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Rechazado;
+import co.unicauca.gestiontg.domain.FormatoA;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,7 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ListaDeEstadosController {
+public class ListaDeEstadosDocenteController {
 
     @FXML
     private Button btnExit;
@@ -42,38 +45,15 @@ public class ListaDeEstadosController {
     private TableColumn<FormatoA, String> colId;
 
     @FXML
-    private TableColumn<FormatoA, String> colObservaciones;
-
-    @FXML
     private TableColumn<FormatoA, String> colTitulo;
 
     @FXML
     private Pane pnDatos1;
-
-    @FXML
-    private TableView<FormatoA> tbFormatos;
-
     private FormatoAController formatoAController;
     private AuthController authController;
     private ObservableList<FormatoA> data = FXCollections.observableArrayList();
-
     @FXML
-    void EventSalir(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
-            Parent root = loader.load();
-
-            LoggedCoordinadorController coordinadorController = loader.getController();
-            coordinadorController.setController(authController);
-            coordinadorController.setFormatoAController(formatoAController);
-
-            Stage stage = (Stage) btnExit.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private TableView<FormatoA> tbFormatos;
 
     public void setFormatoAController(FormatoAController formatoAController) {
         this.formatoAController = formatoAController;
@@ -83,17 +63,7 @@ public class ListaDeEstadosController {
         this.authController = authController;
 
         // Obtener formatos desde el controlador
-        List<FormatoA> formatos = formatoAController.listarFormatos();
-
-        // DEBUG
-        System.out.println("=== DEBUG FECHAS ===");
-        for (FormatoA formato : formatos) {
-            System.out.println("ID: " + formato.getId() +
-                    ", Fecha: " + formato.getFechaPresentacion() +
-                    ", Estado: " + formato.getEstado());
-        }
-        System.out.println("====================");
-
+        List<FormatoA> formatos = formatoAController.listarFormatosByUsuario(authController.getUsuarioLogueado().getId().toString());
         data.setAll(formatos);
         tbFormatos.setItems(data);
         tbFormatos.refresh();
@@ -102,18 +72,18 @@ public class ListaDeEstadosController {
     @FXML
     public void initialize() {
         // ID
-        colId.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getId().toString())
+        colId.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getId().toString())
         );
 
         // Título
-        colTitulo.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getTitulo())
+        colTitulo.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getTitulo())
         );
 
         // Director
-        colDirector.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDirector())
+        colDirector.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getDirector())
         );
 
         // Fecha
@@ -123,8 +93,8 @@ public class ListaDeEstadosController {
         });
 
         // Estado
-        colEstado.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getEstado().name())
+        colEstado.setCellValueFactory(cellData
+                -> new SimpleStringProperty(cellData.getValue().getEstado().name())
         );
 
         // Estilo para la columna Estado
@@ -161,47 +131,29 @@ public class ListaDeEstadosController {
             }
         });
 
-        // Observaciones → botón "Ver Detalles"
-        colObservaciones.setCellFactory(column -> new TableCell<FormatoA, String>() {
-            private final Button btnDetalles = new Button("Ver Detalles");
+        
 
-            {
-                btnDetalles.setStyle(
-                        "-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 4px 8px; -fx-background-radius: 8;"
-                );
-
-                btnDetalles.setOnAction(event -> {
-                    FormatoA formato = getTableView().getItems().get(getIndex());
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/verDetallesCoordinador.fxml"));
-                        Parent root = loader.load();
-
-                        VerDetallesCoordinadorController detallesController = loader.getController();
-                        detallesController.setFormato(formato); // 👈 pasamos el objeto seleccionado
-
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root));
-                        stage.setTitle("Detalles del Formato");
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btnDetalles);
-                }
-            }
-        });
 
         // Enlazar data
         tbFormatos.setItems(data);
     }
+
+    @FXML
+    void EventSalir(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
+            Parent root = loader.load();
+
+            LoggedDocenteController docenteController = loader.getController();
+            docenteController.setController(authController);
+            docenteController.setFormatoAController(formatoAController);
+
+            Stage stage = (Stage) btnExit.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

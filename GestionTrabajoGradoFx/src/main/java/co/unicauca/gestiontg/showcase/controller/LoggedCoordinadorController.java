@@ -134,10 +134,10 @@ public class LoggedCoordinadorController {
 
     @FXML
     void switchToVerFormatosA(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstados.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstadosCoordinador.fxml"));
         Parent root = loader.load();
 
-        ListaDeEstadosController controller = loader.getController();
+        ListaDeEstadosCoordinadorController controller = loader.getController();
         controller.setFormatoAController(formatoAController);
         controller.setController(authController);
 
@@ -147,10 +147,10 @@ public class LoggedCoordinadorController {
     }
     @FXML
     void switchToListaDeFormatos(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeFormatos.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeFormatosCoordinador.fxml"));
         Parent root = loader.load();
 
-        ListaDeFormatosController controller = loader.getController();
+        ListaDeFormatosCoordinadorController controller = loader.getController();
         controller.setFormatoAController(formatoAController);
         controller.setController(authController);
 

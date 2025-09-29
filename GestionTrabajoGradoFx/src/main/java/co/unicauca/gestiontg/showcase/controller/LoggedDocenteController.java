@@ -80,6 +80,7 @@ public class LoggedDocenteController {
         if (authController.getUsuarioLogueado() != null) {
             cargarDatosDocente();
         }
+        System.out.println(formatoAController);
     }
 
     public void setFormatoFactory(FormatoAControllerFactory factory) {
@@ -145,6 +146,20 @@ public class LoggedDocenteController {
         stage.show();
     }
 
+    @FXML
+    void switchToVerEstadosDeFormatos(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstadosDocente.fxml"));
+        Parent root = loader.load();
+        
+
+        ListaDeEstadosDocenteController listaController = loader.getController();
+        listaController.setFormatoAController(formatoAController);
+        listaController.setController(authController);  
+        
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
     @FXML
     public void switchToFormatoA() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ProfesorFormatoA.fxml"));
