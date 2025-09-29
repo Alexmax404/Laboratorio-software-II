@@ -47,7 +47,7 @@
                               <Font name="Yu Gothic UI Semilight" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblTituloProyecto11111112" layoutX="119.0" layoutY="546.0" prefHeight="27.0" prefWidth="672.0" text="...">
+                        <Label fx:id="lblNombreDoc" layoutX="119.0" layoutY="546.0" prefHeight="27.0" prefWidth="672.0" text="...">
                            <font>
                               <Font name="Yu Gothic UI Semilight" size="18.0" />
                            </font>
