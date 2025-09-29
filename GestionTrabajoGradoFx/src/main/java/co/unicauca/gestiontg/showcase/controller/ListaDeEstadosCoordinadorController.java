@@ -2,11 +2,8 @@ package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
-import co.unicauca.gestiontg.domain.EnumEstadoFormato;
-import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Aprobado;
-import static co.unicauca.gestiontg.domain.EnumEstadoFormato.En_Revision;
-import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Rechazado;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.domain.EnumEstadoFormato;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -23,18 +20,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ListaDeFormatosController {
+public class ListaDeEstadosCoordinadorController {
 
     @FXML
     private Button btnExit;
 
     @FXML
+    private TableColumn<FormatoA, String> colDirector;
+
+    @FXML
     private TableColumn<FormatoA, String> colEstado;
+
+    @FXML
+    private TableColumn<FormatoA, String> colFecha;
+
+    @FXML
+    private TableColumn<FormatoA, String> colId;
+
+    @FXML
+    private TableColumn<FormatoA, String> colObservaciones;
 
     @FXML
     private TableColumn<FormatoA, String> colTitulo;
@@ -78,6 +86,14 @@ public class ListaDeFormatosController {
         List<FormatoA> formatos = formatoAController.listarFormatos();
 
         // DEBUG
+        System.out.println("=== DEBUG FECHAS ===");
+        for (FormatoA formato : formatos) {
+            System.out.println("ID: " + formato.getId() +
+                    ", Fecha: " + formato.getFechaPresentacion() +
+                    ", Estado: " + formato.getEstado());
+        }
+        System.out.println("====================");
+
         data.setAll(formatos);
         tbFormatos.setItems(data);
         tbFormatos.refresh();
@@ -85,15 +101,30 @@ public class ListaDeFormatosController {
 
     @FXML
     public void initialize() {
-
-        // Título
-        colTitulo.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getTitulo())
+        // ID
+        colId.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getId().toString())
         );
 
+        // Título
+        colTitulo.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getTitulo())
+        );
+
+        // Director
+        colDirector.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDirector())
+        );
+
+        // Fecha
+        colFecha.setCellValueFactory(cellData -> {
+            LocalDate fecha = cellData.getValue().getFechaPresentacion();
+            return new SimpleStringProperty(fecha != null ? fecha.toString() : "");
+        });
+
         // Estado
-        colEstado.setCellValueFactory(cellData
-                -> new SimpleStringProperty(cellData.getValue().getEstado().name())
+        colEstado.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getEstado().name())
         );
 
         // Estilo para la columna Estado
@@ -130,44 +161,47 @@ public class ListaDeFormatosController {
             }
         });
 
-        tbFormatos.setRowFactory(tv -> {
-            TableRow<FormatoA> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getClickCount() == 1) { // 👈 1 clic (puedes poner == 2 para doble clic)
-                    FormatoA formatoSeleccionado = row.getItem();
+        // Observaciones → botón "Ver Detalles"
+        colObservaciones.setCellFactory(column -> new TableCell<FormatoA, String>() {
+            private final Button btnDetalles = new Button("Ver Detalles");
+
+            {
+                btnDetalles.setStyle(
+                        "-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 4px 8px; -fx-background-radius: 8;"
+                );
+
+                btnDetalles.setOnAction(event -> {
+                    FormatoA formato = getTableView().getItems().get(getIndex());
+
                     try {
-                        switchToCorregirFormato(formatoSeleccionado);
-                    } catch (IOException | SQLException e) {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/verDetallesCoordinador.fxml"));
+                        Parent root = loader.load();
+
+                        VerDetallesCoordinadorController detallesController = loader.getController();
+                        detallesController.setFormato(formato); // 👈 pasamos el objeto seleccionado
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Detalles del Formato");
+                        stage.show();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    // 🔹 Aquí defines lo que quieres hacer
-                    System.out.println("Clic en formato: " + formatoSeleccionado.getTitulo());
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnDetalles);
                 }
-            });
-            return row;
+            }
         });
 
         // Enlazar data
         tbFormatos.setItems(data);
     }
-
-    private void switchToCorregirFormato(FormatoA formato) throws IOException, SQLException {
-        // Cargar la vista corregirFormato.fxml
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/corregirFormato.fxml"));
-        Parent root = loader.load();
-
-        // Obtener el controlador
-        CorregirFormatoController controller = loader.getController();
-
-        // Pasar los datos del formato seleccionado
-        controller.setFormato(formato);
-        controller.setController(authController);
-        controller.setFormatoAController(formatoAController);
-        // Mostrar en la misma ventana (Stage actual)
-        Stage stage = (Stage) tbFormatos.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-
-    }
-
 }

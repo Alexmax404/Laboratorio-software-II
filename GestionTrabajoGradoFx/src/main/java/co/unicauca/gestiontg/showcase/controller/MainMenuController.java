@@ -2,6 +2,7 @@ package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import javafx.event.ActionEvent;
@@ -68,36 +69,41 @@ public class MainMenuController {
     private void initialize() {
     }
 
-    @FXML
-    void switchToLogged(ActionEvent event) throws IOException, SQLException {
-        String correo = txtCorreo.getText();
-        String contrasenia = txtContraseña.getText();
-        boolean validar = authController.loginUser(correo, contrasenia);
+@FXML
+void switchToLogged(ActionEvent event) throws IOException, SQLException {
+    String correo = txtCorreo.getText();
+    String contrasenia = txtContraseña.getText();
+    boolean validar = authController.loginUser(correo, contrasenia);
 
-        if (validarEspaciosVacios(correo, contrasenia)) {
-            return;
+    if (validarEspaciosVacios(correo, contrasenia)) {
+        return;
+    }
+
+    if (validar) {
+        Optional<String> rol = authController.getRolUsuario(correo);
+
+        if (formatoFactory == null) {
+            throw new IllegalStateException("FormatoAControllerFactory no inyectada");
         }
 
-        if (validar) {
-            Optional<String> rol = authController.getRolUsuario(correo);
-            if (rol.get().equals("Estudiante")) {
-                if (formatoFactory == null) {
-                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
-                }
-                router.goToStudentModule(authController, formatoFactory.create());
-            } else if (rol.get().equals("Docente")) {
-                if (formatoFactory == null) {
-                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
-                }
-                router.goToTeacherModule(authController, formatoFactory.create());
-            } else {
-                if (formatoFactory == null) {
-                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
-                }
-                router.goToCoordinadorModule(authController, formatoFactory.create());
-            }
+        FormatoAController formatoController = formatoFactory.create();
+
+        switch (rol.orElse("")) {
+            case "Estudiante":
+                router.goToStudentModule(authController, formatoController);
+                break;
+            case "Docente":
+                router.goToTeacherModule(authController, formatoController);
+                break;
+            case "Coordinador":
+                router.goToCoordinadorModule(authController, formatoController);
+                break;
+            default:
+                throw new IllegalArgumentException("Rol desconocido: " + rol.orElse("null"));
         }
     }
+}
+
 
     @FXML
     void switchToRegister(ActionEvent event) throws IOException {
