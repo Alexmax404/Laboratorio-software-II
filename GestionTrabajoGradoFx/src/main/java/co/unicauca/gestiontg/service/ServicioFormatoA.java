@@ -54,7 +54,9 @@ public class ServicioFormatoA {
             throw new Exception("Error: " + e);
         }
     }
-
+    public String obtenerNombreDePDF(UUID formatoId) throws SQLException{
+        return formatoRepo.obtenerFormatoVersionPorIDFormato(formatoId).toString();
+    }
     private void validarCamposObligatorios(String titulo, String director, LocalDate fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String archivoFormatoPath) throws Exception {
         if (titulo == null || titulo.trim().isEmpty()) {
             throw new Exception("El título es obligatorio");

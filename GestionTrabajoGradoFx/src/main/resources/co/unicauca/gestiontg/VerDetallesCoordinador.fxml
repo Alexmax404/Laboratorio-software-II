@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <VBox maxHeight="700.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.unicauca.gestiontg.showcase.controller.VerDetallesCoordinadorController">
    <children>
@@ -19,6 +20,42 @@
                   <Image url="@../../../images/loged2.jpg" />
                </image>
             </ImageView>
+            <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="976.0" prefWidth="883.0">
+               <children>
+                  <Pane fx:id="pnDatos1" layoutX="41.0" layoutY="40.0" onMouseClicked="#handleClickPane" prefHeight="635.0" prefWidth="898.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: gray; -fx-background-radius: 20; -fx-border-color: #DDDDDD; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 20, 0.3, 4, 4);">
+                     <children>
+                        <ScrollPane layoutY="36.0" prefHeight="469.0" prefWidth="899.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="888.0" prefWidth="878.0">
+                                 <children>
+                                    <TextFlow fx:id="lblGeneral" layoutX="5.0" layoutY="7.0" prefHeight="871.0" prefWidth="856.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Button fx:id="btnVerPDF" layoutX="14.0" layoutY="519.0" mnemonicParsing="false" onAction="#abrirSubirPDF" prefHeight="102.0" prefWidth="92.0" style="-fx-background-radius: 20;">
+                           <graphic>
+                              <ImageView fitHeight="73.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/80942%20(1).png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label fx:id="lblTituloProyecto211111111" layoutX="119.0" layoutY="519.0" prefHeight="27.0" prefWidth="193.0" text="Ver documento:">
+                           <font>
+                              <Font name="Yu Gothic UI Semilight" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblTituloProyecto11111112" layoutX="119.0" layoutY="546.0" prefHeight="27.0" prefWidth="672.0" text="...">
+                           <font>
+                              <Font name="Yu Gothic UI Semilight" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
             <Button fx:id="btnExit" layoutX="7.0" layoutY="17.0" minHeight="30.0" minWidth="30.0" onAction="#EventSalir" prefHeight="34.0" prefWidth="36.0" style="-fx-background-color: lightgray; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0, 2, 2); -fx-cursor: hand;" textFill="WHITE">
                <font>
                   <Font size="23.0" />
@@ -31,137 +68,6 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Pane fx:id="pnDatos1" layoutX="43.0" layoutY="47.0" onMouseClicked="#handleClickPane" prefHeight="635.0" prefWidth="939.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: gray; -fx-background-radius: 20; -fx-border-color: #DDDDDD; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 20, 0.3, 4, 4);">
-               <children>
-                  <ScrollPane layoutX="28.0" layoutY="23.0" prefHeight="593.0" prefWidth="886.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="976.0" prefWidth="883.0">
-                           <children>
-                              <Label fx:id="lblTituloProyecto" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="208.0" text="Titulo del Proyecto:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTitulo" layoutX="196.0" layoutY="14.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto2" layoutX="14.0" layoutY="96.0" prefHeight="27.0" prefWidth="64.0" text="ID:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblId" layoutX="157.0" layoutY="96.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto21" layoutX="14.0" layoutY="137.0" prefHeight="27.0" prefWidth="86.0" text="Versión:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblVersion" layoutX="157.0" layoutY="137.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto211" layoutX="14.0" layoutY="177.0" prefHeight="27.0" prefWidth="106.0" text="modalidad">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblModalidad" layoutX="157.0" layoutY="177.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto2111" layoutX="14.0" layoutY="216.0" prefHeight="27.0" prefWidth="111.0" text="Director:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblDirector" layoutX="157.0" layoutY="216.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto21111" layoutX="14.0" layoutY="257.0" prefHeight="27.0" prefWidth="113.0" text="Codirector:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblCodirector" layoutX="157.0" layoutY="257.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto211111" layoutX="14.0" layoutY="299.0" prefHeight="27.0" prefWidth="206.0" text="Fecha de presentacion:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblFecha" layoutX="243.0" layoutY="299.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto2111111" layoutX="14.0" layoutY="343.0" prefHeight="27.0" prefWidth="162.0" text="Objetivos Generales:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblObjetivosGenerales" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="14.0" layoutY="372.0" prefHeight="186.0" prefWidth="852.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto212" layoutX="14.0" layoutY="53.0" prefHeight="27.0" prefWidth="169.0" text="Estudiante(s): ">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblNombreIntegrantes" layoutX="157.0" layoutY="53.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto21111111" layoutX="14.0" layoutY="567.0" prefHeight="27.0" prefWidth="193.0" text="Objetivos Especificos:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblObjetivosEspecificos" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="14.0" layoutY="594.0" prefHeight="186.0" prefWidth="851.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="btnVerPDF" layoutX="23.0" layoutY="853.0" mnemonicParsing="false" onAction="#abrirSubirPDF" prefHeight="102.0" prefWidth="92.0" style="-fx-background-radius: 20;">
-                                 <graphic>
-                                    <ImageView fitHeight="73.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../images/80942%20(1).png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Label fx:id="lblTituloProyecto211111111" layoutX="126.0" layoutY="853.0" prefHeight="27.0" prefWidth="193.0" text="Ver documento:">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblTituloProyecto11111112" layoutX="126.0" layoutY="880.0" prefHeight="27.0" prefWidth="672.0" text="...">
-                                 <font>
-                                    <Font name="Yu Gothic UI Semilight" size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
-               </children>
-            </Pane>
          </children>
       </Pane>
    </children>
