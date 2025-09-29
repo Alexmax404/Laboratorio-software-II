@@ -1,6 +1,8 @@
 package co.unicauca.gestiontg.service;
-
-
+/**
+ *
+ * @author juliaaa
+ */
 import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.service.ServicioUsuario;
