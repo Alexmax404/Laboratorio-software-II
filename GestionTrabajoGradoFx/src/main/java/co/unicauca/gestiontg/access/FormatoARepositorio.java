@@ -53,7 +53,7 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         }
         throw new Exception("Error ejecutando submit_formato");
     }
-    
+
     @Override
     public List<FormatoA> findFormatosByUsuario(UUID usuarioId) throws SQLException {
         String sql = "SELECT * FROM gtg.formato WHERE estudiante_id1 = ? OR estudiante_id2 = ? OR docente_id = ? ORDER BY created_at DESC";
@@ -147,17 +147,17 @@ public class FormatoARepositorio implements IFormatoARepositorio {
             }
         }
     }
-    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException {
-        String sql = "SELECT " +
-                     "COALESCE(u1.nombres || ' ' || u1.apellidos, '') AS estudiante1, " +
-                     "COALESCE(u2.nombres || ' ' || u2.apellidos, '') AS estudiante2 " +
-                     "FROM gtg.formato f " +
-                     "LEFT JOIN gtg.usuario u1 ON f.estudiante_id1 = u1.id " +
-                     "LEFT JOIN gtg.usuario u2 ON f.estudiante_id2 = u2.id " +
-                     "WHERE f.id = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException {
+        String sql = "SELECT "
+                + "COALESCE(u1.nombres || ' ' || u1.apellidos, '') AS estudiante1, "
+                + "COALESCE(u2.nombres || ' ' || u2.apellidos, '') AS estudiante2 "
+                + "FROM gtg.formato f "
+                + "LEFT JOIN gtg.usuario u1 ON f.estudiante_id1 = u1.id "
+                + "LEFT JOIN gtg.usuario u2 ON f.estudiante_id2 = u2.id "
+                + "WHERE f.id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setObject(1, formatoId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -179,30 +179,25 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         return Optional.empty();
     }
 
-
     public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException {
-    String sql = "SELECT fv.id " +
-                 "FROM gtg.formato f " +
-                 "INNER JOIN gtg.formato_version fv ON f.id = fv.formato_id " +
-                 "WHERE f.id = ? " +
-                 "ORDER BY fv.version DESC LIMIT 1";
+        String sql = "SELECT fv.id "
+                + "FROM gtg.formato f "
+                + "INNER JOIN gtg.formato_version fv ON f.id = fv.formato_id "
+                + "WHERE f.id = ? "
+                + "ORDER BY fv.version DESC LIMIT 1";
 
-    try (Connection conn = DatabaseConfig.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setObject(1, formatoId);
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, formatoId);
 
-        try (ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                return (UUID) rs.getObject("id");
-            } else {
-                throw new SQLException("No se encontró formato_version para el formato con id " + formatoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return (UUID) rs.getObject("id");
+                } else {
+                    throw new SQLException("No se encontró formato_version para el formato con id " + formatoId);
+                }
             }
         }
     }
-}
-
-
-
 
     private FormatoA mapFormatoFromResultSet(ResultSet rs) throws SQLException {
         FormatoA formato = new FormatoA();
