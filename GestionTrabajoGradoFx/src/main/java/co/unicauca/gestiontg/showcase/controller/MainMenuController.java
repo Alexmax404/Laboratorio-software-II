@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class MainMenuController {
 
@@ -96,15 +100,15 @@ public class MainMenuController {
     }
 
     @FXML
-    void switchToRegister(ActionEvent event) {
-        try {
-            if (authController == null || router == null) {
-                throw new IllegalStateException("Dependencias no inyectadas");
-            }
-            router.goToRegister(authController);
-        } catch (IOException ex) {
-            showError(ex);
-        }
+    void switchToRegister(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/RegisterFrame.fxml"));
+        Parent root = loader.load();
+
+        RegisterFrameController registerController = loader.getController();
+        registerController.setController(authController);
+        Stage stage = (Stage) btnIngresar.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML

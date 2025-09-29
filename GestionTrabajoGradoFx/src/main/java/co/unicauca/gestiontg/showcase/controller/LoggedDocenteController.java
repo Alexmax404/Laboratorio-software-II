@@ -4,9 +4,11 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
+import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
@@ -127,11 +129,20 @@ public class LoggedDocenteController {
     }
 
     @FXML
-    public void switchToMainMenu() throws IOException {
+    void switchToMainMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
+        Parent root = loader.load();
+        
         authController.logout();
-        if (router != null) {
-            router.goToMainMenu(authController, formatoFactory);
-        }
+
+        MainMenuController mainController = loader.getController();
+        mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML

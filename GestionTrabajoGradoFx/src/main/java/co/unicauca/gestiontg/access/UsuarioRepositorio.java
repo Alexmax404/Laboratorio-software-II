@@ -2,7 +2,6 @@ package co.unicauca.gestiontg.access;
 
 import co.unicauca.gestiontg.config.DatabaseConfig;
 import co.unicauca.gestiontg.domain.*;
-import co.unicauca.gestiontg.factory.UsuarioFactory;
 import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;

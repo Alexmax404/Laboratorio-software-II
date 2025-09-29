@@ -30,7 +30,7 @@ public class App extends Application {
         ServicioUsuario servicio = new ServicioUsuario(repo, subject);
         
         servicio.getEventPublisher().addObserver(new AlertObserver());
-        
+            
         AuthController controller = new AuthController(servicio);
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
