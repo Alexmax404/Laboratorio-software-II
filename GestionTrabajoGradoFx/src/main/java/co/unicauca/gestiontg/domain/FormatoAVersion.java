@@ -26,7 +26,7 @@ public class FormatoAVersion {
     private EnumEstadoFormato estadoLocal;
     private UUID enviadoPor;
     private LocalDateTime fechaSubida;
-
+    
     public FormatoAVersion() {
     }
 

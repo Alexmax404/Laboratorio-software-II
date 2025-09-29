@@ -117,7 +117,6 @@ public class EditarFormatoAController implements Initializable {
                 // 🔄 Resetear datos temporales
                 ObjetivoGeneralController.resetObjetivoGuardado();
                 ObjetivosEspecificosController.resetObjetivosGuardados();
-                CargarPDFController.resetPDF();
 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
@@ -227,7 +226,7 @@ public class EditarFormatoAController implements Initializable {
             String objetivosEspecificos = ObjetivosEspecificosController.getObjetivosGuardados();
 
             // Archivos PDF cargados
-            String archivoFormatoPath = "src/main/resources/pdfs";
+            String archivoFormatoPath = CargarPDFController.getRutaArchivo();
 
             // Llamada al caso de uso (application controller)
             String resultado = formatoAController.crearOReenviarFormato(
@@ -247,7 +246,20 @@ public class EditarFormatoAController implements Initializable {
             );
 
             AlertUtil.mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
+        try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
+                    Parent root = loader.load();
 
+                    LoggedDocenteController docenteController = loader.getController();
+                    docenteController.setController(authController);
+                    docenteController.setFormatoAController(formatoAController);
+
+                    Stage stage = (Stage) btnExit.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         } catch (Exception e) {
             AlertUtil.mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();

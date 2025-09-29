@@ -118,35 +118,39 @@ public class FormatoARepositorio implements IFormatoARepositorio {
 
     @Override
     public Optional<FormatoAVersion> obtenerDetalleFormato(UUID formatoId) throws SQLException {
-        String sql = "SELECT fv.id, fv.version, fv.titulo, fv.modalidad, fv.director, fv.co_director, "
-                + "fv.fecha_presentacion, fv.objetivos_generales, fv.objetivos_especificos, "
-                + "fv.archivo_formato_path, fv.estado_local, fv.enviado_por "
-                + "FROM gtg.formato_version fv WHERE fv.formato_id = ? "
-                + "ORDER BY fv.version DESC LIMIT 1";
-        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setObject(1, formatoId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    FormatoAVersion v = new FormatoAVersion();
-                    v.setId(UUID.fromString(rs.getString("id")));
-                    v.setVersion(rs.getInt("version"));
-                    v.setTitulo(rs.getString("titulo"));
-                    v.setModalidad(EnumModalidad.valueOf(rs.getString("modalidad")));
-                    v.setDirector(rs.getString("director"));
-                    v.setCoDirector(rs.getString("co_director"));
-                    v.setFechaPresentacion(rs.getDate("fecha_presentacion").toLocalDate());
-                    v.setObjetivosGenerales(rs.getString("objetivos_generales"));
-                    v.setObjetivosEspecificos(rs.getString("objetivos_especificos"));
-                    v.setArchivoFormatoPath(rs.getString("archivo_formato_path"));
-                    v.setEstadoLocal(EnumEstadoFormato.valueOf(rs.getString("estado_local")));
-                    v.setEnviadoPor(UUID.fromString(rs.getString("enviado_por")));
-                    return Optional.of(v);
-                } else {
-                    return Optional.empty();
-                }
+    String sql = "SELECT fv.id, fv.version, fv.titulo, fv.modalidad, fv.director, fv.co_director, "
+            + "fv.fecha_presentacion, fv.objetivos_generales, fv.objetivos_especificos, "
+            + "fv.archivo_formato_path, fv.estado_local, fv.enviado_por, fv.observaciones_estudiante "
+            + "FROM gtg.formato_version fv WHERE fv.formato_id = ? "
+            + "ORDER BY fv.version DESC LIMIT 1";
+
+    try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setObject(1, formatoId);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                FormatoAVersion v = new FormatoAVersion();
+                v.setId(UUID.fromString(rs.getString("id")));
+                v.setVersion(rs.getInt("version"));
+                v.setTitulo(rs.getString("titulo"));
+                v.setModalidad(EnumModalidad.valueOf(rs.getString("modalidad")));
+                v.setDirector(rs.getString("director"));
+                v.setCoDirector(rs.getString("co_director"));
+                v.setFechaPresentacion(rs.getDate("fecha_presentacion").toLocalDate());
+                v.setObjetivosGenerales(rs.getString("objetivos_generales"));
+                v.setObjetivosEspecificos(rs.getString("objetivos_especificos"));
+                v.setArchivoFormatoPath(rs.getString("archivo_formato_path"));
+                v.setEstadoLocal(EnumEstadoFormato.valueOf(rs.getString("estado_local")));
+                v.setEnviadoPor(UUID.fromString(rs.getString("enviado_por")));
+                v.setObservacionesEstudiante(rs.getString("observaciones_estudiante")); // ✅ aquí la corrección
+                return Optional.of(v);
+            } else {
+                return Optional.empty();
             }
         }
     }
+}
+
 
     public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException {
         String sql = "SELECT "
@@ -201,7 +205,7 @@ public class FormatoARepositorio implements IFormatoARepositorio {
 
     @Override
     public boolean setObservaciones(UUID formatoVersionId, String observaciones) throws SQLException {
-        String sql = "UPDATE gtg.formato_version SET observaciones = ? WHERE id = ?";
+        String sql = "UPDATE gtg.formato_version SET observaciones_estudiante = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, observaciones);
@@ -230,4 +234,22 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         formato.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         return formato;
     }
+    public Optional<String> getObservacionesEstudiante(UUID formatoVersionId) throws SQLException {
+    String sql = "SELECT observaciones_estudiante FROM gtg.formato_version WHERE id = ?";
+
+    try (Connection conn = DatabaseConfig.getConnection(); 
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setObject(1, formatoVersionId, Types.OTHER);
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                String observaciones = rs.getString("observaciones_estudiante");
+                return Optional.ofNullable(observaciones);
+            }
+        }
+    }
+    return Optional.empty();
+}
+
 }
