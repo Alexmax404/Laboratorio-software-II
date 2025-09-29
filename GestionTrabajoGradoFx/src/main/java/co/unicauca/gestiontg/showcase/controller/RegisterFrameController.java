@@ -4,7 +4,8 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.EnumPrograma;
 import co.unicauca.gestiontg.domain.EnumRol;
 import co.unicauca.gestiontg.domain.Usuario;
-import co.unicauca.gestiontg.showcase.controller.MainMenuController;
+import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
+import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -58,12 +59,18 @@ public class RegisterFrameController {
     @FXML
     private TextField txtNombres;
 
-    private Usuario user = null;    
-    
+    private Usuario user = null;
+
     private AuthController authController;
-    
-    public void setController(AuthController authController){
+
+    private FormatoAControllerFactory formatoFactory;
+
+    public void setController(AuthController authController) {
         this.authController = authController;
+    }
+
+    public void setFormatoFactory(FormatoAControllerFactory factory) {
+        this.formatoFactory = factory;
     }
 
     @FXML
@@ -198,17 +205,20 @@ public class RegisterFrameController {
 
     private void registrarUsuario() throws IOException {
         try {
-            if (authController.registerUser(user)){
+            if (authController.registerUser(user)) {
                 AlertUtil.mostrarAlerta(null, "Cuenta registrada con exito.", Alert.AlertType.INFORMATION);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
                 Parent root = loader.load();
 
                 MainMenuController mainController = loader.getController();
                 mainController.setController(authController);
+                mainController.setRouter(new SceneRouterImpl((Stage) btnRegistrar.getScene().getWindow()));
+                mainController.setFormatoFactory(new FormatoAControllerFactory());
+
                 Stage stage = (Stage) btnRegistrar.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
-                
+
             } else {
                 AlertUtil.mostrarAlerta(null, "Correo ya en uso.", Alert.AlertType.WARNING);
             }
