@@ -1,15 +1,9 @@
 Title,Body,Labels,Status,Estimate,Type,Area
-HU-01: Login / Logout,"Como usuario quiero iniciar y cerrar sesión para acceder a la app. Cubre flujo feliz y errores.",sprint:1,type:story,To Do,5,Funcional,Autenticación
-HU-02: Registro de usuario,"Como usuario nuevo quiero registrarme validando correo institucional y contraseña segura.",sprint:1,type:story,To Do,5,Funcional,Autenticación
-HU-03: Crear/Reenviar Formato A,"Como estudiante quiero crear o reenviar el Formato A (acepta 1 o 2 estudiantes) y generar versión.",sprint:1,type:story,To Do,8,Funcional,Formato A
-HU-04: Evaluación de Formato A,"Como coordinador quiero evaluar el Formato A con decisiones Aprobado/Correcciones/Rechazado.",sprint:1,type:story,To Do,5,Funcional,Evaluación
-T-01: CI con GitHub Actions,"Pipeline JDK 21: mvn verify, caché de Maven y badge en README.",sprint:1,type:tech,To Do,3,Técnica,DevOps
-T-02: Cobertura con JaCoCo,"Reporte JaCoCo ≥ 60% y badge en README.",sprint:1,type:tech,To Do,3,Técnica,Calidad
-T-03: Estándares (Checkstyle/SpotBugs/Spotless),"Revisión estática y formateo automático; build falla si no cumple.",sprint:1,type:tech,To Do,3,Técnica,Calidad
-T-04: POM estable para tests,"JUnit 5 + Mockito con JDK 21; Surefire configurado y tests corren en CI.",sprint:1,type:tech,To Do,3,Técnica,Build
-DOC-01: Historias (HC) y HE,"Historias con columnas: Épica, ID, Rol, Quiero, Para, Escenario, Criterios (Contexto/Evento/Resultado).",sprint:1,type:doc,To Do,3,Documentación,Requisitos
-DOC-02: Diagrama de clases,"UML de entidades/servicios/controladores (Mermaid + PNG).",sprint:1,type:doc,To Do,2,Documentación,Arquitectura
-DOC-03: Diagramas de secuencia,"Login y Envío/Reenvío de Formato A (Mermaid + PNG).",sprint:1,type:doc,To Do,2,Documentación,Arquitectura
-QA-01: Atributos de calidad,"Definir metas de Seguridad, Mantenibilidad, Confiabilidad, Usabilidad y cómo medirlas.",sprint:1,type:qa,To Do,2,Calidad,QA
-OPS-01: Convenciones de ramas,"GitFlow simple: main, develop, feature/*; PR obligatorio con revisión.",sprint:1,type:ops,To Do,1,Proceso,DevOps
-OPS-02: DoR / DoD,"Checklist de Definition of Ready/Done y plantilla de PR.",sprint:1,type:ops,To Do,1,Proceso,Gestión
+HU-01: Login / Logout,"Como usuario quiero iniciar y cerrar sesión para acceder a la app. Cubre flujo feliz y errores.","sprint:1,type:story",To Do,5,Funcional,Autenticación
+HU-02: Registro de usuario,"Como usuario nuevo quiero registrarme validando correo institucional y contraseña segura.","sprint:1,type:story",To Do,5,Funcional,Autenticación
+HU-03: Crear/Reenviar Formato A,"Como estudiante quiero crear o reenviar el Formato A (acepta 1 o 2 estudiantes) y generar versión.","sprint:1,type:story",To Do,8,Funcional,Formatos
+HU-04: Evaluación de Formato A,"Como coordinador quiero evaluar el Formato A con decisiones Aprobado/Correcciones/Rechazado.","sprint:1,type:story",To Do,5,Funcional,Formatos
+T-01: CI con GitHub Actions,"Pipeline JDK 21: mvn verify, caché de Maven y badge en README.","sprint:1,type:tech",To Do,3,Técnica,DevOps
+T-02: Cobertura con JaCoCo,"Reporte JaCoCo ≥ 60% y badge en README.","sprint:1,type:tech",To Do,3,Técnica,Calidad
+T-03: Estándares (Checkstyle/SpotBugs/Spotless),"Revisión estática y formateo automático; build falla si no cumple.","sprint:1,type:tech",To Do,3,Técnica,Calidad
+T-04: POM estable para tests,"JUnit 5 + Mockito con JDK 21; Surefire configurado y tests corren en CI.","spri
