@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -179,13 +181,16 @@ public class ListaDeEstadosCoordinadorController {
 
                         VerDetallesCoordinadorController detallesController = loader.getController();
                         detallesController.setFormato(formato); // 👈 pasamos el objeto seleccionado
-
+                        detallesController.setController(authController);
+                        
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));
                         stage.setTitle("Detalles del Formato");
                         stage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ListaDeEstadosCoordinadorController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
             }

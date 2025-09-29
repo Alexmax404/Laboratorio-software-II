@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="700.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.unicauca.gestiontg.showcase.controller.ListaDeEstadosDocenteController">
+<VBox maxHeight="700.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.unicauca.gestiontg.showcase.controller.ListaDeEstadosEstudianteController">
    <children>
       <Pane prefHeight="700.0" prefWidth="974.0">
          <children>
@@ -24,9 +24,10 @@
                      <columns>
                         <TableColumn fx:id="colId" editable="false" prefWidth="259.999981880188" sortable="false" style="-fx-font-weight: bold;" text="ID" />
                         <TableColumn fx:id="colTitulo" minWidth="0.0" prefWidth="218.93331909179688" text="Titulo" />
-                        <TableColumn fx:id="colFecha" prefWidth="161.06674194335938" text="Fecha" />
-                        <TableColumn fx:id="colEstado" prefWidth="160.2667236328125" text="Estado" />
-                        <TableColumn fx:id="colDirector" prefWidth="206.4000244140625" text="Director" />
+                        <TableColumn fx:id="colFecha" prefWidth="111.199951171875" text="Fecha" />
+                        <TableColumn fx:id="colEstado" prefWidth="107.199951171875" text="Estado" />
+                        <TableColumn fx:id="colDirector" prefWidth="159.2000732421875" text="Director" />
+                        <TableColumn fx:id="colObservaciones" prefWidth="144.4000244140625" text="Ver Correcciones" />
                      </columns>
                   </TableView>
                </children>
