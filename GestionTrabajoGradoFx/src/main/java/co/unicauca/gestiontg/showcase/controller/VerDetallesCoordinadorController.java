@@ -1,6 +1,7 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.access.FormatoARepositorio;
+import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
 import java.awt.Desktop;
@@ -37,10 +38,10 @@ public class VerDetallesCoordinadorController {
 
     @FXML
     private Pane pnDatos1;
-
-    /**
-     * Recibe el FormatoA seleccionado y busca su última versión
-     */
+    private AuthController authController;
+    public void setController(AuthController authController) throws SQLException {
+        this.authController = authController;
+    }
     public void setFormato(FormatoA formato) {
         this.formato = formato;
 
@@ -65,8 +66,8 @@ public class VerDetallesCoordinadorController {
      */
     @FXML
     private TextFlow lblGeneral;
-
-    private void mostrarDatos() {
+    
+    private void mostrarDatos() throws SQLException {
         if (ultimaVersion == null) {
             return;
         }
@@ -82,7 +83,8 @@ public class VerDetallesCoordinadorController {
 
         // Helper para contenido normal (con wrap)
         java.util.function.Function<String, Text> normal = txt -> new Text(txt + "\n");
-
+        
+        
         lblGeneral.getChildren().addAll(
                 bold.apply("📄 Formato ID: "), normal.apply(ultimaVersion.getId().toString()),
                 bold.apply("Título: "), normal.apply(ultimaVersion.getTitulo()),
@@ -92,9 +94,9 @@ public class VerDetallesCoordinadorController {
                 bold.apply("Objetivos Generales:\n"), normal.apply(ultimaVersion.getObjetivosGenerales() != null ? wrapText(ultimaVersion.getObjetivosGenerales(), 200) : "N/A"),
                 bold.apply("Objetivos Específicos:\n"), normal.apply(ultimaVersion.getObjetivosEspecificos() != null ? wrapText(ultimaVersion.getObjetivosEspecificos(), 200) : "N/A"),
                 bold.apply("Versión: "), normal.apply(String.valueOf(ultimaVersion.getVersion())),
-                bold.apply("Fecha Presentación: "), normal.apply(ultimaVersion.getFechaPresentacion() != null ? ultimaVersion.getFechaPresentacion().toString() : "Sin fecha")
-        );
-
+                bold.apply("Fecha Presentación: "), normal.apply(ultimaVersion.getFechaPresentacion() != null ? ultimaVersion.getFechaPresentacion().toString() : "Sin fecha"),
+                   bold.apply("Observaciones: "), normal.apply(ultimaVersion.getObservacionesEstudiante() != null ? ultimaVersion.getObservacionesEstudiante().toString() : "Sin observaciones Aún")
+            );
         // 🔹 Nombres de estudiantes
         try {
             Optional<List<String>> optNombres = repositorio.obtenerNombresEstudiantesPorFormatoId(formato.getId());

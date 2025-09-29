@@ -42,4 +42,6 @@ public interface IFormatoARepositorio {
     
     public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException;
     
+    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException;
+    
 }

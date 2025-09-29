@@ -46,7 +46,10 @@ public class ListaDeEstadosDocenteController {
 
     @FXML
     private TableColumn<FormatoA, String> colTitulo;
-
+    
+    @FXML
+    private TableColumn<FormatoA, String> colObservaciones;
+    
     @FXML
     private Pane pnDatos1;
     private FormatoAController formatoAController;
@@ -130,7 +133,45 @@ public class ListaDeEstadosDocenteController {
                 }
             }
         });
+                // Observaciones → botón "Ver Detalles"
+        colObservaciones.setCellFactory(column -> new TableCell<FormatoA, String>() {
+            private final Button btnDetalles = new Button("Ver Detalles");
 
+            {
+                btnDetalles.setStyle(
+                        "-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 4px 8px; -fx-background-radius: 8;"
+                );
+
+                btnDetalles.setOnAction(event -> {
+                    FormatoA formato = getTableView().getItems().get(getIndex());
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/verDetallesCoordinador.fxml"));
+                        Parent root = loader.load();
+
+                        VerDetallesCoordinadorController detallesController = loader.getController();
+                        detallesController.setFormato(formato); // 👈 pasamos el objeto seleccionado
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Observaciones");
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnDetalles);
+                }
+            }
+        });
         
 
 

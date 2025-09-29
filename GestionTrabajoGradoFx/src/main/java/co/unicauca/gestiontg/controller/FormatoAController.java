@@ -86,5 +86,11 @@ public class FormatoAController {
         return servicio.obtenerDetalles(formatoId);
     }
 
-
+    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException{
+        return servicio.obtenerNombresEstudiantesPorFormatoId(formatoId);
+    }
+    
+    public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException{
+        return servicio.obtenerFormatoVersionPorIDFormato(formatoId);
+    }
 }
