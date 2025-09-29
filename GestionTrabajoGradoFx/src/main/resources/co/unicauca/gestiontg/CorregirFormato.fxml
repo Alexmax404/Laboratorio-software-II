@@ -21,14 +21,14 @@
             </ImageView>
             <Pane fx:id="pnDatos1" layoutX="23.0" layoutY="68.0" onMouseClicked="#handleClickPane" prefHeight="607.0" prefWidth="960.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: gray; -fx-background-radius: 20; -fx-border-color: #DDDDDD; -fx-border-width: 1; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 20, 0.3, 4, 4);">
                <children>
-                  <TextArea fx:id="txtCorrecciones" layoutX="18.0" layoutY="136.0" prefHeight="402.0" prefWidth="921.0" />
+                  <TextArea fx:id="txtCorrecciones" layoutX="18.0" layoutY="136.0" prefHeight="402.0" prefWidth="921.0" promptText="ingrese aquí sus correcciones" />
                   <ComboBox fx:id="cbxEstado" layoutX="634.0" layoutY="60.0" prefHeight="51.0" prefWidth="304.0" promptText="Estado Actual" style="-fx-background-radius: 20;" />
                   <Label fx:id="lblNombre" layoutX="18.0" layoutY="21.0" prefHeight="22.0" prefWidth="289.0" text="Corregir Formato">
                      <font>
                         <Font name="Yu Gothic Regular" size="19.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnCorregir" layoutX="817.0" layoutY="551.0" onAction="#Corregir" prefHeight="42.0" prefWidth="122.0" style="-fx-background-color: #004179; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0, 2, 2); -fx-cursor: hand;" text="Corregir" textFill="WHITE">
+                  <Button fx:id="btnCorregir" layoutX="817.0" layoutY="551.0" onAction="#Guardar" prefHeight="42.0" prefWidth="122.0" style="-fx-background-color: #004179; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 5, 0, 2, 2); -fx-cursor: hand;" text="Guardar" textFill="WHITE">
                      <font>
                         <Font size="17.0" />
                      </font>
