@@ -44,6 +44,10 @@ public class CargarPDFController {
 
     // 🔹 Guardamos el archivo actual copiado en la carpeta
     private static File archivoCargado;
+    
+    public static File getArchivoCargado() {
+    return archivoCargado;
+    }
 
     @FXML
     public void initialize() {
@@ -101,7 +105,7 @@ public class CargarPDFController {
         event.setDropCompleted(success);
         event.consume();
     }
-
+    
     private void handleClickPanelPDF(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar PDF");
@@ -113,6 +117,12 @@ public class CargarPDFController {
             actualizarUIConArchivo(fileSeleccionado); // ✅ ahora sí actualizamos con el archivo seleccionado
         }
     }
+    public static String getRutaRelativaArchivo() {
+    if (archivoCargado == null) return null;
+    // Convertir a relativo desde la carpeta resources
+    Path base = Path.of("src", "main", "resources");
+    return base.relativize(archivoCargado.toPath()).toString().replace("\\", "/");
+}
 
     private void copiarArchivo(File file) {
         try {

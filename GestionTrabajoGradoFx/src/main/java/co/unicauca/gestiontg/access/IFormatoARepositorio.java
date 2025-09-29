@@ -39,4 +39,7 @@ public interface IFormatoARepositorio {
     List<FormatoA> listarFormatos() throws SQLException; 
     
     Optional<FormatoAVersion> obtenerDetalleFormato(UUID formatoId) throws SQLException;
+    
+    public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException;
+    
 }

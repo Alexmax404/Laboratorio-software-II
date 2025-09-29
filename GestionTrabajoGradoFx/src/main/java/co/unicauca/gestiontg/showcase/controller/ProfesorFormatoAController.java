@@ -6,6 +6,7 @@ import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;
@@ -182,7 +183,7 @@ public class ProfesorFormatoAController {
             } else {
                 estudianteId2 = null;
             }
-
+            
             // Datos del formulario
             String titulo = txtTituloProyecto.getText();
             String modalidad = cbxModalidad.getValue().name();
@@ -195,7 +196,14 @@ public class ProfesorFormatoAController {
             String objetivosEspecificos = ObjetivosEspecificosController.getObjetivosGuardados();
 
             // Archivos PDF cargados
-            String archivoFormatoPath = "src/main/resources/pdfs";
+            // Archivos PDF cargados
+            String archivoFormatoPath = CargarPDFController.getRutaRelativaArchivo();
+            if (archivoFormatoPath == null) {
+                AlertUtil.mostrarAlerta("Error", "Debe cargar un archivo PDF antes de guardar.", Alert.AlertType.ERROR);
+                return;
+}
+
+
 
             // Llamada al caso de uso (application controller)
             String resultado = formatoAController.crearOReenviarFormato(
