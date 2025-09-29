@@ -137,7 +137,7 @@ public class CorregirFormatoController {
             // Guardar evaluación usando el servicio del controller
             String evalId = evalController.evaluar(formatoIdStr, formatoVersionIdStr, coordinadorId, estadoSeleccionado, comentarios);
             formatoAController.setObservaciones(formatoVersionId, comentarios);
-            AlertUtil.mostrarAlerta("Éxito", "Evaluación guardada correctamente. ID: " + evalId, Alert.AlertType.INFORMATION);
+            AlertUtil.mostrarAlerta("Éxito", "Evaluación registada:" + evalId + " - Usuarios notificados ", Alert.AlertType.INFORMATION);
             try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
             Parent root = loader.load();
