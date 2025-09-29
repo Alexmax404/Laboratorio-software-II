@@ -44,4 +44,5 @@ public interface IFormatoARepositorio {
     
     public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException;
     
+    public boolean setObservaciones(UUID formatoVersionId, String observaciones) throws SQLException;
 }

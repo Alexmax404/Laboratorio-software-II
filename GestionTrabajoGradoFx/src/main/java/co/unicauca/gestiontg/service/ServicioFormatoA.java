@@ -118,4 +118,11 @@ public class ServicioFormatoA {
             throw new RuntimeException("Error obteniendo detalle del formato", e);
         }
     }
+
+    public boolean setObservaciones(UUID formatoVersionId, String observaciones) throws SQLException {
+        if (!formatoRepo.existsVersionById(formatoVersionId)) {
+            throw new SQLException("No existe la versión del formato con ID: " + formatoVersionId);
+        }
+        return formatoRepo.setObservaciones(formatoVersionId, observaciones);
+    }
 }

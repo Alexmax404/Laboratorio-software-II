@@ -131,10 +131,12 @@ public class CorregirFormatoController {
             // Obtener IDs necesarios
             UUID formatoId = UUID.fromString(lblID.getText());
             String formatoIdStr = lblID.getText();
-            String formatoVersionId = formatoAController.obtenerFormatoVersionPorIDFormato(formatoId).toString();
+            UUID formatoVersionId = formatoAController.obtenerFormatoVersionPorIDFormato(formatoId);
+            String formatoVersionIdStr = formatoVersionId.toString();
             String coordinadorId = authController.getUsuarioLogueado().getId().toString();
             // Guardar evaluación usando el servicio del controller
-            String evalId = evalController.evaluar(formatoIdStr, formatoVersionId, coordinadorId, estadoSeleccionado, comentarios);
+            String evalId = evalController.evaluar(formatoIdStr, formatoVersionIdStr, coordinadorId, estadoSeleccionado, comentarios);
+            formatoAController.setObservaciones(formatoVersionId, comentarios);
             AlertUtil.mostrarAlerta("Éxito", "Evaluación guardada correctamente. ID: " + evalId, Alert.AlertType.INFORMATION);
 
         } catch (Exception e) {

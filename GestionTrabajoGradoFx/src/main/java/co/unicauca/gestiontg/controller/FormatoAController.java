@@ -65,9 +65,11 @@ public class FormatoAController {
             return "Error inesperado: " + e.getMessage();
         }
     }
-    public String obtenerNombrePDF(UUID formatoId) throws SQLException{
+
+    public String obtenerNombrePDF(UUID formatoId) throws SQLException {
         return servicio.obtenerNombreDePDF(formatoId);
     }
+
     public List<FormatoA> listarFormatosByUsuario(String usuarioIdStr) {
         try {
             UUID usuarioId = UUID.fromString(usuarioIdStr);
@@ -86,11 +88,24 @@ public class FormatoAController {
         return servicio.obtenerDetalles(formatoId);
     }
 
-    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException{
+    public Optional<List<String>> obtenerNombresEstudiantesPorFormatoId(UUID formatoId) throws SQLException {
         return servicio.obtenerNombresEstudiantesPorFormatoId(formatoId);
     }
-    
-    public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException{
+
+    public UUID obtenerFormatoVersionPorIDFormato(UUID formatoId) throws SQLException {
         return servicio.obtenerFormatoVersionPorIDFormato(formatoId);
+    }
+
+    public String setObservaciones(UUID formatoVersionId, String observaciones) {
+        try {
+            boolean actualizado = servicio.setObservaciones(formatoVersionId, observaciones);
+            if (actualizado) {
+                return "Observaciones actualizadas correctamente.";
+            } else {
+                return "No se pudo actualizar, versión no encontrada.";
+            }
+        } catch (SQLException e) {
+            return "Error al actualizar observaciones: " + e.getMessage();
+        }
     }
 }

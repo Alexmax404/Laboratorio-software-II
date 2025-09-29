@@ -32,6 +32,8 @@ public class EvaluacionCoordinadorRepositorio implements IEvaluacionCoordinadorR
             stmt.setObject(3, eval.getCoordinadorId(), Types.OTHER);
             stmt.setString(4, eval.getDecision().name());
             stmt.setString(5, eval.getComentarios());
+            
+            
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
