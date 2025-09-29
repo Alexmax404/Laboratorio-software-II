@@ -95,9 +95,11 @@ public class VerDetallesCoordinadorController {
                 bold.apply("Objetivos Específicos:\n"), normal.apply(ultimaVersion.getObjetivosEspecificos() != null ? wrapText(ultimaVersion.getObjetivosEspecificos(), 200) : "N/A"),
                 bold.apply("Versión: "), normal.apply(String.valueOf(ultimaVersion.getVersion())),
                 bold.apply("Fecha Presentación: "), normal.apply(ultimaVersion.getFechaPresentacion() != null ? ultimaVersion.getFechaPresentacion().toString() : "Sin fecha"),
-                   bold.apply("Observaciones: "), normal.apply(ultimaVersion.getObservacionesEstudiante() != null ? ultimaVersion.getObservacionesEstudiante().toString() : "Sin observaciones Aún")
-            );
+                bold.apply("Observaciones:\n"), normal.apply(ultimaVersion.getObservacionesEstudiante() != null ? wrapText(ultimaVersion.getObservacionesEstudiante(), 200) : "Sin observaciones aún")
+        );
         // 🔹 Nombres de estudiantes
+        System.out.println("----------------------------------");
+        System.out.println(ultimaVersion.getObservacionesEstudiante());
         try {
             Optional<List<String>> optNombres = repositorio.obtenerNombresEstudiantesPorFormatoId(formato.getId());
             String integrantes = (optNombres.isPresent() && !optNombres.get().isEmpty())
