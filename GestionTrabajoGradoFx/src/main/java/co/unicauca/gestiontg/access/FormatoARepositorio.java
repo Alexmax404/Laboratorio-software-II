@@ -199,6 +199,19 @@ public class FormatoARepositorio implements IFormatoARepositorio {
         }
     }
 
+    @Override
+    public boolean setObservaciones(UUID formatoVersionId, String observaciones) throws SQLException {
+        String sql = "UPDATE gtg.formato_version SET observaciones = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, observaciones);
+            stmt.setObject(2, formatoVersionId, Types.OTHER);
+
+            int updatedRows = stmt.executeUpdate();
+            return updatedRows > 0;
+        }
+    }
+
     private FormatoA mapFormatoFromResultSet(ResultSet rs) throws SQLException {
         FormatoA formato = new FormatoA();
         formato.setId((UUID) rs.getObject("id"));
