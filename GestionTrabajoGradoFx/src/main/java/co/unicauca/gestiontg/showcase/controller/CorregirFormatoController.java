@@ -79,14 +79,17 @@ public class CorregirFormatoController {
     }
     @FXML
     void handleClickPane(MouseEvent event) {
-        // acción opcional
+        pnDatos1.requestFocus();
     }
     
     public void setFormato(FormatoA formato) {
         // Mostrar datos en los labels
         mostrarDatos(formato);
-        cbxEstado.getItems().setAll("Aprobado", "Rechazado", "En_Revision");
-        cbxEstado.setValue(formato.getEstado().name());
+        cbxEstado.getItems().setAll("Aprobado", "Rechazado", "Correcciones");
+        if(formato.getEstado().name().equals("En_Revision")){
+            cbxEstado.setValue("Correcciones");
+        }
+        
         aplicarColorEstado(cbxEstado.getValue());
         cbxEstado.valueProperty().addListener((obs, oldVal, newVal) -> {
             aplicarColorEstado(newVal);
@@ -95,8 +98,8 @@ public class CorregirFormatoController {
     }
 
     @FXML
-    void Corregir(ActionEvent event) {
-
+    void Guardar(ActionEvent event) {
+        
     }
 
     private void mostrarDatos(FormatoA formato) {
@@ -131,7 +134,7 @@ public class CorregirFormatoController {
             case "Rechazado":
                 cbxEstado.setStyle("-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 14px; -fx-font-weight: bold;");
                 break;
-            case "En_Revision":
+            case "Correcciones":
                 cbxEstado.setStyle("-fx-background-color: #FFC107; -fx-text-fill: black; -fx-background-radius: 20; -fx-font-size: 14px; -fx-font-weight: bold;");
                 break;
             default:
