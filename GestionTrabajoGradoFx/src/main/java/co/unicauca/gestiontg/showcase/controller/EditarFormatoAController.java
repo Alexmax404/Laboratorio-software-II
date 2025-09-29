@@ -3,6 +3,7 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,19 +38,18 @@ public class EditarFormatoAController implements Initializable {
 
     @FXML
     private Label lblCoodirectorProyecto, lblDirectorProyecto, lblEstudiante1,
-                  lblEstudiante2, lblFecha, lblModalidad, lblObjetivos,
-                  lblObjetivos1, lblTituloPrincipal, lblTituloProyecto;
+            lblEstudiante2, lblFecha, lblModalidad, lblObjetivos,
+            lblObjetivos1, lblTituloPrincipal, lblTituloProyecto;
 
     @FXML
     private Pane pnDatos1;
 
     @FXML
     private TextField txtCoodirectorProyecto, txtCorreoEst1, txtCorreoEst2,
-                      txtDirectorProyecto, txtNombreEst1, txtNombreEst2, txtTituloProyecto;
+            txtDirectorProyecto, txtNombreEst1, txtNombreEst2, txtTituloProyecto;
 
     private AuthController authController;
     private FormatoAController formatoAController;
-
 
     public void setAuthController(AuthController authController) {
         this.authController = authController;
@@ -90,13 +91,12 @@ public class EditarFormatoAController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-         
+
     }
 
-@FXML
+    @FXML
     void EventSalir(ActionEvent event) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar salida");
@@ -181,36 +181,77 @@ public class EditarFormatoAController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
-     void abrirSubirPDF(ActionEvent event) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/CargarPDF.fxml"));
-                Parent root = loader.load();
+    void abrirSubirPDF(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/CargarPDF.fxml"));
+            Parent root = loader.load();
 
-                Stage stage = new Stage();
-                stage.setTitle("CargarPDF");
-                stage.setScene(new Scene(root));
+            Stage stage = new Stage();
+            stage.setTitle("CargarPDF");
+            stage.setScene(new Scene(root));
 
-                // Hace que la ventana sea modal → bloquea la principal
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(btnObjetivoEspecifico.getScene().getWindow());
+            // Hace que la ventana sea modal → bloquea la principal
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(btnObjetivoEspecifico.getScene().getWindow());
 
-                // No permitir que se redimensione
-                stage.setResizable(false);
+            // No permitir que se redimensione
+            stage.setResizable(false);
 
-                // Bloquea la ejecución hasta que la ventana se cierre
-                stage.showAndWait();
+            // Bloquea la ejecución hasta que la ventana se cierre
+            stage.showAndWait();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
     @FXML
     void guardarFormatoA(ActionEvent event) {
+        try {
+            if (formatoAController == null || authController == null) {
+                AlertUtil.mostrarAlerta("Error", "No hay controlador de autenticación o formato configurado.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Datos del formulario
+            String titulo = txtTituloProyecto.getText();
+
+            // Objetivos guardados en ventanas modales
+            String objetivoGeneral = ObjetivoGeneralController.getObjetivosGuardados();
+            String objetivosEspecificos = ObjetivosEspecificosController.getObjetivosGuardados();
+
+            // Archivos PDF cargados
+            String archivoFormatoPath = "src/main/resources/pdfs";
+
+            // Llamada al caso de uso (application controller)
+            String resultado = formatoAController.crearOReenviarFormato(
+                    formatoSeleccionado.getId().toString(),
+                    formatoSeleccionado.getEstudianteId1().toString(),
+                    formatoSeleccionado.getEstudianteId1().toString(),
+                    formatoSeleccionado.getDocenteId().toString(),
+                    formatoSeleccionado.getDocenteId().toString(),
+                    titulo,
+                    formatoSeleccionado.getModalidad().name(),
+                    formatoSeleccionado.getDirector(),
+                    formatoSeleccionado.getCoDirector(),
+                    formatoSeleccionado.getFechaPresentacion(), 
+                    objetivoGeneral,
+                    objetivosEspecificos,
+                    archivoFormatoPath
+            );
+
+            AlertUtil.mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
+
+        } catch (Exception e) {
+            AlertUtil.mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void handleClickPane(MouseEvent event) {
-         pnDatos1.requestFocus();
+        pnDatos1.requestFocus();
     }
 }

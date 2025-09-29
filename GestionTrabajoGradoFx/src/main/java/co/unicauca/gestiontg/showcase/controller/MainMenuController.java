@@ -1,14 +1,8 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
-import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
-import co.unicauca.gestiontg.controller.FormatoAController;
-import co.unicauca.gestiontg.domain.Usuario;
-import co.unicauca.gestiontg.events.DomainEvent;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
-import co.unicauca.gestiontg.infra.Observer;
-import co.unicauca.gestiontg.service.ServicioFormatoA;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +10,9 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -23,8 +20,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-public class MainMenuController implements Observer {
+public class MainMenuController {
 
     @FXML
     private Button btnIngresar;
@@ -56,9 +54,6 @@ public class MainMenuController implements Observer {
 
     public void setController(AuthController authController) {
         this.authController = authController;
-        if (authController != null) {
-            authController.getEventPublisher().addObserver(this);
-        }
     }
 
     public void setRouter(SceneRouter router) {
@@ -86,34 +81,34 @@ public class MainMenuController implements Observer {
         if (validar) {
             Optional<String> rol = authController.getRolUsuario(correo);
             if (rol.get().equals("Estudiante")) {
-                FormatoAController formatoCtrl = (formatoFactory != null)
-                        ? formatoFactory.create()
-                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
-                router.goToStudentModule(authController, formatoCtrl);
+                if (formatoFactory == null) {
+                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
+                }
+                router.goToStudentModule(authController, formatoFactory.create());
             } else if (rol.get().equals("Docente")) {
-                FormatoAController formatoCtrl = (formatoFactory != null)
-                        ? formatoFactory.create()
-                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
-                router.goToTeacherModule(authController, formatoCtrl);
+                if (formatoFactory == null) {
+                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
+                }
+                router.goToTeacherModule(authController, formatoFactory.create());
             } else {
-                FormatoAController formatoCtrl = (formatoFactory != null)
-                        ? formatoFactory.create()
-                        : new FormatoAController(new ServicioFormatoA(new FormatoARepositorio()));
-                router.goToCoordinadorModule(authController, formatoCtrl);
+                if (formatoFactory == null) {
+                    throw new IllegalStateException("FormatoAControllerFactory no inyectada");
+                }
+                router.goToCoordinadorModule(authController, formatoFactory.create());
             }
         }
     }
 
     @FXML
-    void switchToRegister(ActionEvent event) {
-        try {
-            if (authController == null || router == null) {
-                throw new IllegalStateException("Dependencias no inyectadas");
-            }
-            router.goToRegister(authController);
-        } catch (IOException ex) {
-            showError(ex);
-        }
+    void switchToRegister(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/RegisterFrame.fxml"));
+        Parent root = loader.load();
+
+        RegisterFrameController registerController = loader.getController();
+        registerController.setController(authController);
+        Stage stage = (Stage) btnIngresar.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
@@ -136,31 +131,5 @@ public class MainMenuController implements Observer {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void update(Object o) {
-        AlertUtil.mostrarAlerta("Notificacion", "Usuario registrado", Alert.AlertType.INFORMATION);
-    }
-
-    @Override
-    public void update(DomainEvent event) {
-        switch (event.getName()) {
-            case USER_REGISTERED:
-                Usuario u = (Usuario) event.getData();
-                AlertUtil.mostrarAlerta("Usuario Registrado", "Bienvenido " + u.getNombreCompleto(), Alert.AlertType.INFORMATION);
-                break;
-            case LOGIN_FALLIDO:
-                AlertUtil.mostrarAlerta("Error", "Credenciales incorrectas", Alert.AlertType.WARNING);
-                break;
-            case LOGIN_EXITOSO:
-                AlertUtil.mostrarAlerta("Bienvenido", "Ingreso exitoso", Alert.AlertType.INFORMATION);
-                break;
-            case LOGOUT:
-                AlertUtil.mostrarAlerta("Despedida", "Salida exitosa", Alert.AlertType.INFORMATION);
-                break;
-            default:
-                throw new AssertionError();
-        }
     }
 }

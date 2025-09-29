@@ -4,14 +4,17 @@ import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
+import co.unicauca.gestiontg.showcase.router.SceneRouterImpl;
 import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoggedEstudianteController {
@@ -82,13 +85,19 @@ public class LoggedEstudianteController {
 
     @FXML
     public void switchToMainMenu() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/mainMenu.fxml"));
+        Parent root = loader.load();
+
         authController.logout();
-        if (router != null) {
-            router.goToMainMenu(authController, formatoFactory);
-            System.out.println("ppp");
-        } else {
-            System.out.println("mksdsk");
-        }
+
+        MainMenuController mainController = loader.getController();
+        mainController.setController(authController);
+        mainController.setRouter(new SceneRouterImpl((Stage) linkExit.getScene().getWindow()));
+        mainController.setFormatoFactory(new FormatoAControllerFactory());
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
     @FXML
     private Button btnGestionTrabajoDeGrado1;

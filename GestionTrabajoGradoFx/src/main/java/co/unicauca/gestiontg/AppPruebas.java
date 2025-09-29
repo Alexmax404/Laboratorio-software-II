@@ -17,7 +17,6 @@ import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.service.ServicioEvaluacionCoordinador;
 import co.unicauca.gestiontg.service.ServicioFormatoA;
 import co.unicauca.gestiontg.service.ServicioUsuario;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -30,22 +29,18 @@ import java.util.UUID;
  */
 public class AppPruebas {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         var repo = new FormatoARepositorio();
-        var servicio = new ServicioFormatoA(repo);
+//        var servicio = new ServicioFormatoA(repo);
 
-        var controller = new FormatoAController(servicio);
-        Scanner scanner = new Scanner(System.in);
-
-        UUID estudianteId1 = UUID.fromString("d1097940-66de-4160-937d-dea6f9d6ea17");
-        UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
-        UUID docenteId = UUID.fromString("80cb2cce-4eaf-4d1b-a196-20c28305baac");
-                UUID enviadoPor = docenteId;
-        UUID formatoAId = UUID.fromString("3815455f-02be-41c3-acdd-6d3f64d34aa1");
-
-        String id = repo.obtenerFormatoVersionPorIDFormato(formatoAId).toString();
-        System.out.println(id);
+//        var controller = new FormatoAController(servicio);
+//        Scanner scanner = new Scanner(System.in);
+//
+//        UUID estudianteId1 = UUID.fromString("d1097940-66de-4160-937d-dea6f9d6ea17");
+//        UUID estudianteId2 = UUID.fromString("87c4ab0d-21d5-4f08-941c-9bc3af22d434");
+//        UUID docenteId = UUID.fromString("80cb2cce-4eaf-4d1b-a196-20c28305baac");
+//        UUID enviadoPor = docenteId;
 //        // Primer envío (creación)
 //        String result1 = controller.crearOReenviarFormato(
 //                null,
