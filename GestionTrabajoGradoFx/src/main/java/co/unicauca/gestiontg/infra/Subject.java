@@ -28,13 +28,6 @@ public class Subject implements ISubject {
         observers.remove(o);
     }
 
-    public void notifyAllObserves() {
-        System.out.println("Notificando a observadores...");
-        for (Observer each : observers) {
-            each.update(this);
-        }
-    }
-
     @Override
     public void notifyObservers(DomainEvent event) {
         for (Observer o : observers) {

@@ -1,18 +1,22 @@
-package co.unicauca.gestiontg.showcase.controller;
+package co.unicauca.gestiontg.showcase.router;
 
-import co.unicauca.gestiontg.showcase.router.SceneRouter;
-import co.unicauca.gestiontg.showcase.router.RegisterFrameController;
-import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
-import co.unicauca.gestiontg.service.ServicioFormatoA;
+import co.unicauca.gestiontg.showcase.controller.ElegirFormatoController;
+import co.unicauca.gestiontg.showcase.controller.ListaDeEstadosController;
+import co.unicauca.gestiontg.showcase.controller.LoggedCoordinadorController;
+import co.unicauca.gestiontg.showcase.controller.LoggedDocenteController;
+import co.unicauca.gestiontg.showcase.controller.LoggedEstudianteController;
+import co.unicauca.gestiontg.showcase.controller.MainMenuController;
+import co.unicauca.gestiontg.showcase.controller.ProfesorFormatoAController;
+import co.unicauca.gestiontg.showcase.controller.RegisterFrameController;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -113,57 +117,6 @@ public class SceneRouterImpl implements SceneRouter {
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void goToProfesorFormatoA(AuthController authController, FormatoAController formatoCtrl) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
-            Parent root = loader.load();
-
-            ElegirFormatoController controller = loader.getController();
-            controller.setFormatoAController(formatoCtrl);
-            controller.setController(authController);
-
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void goToElegirFormato(AuthController authController, FormatoAController formatoCtrl) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ElegirFormato.fxml"));
-            Parent root = loader.load();
-
-            ElegirFormatoController controller = loader.getController();
-            controller.setFormatoAController(formatoCtrl);
-            controller.setController(authController);
-
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void goToListaDeEstados(AuthController authController, FormatoAController formatoCtrl) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstados.fxml"));
-            Parent root = loader.load();
-
-            ListaDeEstadosController controller = loader.getController();
-            controller.setFormatoAController(formatoCtrl);
-            controller.setController(authController);
-
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
     }

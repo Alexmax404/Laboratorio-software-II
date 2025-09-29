@@ -22,11 +22,5 @@ public interface SceneRouter {
 
     void goToMainMenu(AuthController authController, FormatoAControllerFactory formatoFactory);
 
-    void goToProfesorFormatoA(AuthController authController, FormatoAController formatoCtrl);
-
-    void goToElegirFormato(AuthController authController, FormatoAController formatoCtrl);
-
-    void goToListaDeEstados(AuthController authController, FormatoAController formatoCtrl);
-
     Stage getPrimaryStage();
 }

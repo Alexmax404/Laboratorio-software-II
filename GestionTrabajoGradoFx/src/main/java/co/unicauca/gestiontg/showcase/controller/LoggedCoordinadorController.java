@@ -9,13 +9,17 @@ import java.sql.SQLException;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoggedCoordinadorController {
@@ -120,8 +124,16 @@ public class LoggedCoordinadorController {
 
     @FXML
     void switchToVerFormatosA(ActionEvent event) throws IOException, SQLException {
-        router.goToListaDeEstados(authController, formatoAController);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/ListaDeEstados.fxml"));
+        Parent root = loader.load();
 
+        ListaDeEstadosController controller = loader.getController();
+        controller.setFormatoAController(formatoAController);
+        controller.setController(authController);
+
+        Stage stage = (Stage) linkExit.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void cargarDatosCoordinador() {

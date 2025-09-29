@@ -5,6 +5,10 @@ import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
+import co.unicauca.gestiontg.domain.Usuario;
+import co.unicauca.gestiontg.events.DomainEvent;
+import co.unicauca.gestiontg.events.EnumEventType;
+import co.unicauca.gestiontg.infra.Subject;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,14 +22,19 @@ import java.util.UUID;
 public class ServicioFormatoA {
 
     private final IFormatoARepositorio formatoRepo;
+    
+    private final Subject eventPublisher;
 
-    public ServicioFormatoA(IFormatoARepositorio formatoRepo) {
+    public ServicioFormatoA(IFormatoARepositorio formatoRepo, Subject eventPublisher ) {
         this.formatoRepo = formatoRepo;
+        this.eventPublisher = eventPublisher;
+        
     }
 
     public SubmitResult crearOReenviarFormato(UUID formatoId, UUID estudianteId1, UUID estudianteId2, UUID docenteId, UUID enviadoPor, String titulo, EnumModalidad modalidad, String director, String coDirector, LocalDate fechaPresentacion, String objetivosGenerales, String objetivosEspecificos, String archivoFormatoPath) throws Exception {
         validarCamposObligatorios(titulo, director, fechaPresentacion, objetivosGenerales, objetivosEspecificos, archivoFormatoPath);
         try {
+            eventPublisher.notifyObservers(new DomainEvent(EnumEventType.FORMATO_CREADO, formatoId));
             return formatoRepo.submitFormato(
                     formatoId,
                     estudianteId1,
@@ -90,4 +99,6 @@ public class ServicioFormatoA {
             throw new RuntimeException("Error obteniendo detalle del formato", e);
         }
     }
+    
+    
 }
