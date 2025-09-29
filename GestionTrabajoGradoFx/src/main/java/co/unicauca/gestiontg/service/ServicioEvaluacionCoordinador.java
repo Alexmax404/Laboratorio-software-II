@@ -2,7 +2,6 @@ package co.unicauca.gestiontg.service;
 
 import co.unicauca.gestiontg.access.IEvaluacionCoordinadorRepositorio;
 import co.unicauca.gestiontg.access.IFormatoARepositorio;
-import co.unicauca.gestiontg.access.IUsuarioRepositorio;
 import co.unicauca.gestiontg.domain.EnumDecision;
 import co.unicauca.gestiontg.domain.EvaluacionCoordinador;
 import co.unicauca.gestiontg.events.DomainEvent;

@@ -1,7 +1,6 @@
 package co.unicauca.gestiontg.access;
 
 import co.unicauca.gestiontg.domain.*;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,9 +11,11 @@ public interface IUsuarioRepositorio {
 
     Optional<Usuario> findByCorreo(String correo) throws SQLException;
 
+    Optional<Usuario> findById(UUID id) throws SQLException;
+
     boolean existsByCorreo(String correo) throws SQLException;
 
     Optional<String> getRolByCorreo(String correo) throws SQLException;
-    
+
     Optional<String> getRolById(UUID id) throws SQLException;
 }

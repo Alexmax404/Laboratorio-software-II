@@ -1,8 +1,6 @@
 package co.unicauca.gestiontg.showcase.router;
 
 import co.unicauca.gestiontg.controller.AuthController;
-import co.unicauca.gestiontg.controller.FormatoAController;
-import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import java.io.IOException;
 import javafx.stage.Stage;
 

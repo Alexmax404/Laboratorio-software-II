@@ -6,7 +6,6 @@ import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.factory.FormatoAControllerFactory;
 import co.unicauca.gestiontg.showcase.router.SceneRouter;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;

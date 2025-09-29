@@ -36,15 +36,37 @@ public class UsuarioRepositorio implements IUsuarioRepositorio {
             stmt.setString(1, correo);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Usuario u = new Usuario(); 
-                    u.setId((java.util.UUID) rs.getObject("id")); 
-                    u.setNombres(rs.getString("nombres")); 
-                    u.setApellidos(rs.getString("apellidos")); 
-                    u.setCelular(rs.getString("celular")); 
-                    u.setPrograma(EnumPrograma.valueOf(rs.getString("programa"))); 
-                    u.setRol(EnumRol.valueOf(rs.getString("rol"))); 
-                    u.setCorreo(rs.getString("correo")); 
-                    u.setContrasenia(rs.getString("contrasenia")); 
+                    Usuario u = new Usuario();
+                    u.setId((java.util.UUID) rs.getObject("id"));
+                    u.setNombres(rs.getString("nombres"));
+                    u.setApellidos(rs.getString("apellidos"));
+                    u.setCelular(rs.getString("celular"));
+                    u.setPrograma(EnumPrograma.valueOf(rs.getString("programa")));
+                    u.setRol(EnumRol.valueOf(rs.getString("rol")));
+                    u.setCorreo(rs.getString("correo"));
+                    u.setContrasenia(rs.getString("contrasenia"));
+                    return Optional.of(u);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Usuario> findById(UUID id) throws SQLException {
+        String sql = "SELECT * FROM gtg.usuario WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setObject(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Usuario u = new Usuario();
+                    u.setId((java.util.UUID) rs.getObject("id"));
+                    u.setNombres(rs.getString("nombres"));
+                    u.setApellidos(rs.getString("apellidos"));
+                    u.setCelular(rs.getString("celular"));
+                    u.setPrograma(EnumPrograma.valueOf(rs.getString("programa")));
+                    u.setRol(EnumRol.valueOf(rs.getString("rol")));
+                    u.setCorreo(rs.getString("correo"));
+                    u.setContrasenia(rs.getString("contrasenia"));
                     return Optional.of(u);
                 }
             }

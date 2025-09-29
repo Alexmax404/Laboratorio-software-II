@@ -7,6 +7,7 @@ import co.unicauca.gestiontg.events.EnumEventType;
 import co.unicauca.gestiontg.infra.Subject;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.UUID;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class ServicioUsuario {
@@ -112,5 +113,8 @@ public class ServicioUsuario {
     public Usuario getUsuarioLogueado() {
         return usuarioLogueado;
     }
-
+    
+    public Optional<Usuario> obtenerUsuarioPorEstudianteId(UUID id) throws SQLException {
+        return userRepository.findById(id);
+    }
 }
