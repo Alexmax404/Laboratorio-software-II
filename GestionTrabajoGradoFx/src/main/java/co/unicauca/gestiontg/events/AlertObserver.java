@@ -1,7 +1,6 @@
 package co.unicauca.gestiontg.events;
 
 import co.unicauca.gestiontg.domain.Usuario;
-import co.unicauca.gestiontg.events.DomainEvent;
 import static co.unicauca.gestiontg.events.EnumEventType.LOGIN_EXITOSO;
 import static co.unicauca.gestiontg.events.EnumEventType.LOGIN_FALLIDO;
 import static co.unicauca.gestiontg.events.EnumEventType.LOGOUT;

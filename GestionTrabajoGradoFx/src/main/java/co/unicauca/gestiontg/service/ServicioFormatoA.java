@@ -5,7 +5,6 @@ import co.unicauca.gestiontg.domain.SubmitResult;
 import co.unicauca.gestiontg.domain.EnumModalidad;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
-import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.events.DomainEvent;
 import co.unicauca.gestiontg.events.EnumEventType;
 import co.unicauca.gestiontg.infra.Subject;

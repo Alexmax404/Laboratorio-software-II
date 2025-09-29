@@ -3,6 +3,7 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.controller.AuthController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.domain.Usuario;
 import co.unicauca.gestiontg.showcase.utilities.AlertUtil;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -14,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,10 +73,14 @@ public class EditarFormatoAController implements Initializable {
 
             // Estudiantes (por ahora mostramos los UUID)
             if (formato.getEstudianteId1() != null) {
-                txtNombreEst1.setText(formato.getEstudianteId1().toString());
+                Usuario estudiante = authController.getUsuarioPorEstudianteId(formato.getEstudianteId1());
+                txtNombreEst1.setText(estudiante.getNombreCompleto());
+                txtCorreoEst1.setText(estudiante.getCorreo());
             }
             if (formato.getEstudianteId2() != null) {
-                txtNombreEst2.setText(formato.getEstudianteId2().toString());
+                Usuario estudiante = authController.getUsuarioPorEstudianteId(formato.getEstudianteId2());
+                txtNombreEst2.setText(estudiante.getNombreCompleto());
+                txtCorreoEst2.setText(estudiante.getCorreo());
             }
 
             // Modalidad
@@ -121,7 +125,7 @@ public class EditarFormatoAController implements Initializable {
 
                     LoggedDocenteController docenteController = loader.getController();
                     docenteController.setController(authController);
-                    docenteController.setFormatoAController(formatoAController); // 👈 pasar también FormatoAController
+                    docenteController.setFormatoAController(formatoAController);
 
                     Stage stage = (Stage) btnExit.getScene().getWindow();
                     stage.setScene(new Scene(root));
@@ -236,7 +240,7 @@ public class EditarFormatoAController implements Initializable {
                     formatoSeleccionado.getModalidad().name(),
                     formatoSeleccionado.getDirector(),
                     formatoSeleccionado.getCoDirector(),
-                    formatoSeleccionado.getFechaPresentacion(), 
+                    formatoSeleccionado.getFechaPresentacion(),
                     objetivoGeneral,
                     objetivosEspecificos,
                     archivoFormatoPath

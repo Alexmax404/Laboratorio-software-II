@@ -5,6 +5,7 @@ import co.unicauca.gestiontg.infra.Subject;
 import co.unicauca.gestiontg.service.ServicioUsuario;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  *
@@ -49,6 +50,16 @@ public class AuthController {
     public Usuario getUsuarioPorEstudianteCorreo(String correo) {
         try {
             return userService.obtenerUsuarioPorEstudianteCorreo(correo)
+                    .orElseThrow(() -> new RuntimeException("No existe usuario para este estudiante"));
+        } catch (SQLException e) {
+            System.err.println("Error al obtener usuario: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Usuario getUsuarioPorEstudianteId(UUID id) {
+        try {
+            return userService.obtenerUsuarioPorEstudianteId(id)
                     .orElseThrow(() -> new RuntimeException("No existe usuario para este estudiante"));
         } catch (SQLException e) {
             System.err.println("Error al obtener usuario: " + e.getMessage());
