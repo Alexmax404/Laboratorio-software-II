@@ -117,25 +117,26 @@ public class CargarPDFController {
             actualizarUIConArchivo(fileSeleccionado); // ✅ ahora sí actualizamos con el archivo seleccionado
         }
     }
-    public static String getRutaRelativaArchivo() {
-    if (archivoCargado == null) return null;
-    // Convertir a relativo desde la carpeta resources
-    Path base = Path.of("src", "main", "resources");
-    return base.relativize(archivoCargado.toPath()).toString().replace("\\", "/");
-}
+    public static String getRutaArchivo() {
+        if (archivoCargado == null) return null;
+        return archivoCargado.getAbsolutePath(); // ruta absoluta directa
+    }
+
 
     private void copiarArchivo(File file) {
         try {
-            Path carpetaDestino = Path.of("src", "main", "resources", "pdfs");
+            // 📂 Crear carpeta "pdfs" en la raíz del proyecto (no dentro de src)
+            Path carpetaDestino = Path.of("pdfs");
             if (!Files.exists(carpetaDestino)) {
                 Files.createDirectories(carpetaDestino);
             }
 
-            // Eliminar el archivo anterior si existía
+            // 🔄 Eliminar el archivo anterior si existía
             if (archivoCargado != null && archivoCargado.exists()) {
                 Files.deleteIfExists(archivoCargado.toPath());
             }
 
+            // 📥 Copiar el nuevo archivo
             Path destino = carpetaDestino.resolve(file.getName());
             Files.copy(file.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
 

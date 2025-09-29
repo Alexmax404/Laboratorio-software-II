@@ -197,7 +197,7 @@ public class ProfesorFormatoAController {
 
             // Archivos PDF cargados
             // Archivos PDF cargados
-            String archivoFormatoPath = CargarPDFController.getRutaRelativaArchivo();
+            String archivoFormatoPath = CargarPDFController.getRutaArchivo();
             if (archivoFormatoPath == null) {
                 AlertUtil.mostrarAlerta("Error", "Debe cargar un archivo PDF antes de guardar.", Alert.AlertType.ERROR);
                 return;
@@ -223,7 +223,20 @@ public class ProfesorFormatoAController {
             );
 
             AlertUtil.mostrarAlerta("Resultado", resultado, Alert.AlertType.INFORMATION);
+                            try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));
+                    Parent root = loader.load();
 
+                    LoggedDocenteController docenteController = loader.getController();
+                    docenteController.setController(authController);
+                    docenteController.setFormatoAController(formatoAController); // 👈 pasar también FormatoAController
+
+                    Stage stage = (Stage) btnExit.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         } catch (Exception e) {
             AlertUtil.mostrarAlerta("Error", "No se pudo guardar el formato:\n" + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();

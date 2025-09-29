@@ -3,6 +3,8 @@ package co.unicauca.gestiontg.showcase.controller;
 import co.unicauca.gestiontg.access.FormatoARepositorio;
 import co.unicauca.gestiontg.domain.FormatoA;
 import co.unicauca.gestiontg.domain.FormatoAVersion;
+import java.awt.Desktop;
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -30,7 +33,9 @@ public class VerDetallesCoordinadorController {
     private FormatoA formato; 
     private FormatoAVersion ultimaVersion; 
     private final FormatoARepositorio repositorio = new FormatoARepositorio();
-
+    
+    @FXML
+    private Pane pnDatos1;
     /**
      * Recibe el FormatoA seleccionado y busca su última versión
      */
@@ -129,15 +134,34 @@ private String wrapText(String text, int lineLength) {
         stage.close();
     }
 
-    @FXML
+        @FXML
     void abrirSubirPDF(ActionEvent event) {
-        if (ultimaVersion != null) {
-            System.out.println("Abrir PDF: " + ultimaVersion.getArchivoFormatoPath());
+        if (ultimaVersion != null && ultimaVersion.getArchivoFormatoPath() != null) {
+            try {
+                // 📂 Tomar ruta absoluta directamente
+                File file = new File(ultimaVersion.getArchivoFormatoPath());
+
+                if (file.exists()) {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(file); // abre con la app predeterminada del SO
+                    } else {
+                        System.out.println("El sistema no soporta la apertura automática.");
+                    }
+                } else {
+                    System.out.println("El archivo no existe: " + file.getAbsolutePath());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error al intentar abrir el archivo.");
+            }
         }
     }
 
+
+
+
     @FXML
     void handleClickPane(MouseEvent event) {
-        // Manejar clicks si es necesario
+         pnDatos1.requestFocus();
     }
 }
