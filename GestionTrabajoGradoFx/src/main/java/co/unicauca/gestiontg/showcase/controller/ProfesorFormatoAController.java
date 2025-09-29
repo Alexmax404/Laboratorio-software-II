@@ -259,7 +259,6 @@ public class ProfesorFormatoAController {
                 // 🔄 Resetear datos temporales
                 ObjetivoGeneralController.resetObjetivoGuardado();
                 ObjetivosEspecificosController.resetObjetivosGuardados();
-                CargarPDFController.resetPDF();
 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedDocente.fxml"));

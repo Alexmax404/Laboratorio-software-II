@@ -136,7 +136,20 @@ public class CorregirFormatoController {
             // Guardar evaluación usando el servicio del controller
             String evalId = evalController.evaluar(formatoIdStr, formatoVersionId, coordinadorId, estadoSeleccionado, comentarios);
             AlertUtil.mostrarAlerta("Éxito", "Evaluación guardada correctamente. ID: " + evalId, Alert.AlertType.INFORMATION);
+            try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/unicauca/gestiontg/loggedCoordinador.fxml"));
+            Parent root = loader.load();
 
+            LoggedCoordinadorController coordinadorController = loader.getController();
+            coordinadorController.setController(authController);
+            coordinadorController.setFormatoAController(formatoAController);
+
+            Stage stage = (Stage) btnExit.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         } catch (Exception e) {
             e.printStackTrace();
             AlertUtil.mostrarAlerta("Error", "No se pudo guardar la evaluación: " + e.getMessage(), Alert.AlertType.ERROR);

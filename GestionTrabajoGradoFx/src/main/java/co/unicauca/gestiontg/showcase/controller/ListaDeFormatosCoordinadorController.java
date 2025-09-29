@@ -1,12 +1,14 @@
 package co.unicauca.gestiontg.showcase.controller;
 
 import co.unicauca.gestiontg.controller.AuthController;
+import co.unicauca.gestiontg.controller.EvaluacionCoordinadorController;
 import co.unicauca.gestiontg.controller.FormatoAController;
 import co.unicauca.gestiontg.domain.EnumEstadoFormato;
 import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Aprobado;
 import static co.unicauca.gestiontg.domain.EnumEstadoFormato.En_Revision;
 import static co.unicauca.gestiontg.domain.EnumEstadoFormato.Rechazado;
 import co.unicauca.gestiontg.domain.FormatoA;
+import co.unicauca.gestiontg.factory.EvaluacionCoordinadorControllerFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -47,6 +49,7 @@ public class ListaDeFormatosCoordinadorController {
     private FormatoAController formatoAController;
     private AuthController authController;
     private ObservableList<FormatoA> data = FXCollections.observableArrayList();
+    private EvaluacionCoordinadorController evalController;
 
     @FXML
     void EventSalir(ActionEvent event) {
@@ -84,6 +87,8 @@ public class ListaDeFormatosCoordinadorController {
 
     @FXML
     public void initialize() {
+
+        evalController = new EvaluacionCoordinadorControllerFactory().create();
 
         // Título
         colTitulo.setCellValueFactory(cellData
@@ -162,6 +167,7 @@ public class ListaDeFormatosCoordinadorController {
         controller.setFormato(formato);
         controller.setController(authController);
         controller.setFormatoAController(formatoAController);
+        controller.setEvalController(evalController);
         // Mostrar en la misma ventana (Stage actual)
         Stage stage = (Stage) tbFormatos.getScene().getWindow();
         stage.setScene(new Scene(root));
